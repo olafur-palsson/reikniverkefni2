@@ -49,8 +49,23 @@ class NeuralNetwork(torch.autograd.Function):
         with torch.no_grad():
             return reduce((lambda x, layer : self.apply(x.mm(layer))), network)
 
+    # Eg veit ekki alveg hvernig vid eigum ad gera thetta
+    # Held eg se a rangri leid
+
+    # Oll guides a netinu er med y_pred sem utkomu og nota hana til ad
+    # gera backprop, vid erum hins vegar med mikid af actions en eina utkomu
+
+    # Hvernig uppfaerum vid value fyrir allar stodurnar inn a milli?
+    # Thurfum vid ad update-a value fyrir allar stodur inn a milli yfirhofud?
+    # Hvernig litur grafid ut af update-inu?
+    # Eru morg output kannski?
+    # Hvad er eg ekki ad sja?
+
+    # Basically: Hvernig (oft forward i nn) -> reward -> (backprop update)
     def get_reward(reward):
         y = np.array([reward])
+        einhver_med_hugmyndir = 0
+        return einhver_med_hugmyndir
 
 
 
