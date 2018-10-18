@@ -220,6 +220,7 @@ def main():
     nGames = 1
     for g in range(nGames):
         winner = play_a_game(commentary=True)
+        agent.reward_player(winner)
         winners[str(winner)] += 1
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
