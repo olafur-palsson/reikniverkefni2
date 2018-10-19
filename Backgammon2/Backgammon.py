@@ -191,7 +191,6 @@ def play_a_game(commentary = True):
 
             # make the move
             if player == 1:
-                print(len(board))
                 move = agent.action(board_copy,dice,1,i)
             elif player == -1:
                 move = random_agent(board_copy,dice,i)
@@ -218,11 +217,12 @@ def play_a_game(commentary = True):
 
 def main():
     winners = {}; winners["1"]=0; winners["-1"]=0;
-    nGames = 1
+    nGames = 1000
     for g in range(nGames):
-        winner = play_a_game(commentary=True)
+        winner = play_a_game(commentary=False)
         agent.reward_player(winner)
         winners[str(winner)] += 1
+        print("Player 1 : Player 2 -------- ", winners["1"]," : ", winners["-1"], " : ", g, " : ", int(winners["1"] * 10000 / (g + 1)) / 100, "%")
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
     print("player", -1, "won", winners["-1"],"times")

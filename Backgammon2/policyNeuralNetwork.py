@@ -14,21 +14,21 @@ class PolicyNeuralNetwork(Policy):
     def evaluate(self, possible_boards):
 
         move_ratings = []
-        move_ratings2 = map(lambda board : self.net.evaluate(self.get_feature_vector(board)), possible_boards)
-        should_print = True
         for board in possible_boards:
             value_of_board = self.net.evaluate(self.get_feature_vector(board))
-            print(value_of_board)
             move_ratings.append(value_of_board)
-            should_print = False
-        print("")
-        print("policy -> evaluate")
-        print("move ratings")
 
-        best_board, best_move = move_ratings.max(0)
-        self.net.run_decision(board)
+        max = move_ratings[0]
+        max_i = 0
+        i = 0
+        for move in move_ratings:
+            if move > max:
+                max = move
+                max_i = i
+        best_move = max_i
+
+        self.net.run_decision(self.get_feature_vector(board))
         return best_move
 
     def get_reward(self, reward):
-        net.zero_grad()
-        net.get_reward(reward)
+        self.net.get_reward(reward)

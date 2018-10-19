@@ -34,7 +34,7 @@ class Policy():
         return torch.from_numpy(features).float()
 
     # ! BROKEN, todo: FIX
-    def reward_player(self, reward):
+    def get_reward(self, reward):
         print("Reward function not set")
 
     def evaluate(self, board):
