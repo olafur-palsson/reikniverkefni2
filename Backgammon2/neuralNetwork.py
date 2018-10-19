@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import numpy as np
 from functools import reduce
 
+learning_rate = 1e-4
 dtype = torch.float
 device = torch.device("cpu")
 # device = torch.device("cuda:0") # Uncomment this to run on GPU
@@ -19,7 +20,7 @@ def make_layers():
     layers = []
 
     for width in hidden_layers_width:
-        layer = torch.randn(last_argument, width)
+        layer = torch.randn(last_argument, width, dtype=dtype)
         layers.append(layer)
         last_argument = width
 
@@ -28,6 +29,8 @@ def make_layers():
 class NeuralNetwork(torch.autograd.Function):
 
     network = make_layers()
+
+    predictions = []
 
     @staticmethod
     def forward(ctx, input):
@@ -42,12 +45,19 @@ class NeuralNetwork(torch.autograd.Function):
         grad_input[input < 0] = 0
         return grad_input
 
-    def decide(board):
-        y_pred = reduce((lambda x, layer : self.apply(x.mm(layer))), network)
+    def run_decision(self, board):
+        y_pred = reduce((lambda x, layer : self.apply(x.mm(layer))), self.network)
+        state_predictions.push(y_pred)
 
-    def evaluate(board):
+    def evaluate(self, board_features):
         with torch.no_grad():
-            return reduce((lambda x, layer : self.apply(x.mm(layer))), network)
+            print("---- Debugging nn ------")
+            current_vector = board_features
+            for layer in self.network:
+                print(current_vector.size(), layer.size())
+                current_vector = self.apply(torch.mv(layer.t(), current_vector))
+
+            return current_vector
 
     # Eg veit ekki alveg hvernig vid eigum ad gera thetta
     # Held eg se a rangri leid
@@ -62,13 +72,12 @@ class NeuralNetwork(torch.autograd.Function):
     # Hvad er eg ekki ad sja?
 
     # Basically: Hvernig (oft forward i nn) -> reward -> (backprop update)
-    def get_reward(reward):
-        y = np.array([reward])
-        einhver_med_hugmyndir = 0
-        return einhver_med_hugmyndir
-
-
-
-
-
-
+    def get_reward(self, reward):
+        episode_length = len(state_predictions)
+        y = torch.new_full(episode_length, reward, dtype=dtype)
+        y_pred = torch.new_tensor(predictions, dtype=dtype)
+        loss =  (y_pred - y).pow(2).sum() / len(y)
+        loss.backward()
+        with torch.no_grad():
+            layers = map(lambda layer : layer - learning_rate * layer.grad, self.network)
+            map(lambda layer : layer.zero_grad, self.network)

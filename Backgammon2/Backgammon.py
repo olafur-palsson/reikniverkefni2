@@ -191,6 +191,7 @@ def play_a_game(commentary = True):
 
             # make the move
             if player == 1:
+                print(len(board))
                 move = agent.action(board_copy,dice,1,i)
             elif player == -1:
                 move = random_agent(board_copy,dice,i)

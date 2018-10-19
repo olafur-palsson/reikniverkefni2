@@ -27,8 +27,6 @@ def action(board_copy,dice,player,i):
 
 def policy(possible_moves, possible_boards, dice, i):
 
-    print(move_ratings)
-    print(best_move)
     net.forward(get_feature_vector(possible_boards[best_move]))
 
     move = possible_moves[best_move]

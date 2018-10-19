@@ -2,12 +2,14 @@
 
 
 import numpy as np
+import torch
 
 
 
 class Policy():
 
-    def get_feature_vector(board):
+    def get_feature_vector(self, board):
+
         main_board = board[1:25]
         jail1, jail2, off1, off2 = board[25], board[26], board[27], board[28]
         features = np.array([])
@@ -28,18 +30,12 @@ class Policy():
 
         # features fyrir hversu margir eru borne off
         off_board_features = np.array([off1, off2]) * (0.066667)
-        return np.append(features, [jail_features, off_board_features])
+        features =  np.append(features, [jail_features, off_board_features])
+        return torch.from_numpy(features).float()
 
     # ! BROKEN, todo: FIX
-    def reward_player(reward):
-        net.zero_grad()
-        y = torch.tensor([reward])
-        dont_know_what_im_doing = 0.5
-        net.reward(0.5, y)
+    def reward_player(self, reward):
+        print("Reward function not set")
 
-    def evaluate(board):
-
-
-
-
-
+    def evaluate(self, board):
+        print("Evaluation function not set")

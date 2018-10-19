@@ -5,7 +5,9 @@ the agent
 """
 import numpy as np
 import Backgammon
+from policyNeuralNetwork import PolicyNeuralNetwork
 
+pub_stomper = PolicyNeuralNetwork()
 
 # muna ad setja optional parameter fyrir flipped board gaejann
 
@@ -27,11 +29,11 @@ def action(board_copy,dice,player,i):
 
 def policy(possible_moves, possible_boards, dice, i):
 
-    print(move_ratings)
-    print(best_move)
-    net.forward(get_feature_vector(possible_boards[best_move]))
 
+    
+    best_move = pub_stomper.evaluate(possible_boards)
     move = possible_moves[best_move]
+
     # gamli kodinn fyrir random
     # move = possible_moves[np.random.randint(len(possible_moves))]
     return move
