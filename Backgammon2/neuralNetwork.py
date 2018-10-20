@@ -8,7 +8,7 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 0.005
+learning_rate = 0.02
 dtype = torch.float
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
