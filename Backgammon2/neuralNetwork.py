@@ -59,9 +59,10 @@ class NeuralNetwork(nn.Module):
             return self(board_features)
 
     def get_reward(self, reward):
+        print(reward)
         episode_length = len(self.predictions)
         y = torch.ones(episode_length, dtype=dtype) * reward
-        loss = torch.abs(y - self.predictions).sum()
+        loss = (y - self.predictions).pow(2).sum()
         self.zero_grad()
         loss.backward()
         self.optimizer.step()
