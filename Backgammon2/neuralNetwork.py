@@ -14,7 +14,7 @@ device = torch.device("cpu")
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [100, 100, 100, output_width]
+hidden_layers_width = [1000,  100, 100,  100, 100,  100, 100,  100, 100, 100, 100, output_width]
 
 def make_layers():
     last_width = input_width
