@@ -10,7 +10,7 @@ from torch.autograd import Variable
 learning_rate = 0.005
 dtype = torch.float
 device = torch.device("cpu")
-# device = torch.device("cuda:0") # Uncomment this to run on GPU
+device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
@@ -57,6 +57,7 @@ class NeuralNetwork(nn.Module):
 
         self.zero_grad()
         loss.backward()
+        self.optimizer.step()
         self.predictions = torch.zeros(1, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()

@@ -7,7 +7,6 @@ import torch
 
 
 class Policy():
-
     def get_feature_vector(self, board):
 
         main_board = board[1:25]
