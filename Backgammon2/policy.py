@@ -30,7 +30,8 @@ class Policy():
 
         # features fyrir hversu margir eru borne off
         off_board_features = np.array([off1, off2]) * (0.066667)
-        features =  np.append(features, [jail_features, off_board_features])
+        bias_vector = np.array([1, 1])
+        features =  np.append(features, [jail_features, off_board_features, bias_vector])
         return torch.from_numpy(features).float()
 
     # ! BROKEN, todo: FIX

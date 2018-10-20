@@ -218,11 +218,16 @@ def play_a_game(commentary = True):
 def main():
     winners = {}; winners["1"]=0; winners["-1"]=0;
     nGames = 1000
-    for g in range(nGames):
+    g = 0
+    last_100_wins = np.zeros(500)
+    while True:
+        g = g + 1
         winner = play_a_game(commentary=False)
         agent.reward_player(winner)
+        win = winner if winner > 0 else 0
+        last_100_wins[g % 500] = win
         winners[str(winner)] += 1
-        print("Player 1 : Player 2 -------- ", winners["1"]," : ", winners["-1"], " : ", g, " : ", int(winners["1"] * 10000 / (g + 1)) / 100, "%")
+        print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(np.sum(last_100_wins) / 5) +  "%")
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
     print("player", -1, "won", winners["-1"],"times")
