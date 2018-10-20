@@ -13,9 +13,10 @@ dtype = torch.float
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-input_width, output_width = 102, 1
+input_width, last_layer, output_width = 102, 100, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [1000,  100, 100,  100, 100,  100, 100,  100, 100, 100, 100, output_width]
+hidden_layers_width = [1000,  100, 100,  100, 100,  100, 100,  100, 100, 100, 100, last_layer]
+
 
 def make_layers():
     last_width = input_width
@@ -24,7 +25,8 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-    return layers
+    final = nn.Linear(last_width, output_width)
+    return layers, final
 
 class NeuralNetwork(nn.Module):
 
@@ -33,7 +35,7 @@ class NeuralNetwork(nn.Module):
 
     def __init__(self):
         super(NeuralNetwork, self).__init__()
-        self.network = make_layers()
+        self.network, self.final = make_layers()
         print(self.network[0].parameters())
         parameters = []
 
@@ -45,8 +47,8 @@ class NeuralNetwork(nn.Module):
     def forward(self, input):
         vector = input
         for layer in self.network:
-            vector = Function.relu(layer(vector))
-        output = vector
+            vector = layer(vector)
+        output = self.final(vector)
         return output
 
     def run_decision(self, board_features):
@@ -56,10 +58,10 @@ class NeuralNetwork(nn.Module):
 
     def evaluate(self, board_features):
         with torch.no_grad():
-            return self(board_features)
+            prediction = self(board_features)
+            return prediction
 
     def get_reward(self, reward):
-        print(reward)
         episode_length = len(self.predictions)
         y = torch.ones(episode_length, dtype=dtype) * reward
         loss = (y - self.predictions).pow(2).sum()

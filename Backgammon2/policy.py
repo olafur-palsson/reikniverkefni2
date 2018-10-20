@@ -32,7 +32,6 @@ class Policy():
         bias_vector = np.array([1, 1])
         features =  np.append(features, [jail_features, off_board_features, bias_vector])
         features = torch.from_numpy(features).float()
-        features.requires_grad = True
         return features
 
 
