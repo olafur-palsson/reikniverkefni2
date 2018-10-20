@@ -12,7 +12,7 @@ class PolicyNeuralNetwork(Policy):
 
     def __init__(self):
         self.net = NeuralNetwork()
-        self.net.cuda()
+
 
     def evaluate(self, possible_boards):
         epsilon = 0.1

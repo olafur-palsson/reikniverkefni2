@@ -2,6 +2,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as Function
+import torch.optim as Optimizer
 import numpy as np
 from functools import reduce
 from torch.autograd import Variable
@@ -33,6 +34,13 @@ class NeuralNetwork(nn.Module):
     def __init__(self):
         super(NeuralNetwork, self).__init__()
         self.network = make_layers()
+        print(self.network[0].parameters())
+        parameters = []
+
+        for layer in self.network:
+            req_grad, data = layer.parameters()
+            parameters.append(data)
+        self.optimizer = torch.optim.SGD(parameters, learning_rate)
 
     def forward(self, input):
         vector = input
@@ -54,7 +62,6 @@ class NeuralNetwork(nn.Module):
         episode_length = len(self.predictions)
         y = torch.ones(episode_length, dtype=dtype) * reward
         loss = torch.abs(y - self.predictions).sum()
-
         self.zero_grad()
         loss.backward()
         self.optimizer.step()
