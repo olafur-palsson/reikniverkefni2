@@ -32,7 +32,10 @@ class Policy():
         off_board_features = np.array([off1, off2]) * (0.066667)
         bias_vector = np.array([1, 1])
         features =  np.append(features, [jail_features, off_board_features, bias_vector])
-        return torch.from_numpy(features).float()
+        features = torch.from_numpy(features).float()
+        features.requires_grad = True
+        return features
+
 
     # ! BROKEN, todo: FIX
     def get_reward(self, reward):

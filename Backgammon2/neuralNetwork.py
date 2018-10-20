@@ -55,8 +55,8 @@ class NeuralNetwork(nn.Module):
         y = torch.ones(episode_length, dtype=dtype) * reward
         loss = torch.abs(y - self.predictions).sum()
 
-        loss.backward()
         self.zero_grad()
+        loss.backward()
         self.predictions = torch.zeros(1, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
