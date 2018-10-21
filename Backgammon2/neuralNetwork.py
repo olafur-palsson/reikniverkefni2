@@ -16,11 +16,17 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
 hidden_layers_width = [700, 500, 300, 200, 200]
+conv_seed, conv_param = 6, 5
 
 
 def make_layers():
-    last_width = input_width
     layers = []
+
+    layers.append(nn.Conv2d(1, convolutional_seed, conv_param))
+    layers.append(nn.MaxPool2d(2, 2))
+    layers.append(nn.Conv2d(1, conv_seed * conv_param, conv_param))
+
+    last_width = conv_seed * conv_param * conv_param
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
