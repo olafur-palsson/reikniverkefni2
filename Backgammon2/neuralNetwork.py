@@ -54,7 +54,7 @@ class BasicNetworkForTesting():
         loss.backward()
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
-        print("   Last prediction (optimally 1) " + str(float(self.predictions[episode_length - 1]) * y[0]) )
+        print("   Last prediction (optimally 1 ) " + str(float(self.predictions[episode_length - 1]) * y[0]) )
         print("")
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
