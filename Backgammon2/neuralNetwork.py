@@ -8,8 +8,8 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 1e-3
-dtype = torch.float
+learning_rate = 5e-4
+dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
@@ -41,7 +41,7 @@ class BasicNetworkForTesting():
     def run_decision(self, board_features):
         vector = board_features
         prediction = self.model(board_features)
-        self.predictions = torch.cat((self.predictions, prediction))
+        self.predictions = torch.cat((self.predictions, prediction.double()))
 
     def predict(self, board_features):
         with torch.no_grad():
