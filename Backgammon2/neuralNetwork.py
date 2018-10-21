@@ -49,6 +49,8 @@ class BasicNetworkForTesting():
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
+        for i in range(episode_length):
+            y[i] = y[i] * i / episode_length
         loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
         loss.backward()
