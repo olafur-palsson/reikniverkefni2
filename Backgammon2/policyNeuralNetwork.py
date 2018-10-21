@@ -5,6 +5,10 @@ from neuralNetwork import NeuralNetwork
 import random
 
 
+epsilon = 0.05
+
+def e_greedy(n):
+    return random.randint(0, n)
 
 class PolicyNeuralNetwork(Policy):
 
@@ -30,8 +34,8 @@ class PolicyNeuralNetwork(Policy):
                 max_i = i
 
         last_index_of_boards = len(possible_boards) - 1
-
         best_move = max_i
+        move = best_move if random.random() > epsilon else e_greedy(last_index_of_boards)
         # best_move = random.randint(0, last_index_of_boards) if random.uniform(-1, 1) > 0 else best_move
         self.net.run_decision(self.get_feature_vector(board))
         return best_move
