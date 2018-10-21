@@ -27,7 +27,7 @@ def make_layers():
     layers.append(nn.Linear(last_width, all_width))
     last_width = all_width
     for i in range(100):
-        layers.append(all_width)
+        layers.append(nn.Linear(all_width, all_width))
 
 
     """
