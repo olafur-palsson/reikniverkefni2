@@ -15,7 +15,7 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [50, 50, 50]
+hidden_layers_width = [50, 50, 50, 50, 50]
 
 
 def make_layers():
@@ -26,17 +26,20 @@ def make_layers():
         last_width = width
         # layers.append(nn.ReLU()) # uncomment for ReLU
     final = nn.Linear(last_width, output_width)
-    return layers, final
+    layers.append(final)
+    return layers
 
 class BasicNetworkForTesting():
 
     def __init__(self):
-        self.model = torch.Sequential(tuple(make_layers()))
+        self.model = nn.Sequential(*make_layers())
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
+        self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
 
     def run_decision(self, board_features):
         vector = board_features
-        prediction = self(board_features)
+        prediction = self.model(board_features)
         self.predictions = torch.cat((self.predictions, prediction))
 
     def predict(self, board_features):
@@ -46,7 +49,7 @@ class BasicNetworkForTesting():
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
-        loss = torch.abs(self.predictions - y).sum()
+        loss = (self.predictions - y).pow(2).sum()
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
