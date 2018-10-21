@@ -35,7 +35,7 @@ class BasicNetworkForTesting():
         self.model = nn.Sequential(*make_layers())
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=learning_rate)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=learning_rate)
 
     def run_decision(self, board_features):
         vector = board_features
