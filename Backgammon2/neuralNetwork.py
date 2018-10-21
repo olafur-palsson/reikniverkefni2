@@ -15,7 +15,7 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [700, 500, 300, 200, 100, 50, 50, 50, 50, 50, 50]
+hidden_layers_width = [700, 500, 300, 200, 200]
 
 
 def make_layers():
