@@ -1,7 +1,7 @@
 
 
 from policy import Policy
-from neuralNetwork import NeuralNetwork, BasicNetworkForTesting
+from neuralNetwork import BasicNetworkForTesting
 import random
 
 
@@ -32,13 +32,13 @@ class PolicyNeuralNetwork(Policy):
             if move > max:
                 max = move
                 max_i = i
-                i = i + 1
 
         last_index_of_boards = len(possible_boards) - 1
-        move = max_i
-        move = move if random.random() > epsilon else e_greedy(last_index_of_boards)
-        self.net.run_decision(self.get_feature_vector(possible_boards[move]))
-        return move
+        best_move = max_i
+        move = best_move if random.random() > epsilon else e_greedy(last_index_of_boards)
+        # best_move = random.randint(0, last_index_of_boards) if random.uniform(-1, 1) > 0 else best_move
+        self.net.run_decision(self.get_feature_vector(board))
+        return best_move
 
     def get_reward(self, reward):
         self.net.get_reward(reward)
