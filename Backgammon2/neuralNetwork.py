@@ -72,7 +72,7 @@ class NeuralNetwork(nn.Module):
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
-        loss = (y - self.predictions).pow(2).sum()
+        loss = torch.abs(self.predictions - y).sum()
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
