@@ -15,7 +15,7 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [1000,  100, 100,  100, 100,  100, 100,  100, 100, 100, 100]
+hidden_layers_width = [1000,  1000,  1000, 1000]
 
 
 def make_layers():
@@ -38,12 +38,18 @@ class NeuralNetwork(nn.Module):
         print(self.network[0].parameters())
         parameters = []
 
+        print("Parameters of each layer")
+        i = 0
         for layer in self.network:
             req_grad, data = layer.parameters()
+            print("")
+            print("Layer " + str(i))
+            i = i + 1
+            print(data)
             parameters.append(data)
         bool,final_data = self.final.parameters()
         parameters.append(data)
-        self.optimizer = torch.optim.SGD(parameters, learning_rate)
+        self.optimizer = torch.optim.Adam(parameters, learning_rate)
 
     def forward(self, input):
         vector = input
@@ -68,6 +74,9 @@ class NeuralNetwork(nn.Module):
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+        # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
+        print("   Last prediction (optimally 1 or -1) " + str(float(self.predictions[episode_length - 1])) + "  " + str(y[0]))
+        print("")
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
