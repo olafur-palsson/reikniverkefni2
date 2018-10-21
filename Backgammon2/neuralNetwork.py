@@ -17,15 +17,27 @@ input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
 hidden_layers_width = [100, 100]
 
+all_width = 35
 
 def make_layers():
     layers = []
 
     last_width = input_width
+
+    layers.append(nn.Linear(last_width, all_width))
+    last_width = all_width
+    for i in range(100):
+        layers.append(all_width)
+
+
+    """
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        layers.append(nn.ReLU()) # uncomment for ReLU
+        # layers.append(nn.ReLU()) # uncomment for ReLU
+    """
+
+
     final = nn.Linear(last_width, output_width)
     layers.append(final)
     return layers
