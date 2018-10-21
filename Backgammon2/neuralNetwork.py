@@ -8,75 +8,54 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 1e-3
-dtype = torch.float
+learning_rate = 5e-4
+dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
-hidden_layers_width = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, output_width]
+# hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
+hidden_layers_width = [700, 500, 300, 200, 200]
 
 
 def make_layers():
-    last_width = input_width
     layers = []
+
+    last_width = input_width
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        # layers.append(nn.ReLU()) # uncomment for ReLU
+        layers.append(nn.ReLU()) # uncomment for ReLU
     final = nn.Linear(last_width, output_width)
-    return layers, final
+    layers.append(final)
+    return layers
 
-class NeuralNetwork(nn.Module):
-
-    network = []
-    predictions = torch.zeros(1, dtype = dtype, requires_grad=True)
+class BasicNetworkForTesting():
 
     def __init__(self):
-        super(NeuralNetwork, self).__init__()
-        self.network, self.final = make_layers()
-        print(self.network[0].parameters())
-        parameters = []
-
-        print("Parameters of each layer")
-        i = 0
-        for layer in self.network:
-            # in between if i % 2 == 1: continue # uncomment for  ReLU
-            req_grad, data = layer.parameters()
-            print("")
-            print("Layer " + str(i))
-            i = i + 1
-            print(data)
-            parameters.append(data)
-        bool,final_data = self.final.parameters()
-        parameters.append(data)
-        self.optimizer = torch.optim.Adam(parameters, learning_rate)
-
-    def forward(self, input):
-        vector = input
-        for layer in self.network:
-            vector = layer(vector)
-        return self.final(vector)
+        self.model = nn.Sequential(*make_layers())
+        self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
+        self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=learning_rate)
 
     def run_decision(self, board_features):
         vector = board_features
-        prediction = self(board_features)
-        self.predictions = torch.cat((self.predictions, prediction))
+        prediction = self.model(board_features)
+        self.predictions = torch.cat((self.predictions, prediction.double()))
 
-    def evaluate(self, board_features):
+    def predict(self, board_features):
         with torch.no_grad():
-            prediction = self(board_features)
-            return prediction
+            return self.model(board_features)
 
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
-        loss = torch.abs(self.predictions - y).sum()
+        loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
-        print("   Last prediction (optimally 1 or -1) " + str(float(self.predictions[episode_length - 1])) + "  " + str(y[0]))
+        print("   Last prediction (optimally 1 ) " + str(float(self.predictions[episode_length - 1]) * y[0]) )
         print("")
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
