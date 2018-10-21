@@ -8,7 +8,7 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 1e-3
+learning_rate = 1e-4
 dtype = torch.float
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
@@ -16,17 +16,12 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
 hidden_layers_width = [700, 500, 300, 200, 200]
-conv_seed, conv_param = 6, 5
 
 
 def make_layers():
     layers = []
 
-    layers.append(nn.Conv2d(1, convolutional_seed, conv_param))
-    layers.append(nn.MaxPool2d(2, 2))
-    layers.append(nn.Conv2d(1, conv_seed * conv_param, conv_param))
-
-    last_width = conv_seed * conv_param * conv_param
+    last_width = input_width
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
