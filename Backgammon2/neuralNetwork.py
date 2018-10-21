@@ -28,6 +28,35 @@ def make_layers():
     final = nn.Linear(last_width, output_width)
     return layers, final
 
+class BasicNetworkForTesting():
+
+    def __init__(self):
+        self.model = torch.Sequential(tuple(make_layers()))
+        self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
+
+    def run_decision(self, board_features):
+        vector = board_features
+        prediction = self(board_features)
+        self.predictions = torch.cat((self.predictions, prediction))
+
+    def predict(self, board_features):
+        with torch.no_grad():
+            return self.model(board_features)
+
+    def get_reward(self, reward):
+        episode_length = len(self.predictions)
+        y = torch.ones((episode_length), dtype=dtype) * reward
+        loss = torch.abs(self.predictions - y).sum()
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
+        # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
+        print("   Last prediction (optimally 1 or -1) " + str(float(self.predictions[episode_length - 1])) + "  " + str(y[0]))
+        print("")
+        self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
+        # kalla a predictions.sum til ad kalla bara einu sinni a
+        # loss.backward()
+
 class NeuralNetwork(nn.Module):
 
     network = []
@@ -64,7 +93,7 @@ class NeuralNetwork(nn.Module):
         prediction = self(board_features)
         self.predictions = torch.cat((self.predictions, prediction))
 
-    def evaluate(self, board_features):
+    def predict(self, board_features):
         with torch.no_grad():
             prediction = self(board_features)
             return prediction

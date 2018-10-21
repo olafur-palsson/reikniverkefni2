@@ -1,7 +1,7 @@
 
 
 from policy import Policy
-from neuralNetwork import NeuralNetwork
+from neuralNetwork import NeuralNetwork, BasicNetworkForTesting
 import random
 
 
@@ -15,14 +15,14 @@ class PolicyNeuralNetwork(Policy):
     net = 0
 
     def __init__(self):
-        self.net = NeuralNetwork()
+        self.net = BasicNetworkForTesting()
 
 
     def evaluate(self, possible_boards):
         epsilon = 0.1
         move_ratings = []
         for board in possible_boards:
-            value_of_board = self.net.evaluate(self.get_feature_vector(board))
+            value_of_board = self.net.predict(self.get_feature_vector(board))
             move_ratings.append(value_of_board)
 
         max = move_ratings[0]
