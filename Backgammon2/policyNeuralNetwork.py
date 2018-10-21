@@ -32,6 +32,7 @@ class PolicyNeuralNetwork(Policy):
             if move > max:
                 max = move
                 max_i = i
+                i = i + 1
 
         last_index_of_boards = len(possible_boards) - 1
         move = max_i
