@@ -15,7 +15,7 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [1000,  1000,  1000, 1000]
+hidden_layers_width = [50, 50, 50]
 
 
 def make_layers():
@@ -24,6 +24,7 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
+        layers.append(nn.ReLU())
     final = nn.Linear(last_width, output_width)
     return layers, final
 
@@ -41,6 +42,7 @@ class NeuralNetwork(nn.Module):
         print("Parameters of each layer")
         i = 0
         for layer in self.network:
+            if i % 2 == 1: continue
             req_grad, data = layer.parameters()
             print("")
             print("Layer " + str(i))
