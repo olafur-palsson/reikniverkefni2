@@ -8,7 +8,7 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 1e-4
+learning_rate = 1e-3
 dtype = torch.float
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
@@ -24,7 +24,7 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        layers.append(nn.ReLU())
+        # layers.append(nn.ReLU()) # uncomment for ReLU
     final = nn.Linear(last_width, output_width)
     return layers, final
 
@@ -42,7 +42,7 @@ class NeuralNetwork(nn.Module):
         print("Parameters of each layer")
         i = 0
         for layer in self.network:
-            if i % 2 == 1: continue
+            # in between if i % 2 == 1: continue # uncomment for  ReLU
             req_grad, data = layer.parameters()
             print("")
             print("Layer " + str(i))
