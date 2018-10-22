@@ -34,11 +34,13 @@ class PolicyNeuralNetwork(Policy):
                 max_i = i
                 i = i + 1
 
+        print(move_ratings)
+        print(self.get)
         last_index_of_boards = len(possible_boards) - 1
         best_move = max_i
         move = best_move if random.random() > epsilon else e_greedy(last_index_of_boards)
         # best_move = random.randint(0, last_index_of_boards) if random.uniform(-1, 1) > 0 else best_move
-        self.net.run_decision(self.get_feature_vector(board))
+        self.net.run_decision(self.get_feature_vector(possible_boards[best_move]))
         return best_move
 
     def get_reward(self, reward):
