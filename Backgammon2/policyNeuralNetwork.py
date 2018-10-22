@@ -13,7 +13,8 @@ def e_greedy(n):
 class PolicyNeuralNetwork(Policy):
 
 
-    counter_for_exploratory_start = 0
+    number_of_decisions_0 = 0
+    counter = 0
     epsilon = 0.15
     net = 0
 
@@ -40,10 +41,19 @@ class PolicyNeuralNetwork(Policy):
         last_index_of_boards = len(possible_boards) - 1
         best_move = max_i
         move = best_move
+        self.number_of_decisions_0 += int(move == 0)
+        self.counter += 1
         # move = best_move if random.random() > self.epsilon else e_greedy(last_index_of_boards)
-        # best_move = random.randint(0, last_index_of_boards) if random.uniform(-1, 1) > 0 else best_move
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
         return move
 
+    def log_and_reset_no_zeros(self):
+        print("")
+        print("% of decisions '0' (first of array), lower is better ")
+        print(str(float(self.number_of_decisions_0) / self.counter))
+        self.number_of_decisions_0 = 0
+        self.counter = 0
+
     def get_reward(self, reward):
         self.net.get_reward(reward)
+        self.log_and_reset_no_zeros()

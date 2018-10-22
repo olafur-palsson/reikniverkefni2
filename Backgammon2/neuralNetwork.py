@@ -8,14 +8,14 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 2e-4
+learning_rate = 2e-5
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-input_width, output_width = 102, 1
+input_width, output_width = 464, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [50, 100, 50, 100]
+hidden_layers_width = [100, 100, 100]
 
 all_width = 70
 
@@ -62,13 +62,17 @@ class BasicNetworkForTesting():
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
+
+
         loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
-        print("   Last prediction (optimally 1 ) " + str(float(self.predictions[episode_length - 1]) * y[0]) )
+
         print("")
+        print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
+        print(str(float(self.predictions[episode_length - 1] * y[0])))
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
