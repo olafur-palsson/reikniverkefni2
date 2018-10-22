@@ -34,8 +34,6 @@ class PolicyNeuralNetwork(Policy):
                 max_i = i
                 i = i + 1
 
-        print(move_ratings)
-        print(self.get)
         last_index_of_boards = len(possible_boards) - 1
         best_move = max_i
         move = best_move if random.random() > epsilon else e_greedy(last_index_of_boards)
