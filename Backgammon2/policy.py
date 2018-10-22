@@ -8,7 +8,7 @@ import torch
 
 class Policy():
     def get_feature_vector(self, board):
-
+        return self.get_raw_data(board)
         main_board = board[1:25]
         jail1, jail2, off1, off2 = board[25], board[26], board[27], board[28]
         features = np.array([])
@@ -33,6 +33,15 @@ class Policy():
         features =  np.append(features, [jail_features, off_board_features, bias_vector])
         features = torch.from_numpy(features).float()
         return features
+
+    def get_raw_data(self, board):
+        features = np.array([])
+        for position in board:
+            vector = np.zeros(16)
+            for i in range(int(position)):
+                vector[i] = 1
+            features = np.append(features, vector)
+        return torch.from_numpy(features).float()
 
 
     # ! BROKEN, todo: FIX

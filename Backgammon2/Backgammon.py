@@ -220,6 +220,7 @@ def main():
     nGames = 1000
     g = 0
     last_100_wins = np.zeros(500)
+    highest_win_rate = 0
     while True:
         g = g + 1
         winner = play_a_game(commentary=False)
@@ -227,7 +228,15 @@ def main():
         win = winner if winner > 0 else 0
         last_100_wins[g % 500] = win
         winners[str(winner)] += 1
-        print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(np.sum(last_100_wins) / 5) +  "%")
+
+        winrate = np.sum(last_100_wins) / 5
+        highest_win_rate = winrate if winrate > highest_win_rate else highest_win_rate
+        print("")
+        print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(winrate) +  "%" + " (max=" + str(highest_win_rate) + "%)")
+        print("")
+        print("")
+        print("")
+        print("")
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
     print("player", -1, "won", winners["-1"],"times")

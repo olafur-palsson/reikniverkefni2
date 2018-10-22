@@ -8,24 +8,36 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 5e-4
+learning_rate = 2e-5
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-input_width, output_width = 102, 1
+input_width, output_width = 464, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [700, 500, 300, 200, 200]
+hidden_layers_width = [100, 100, 100]
 
+all_width = 70
 
 def make_layers():
     layers = []
 
     last_width = input_width
+
+    """
+    layers.append(nn.Linear(last_width, all_width))
+    last_width = all_width
+    for i in range(20):
+        layers.append(nn.Linear(all_width, all_width))
+
+    """
+
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
         layers.append(nn.ReLU()) # uncomment for ReLU
+
+
     final = nn.Linear(last_width, output_width)
     layers.append(final)
     return layers
@@ -50,13 +62,17 @@ class BasicNetworkForTesting():
     def get_reward(self, reward):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
+
+
         loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
-        print("   Last prediction (optimally 1 ) " + str(float(self.predictions[episode_length - 1]) * y[0]) )
+
         print("")
+        print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
+        print(str(float(self.predictions[episode_length - 1] * y[0])))
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
