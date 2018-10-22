@@ -8,14 +8,14 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 5e-4
+learning_rate = 2e-4
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 102, 1
 # hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [50, 50]
+hidden_layers_width = [50, 100, 50, 100]
 
 all_width = 70
 
@@ -24,6 +24,7 @@ def make_layers():
 
     last_width = input_width
 
+    """
     layers.append(nn.Linear(last_width, all_width))
     last_width = all_width
     for i in range(20):
@@ -34,8 +35,7 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        # layers.append(nn.ReLU()) # uncomment for ReLU
-    """
+        layers.append(nn.ReLU()) # uncomment for ReLU
 
 
     final = nn.Linear(last_width, output_width)
