@@ -6,11 +6,11 @@ from functools import reduce
 
 input_width = 464
 output_width = 6
-hidden_layers = [50, 50]
+hidden_layers = [100, 100]
 dtype=torch.double
 
 learning_rate = 1e-8
-node_count = 6
+node_count = 2
 last_vector = node_count * output_width
 
 def make_layers():
