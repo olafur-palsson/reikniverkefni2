@@ -47,7 +47,6 @@ class PolicyNeuralNetwork(Policy):
         move = best_move
         self.number_of_decisions_0 += int(move == 0)
         self.decision_counter += 1
-        self.counter += 1
         move = best_move if random.random() > self.epsilon else e_greedy(last_index_of_boards)
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
         return move
@@ -61,6 +60,7 @@ class PolicyNeuralNetwork(Policy):
 
     def get_reward(self, reward):
         self.last_500[self.counter % 500] = reward
+        self.counter += 1
         exp_return = np.sum(self.last_500) / 500 # this is from -1 to 1
         self.net.get_reward(reward, exp_return)
         self.log_and_reset_no_zeros()
