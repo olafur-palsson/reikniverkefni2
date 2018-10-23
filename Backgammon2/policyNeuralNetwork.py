@@ -23,7 +23,7 @@ class PolicyNeuralNetwork(Policy):
     last_500 = np.zeros(500)
 
     def __init__(self):
-        self.net = BasicNetworkForTesting()
+        self.net = ParallelNetwork()
 
 
     def evaluate(self, possible_boards):
