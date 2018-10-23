@@ -18,9 +18,10 @@ class PolicyNeuralNetwork(Policy):
     counter = 0
     epsilon = 0.15
     net = 0
+    last_500 = np.zeros(500)
 
     def __init__(self):
-        self.net = ParallelNetwork()
+        self.net = BasicNetworkForTesting()
 
 
     def evaluate(self, possible_boards):
@@ -56,5 +57,7 @@ class PolicyNeuralNetwork(Policy):
         self.counter = 0
 
     def get_reward(self, reward):
-        self.net.get_reward(reward)
+        last_500[counter % 500] = reward
+        exp_return = np.sum(last_500) / 500 # this is from -1 to 1
+        self.net.get_reward(reward, exp_return=exp_return)
         self.log_and_reset_no_zeros()

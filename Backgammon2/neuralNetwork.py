@@ -60,9 +60,14 @@ class BasicNetworkForTesting():
         with torch.no_grad():
             return self.model(board_features)
 
-    def get_reward(self, reward):
+    def get_reward(self, reward, exp_return=0):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
+
+        # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
+        for i in range(episode_length):
+            y[i] = (y[i] + (episode_length - (i + 1) ) * exp_return) / (episode_length - i)
+
 
 
         loss = self.loss_fn(self.predictions, y)
