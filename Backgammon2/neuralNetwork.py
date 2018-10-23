@@ -35,12 +35,13 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        layers.append(nn.ReLU()) # uncomment for ReLU
+        layers.append(nn.ReLU6()) # uncomment for ReLU
 
 
     final = nn.Linear(last_width, output_width)
     layers.append(final)
     return layers
+
 
 class BasicNetworkForTesting():
 

@@ -2,6 +2,7 @@
 
 from policy import Policy
 from neuralNetwork import BasicNetworkForTesting
+from parallelNetwork import ParallelNetwork
 import random
 
 
@@ -19,7 +20,7 @@ class PolicyNeuralNetwork(Policy):
     net = 0
 
     def __init__(self):
-        self.net = BasicNetworkForTesting()
+        self.net = ParallelNetwork()
 
 
     def evaluate(self, possible_boards):
