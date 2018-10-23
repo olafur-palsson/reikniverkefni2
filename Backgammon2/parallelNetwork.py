@@ -6,11 +6,11 @@ from functools import reduce
 
 input_width = 464
 output_width = 10
-hidden_layers = [500]
+hidden_layers = [100]
 dtype=torch.double
 
-learning_rate = 5e-3
-node_count = 2
+learning_rate = 5e-4
+node_count = 10
 last_vector = node_count * output_width
 
 def make_layers():
@@ -62,7 +62,7 @@ class ParallelNetwork(nn.Module):
         self.prefinal = nn.Linear(last_vector, 100)
         self.final = nn.Linear(100, 1)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-        self.optimizer = torch.optim.SGD(itertools.chain(self.prefinal.parameters(), self.final.parameters(), get_parameters(self.nodes)), lr=learning_rate, momentum=0.9)
+        self.optimizer = torch.optim.SGD(itertools.chain(self.prefinal.parameters(), self.final.parameters(), get_parameters(self.nodes)), lr=learning_rate)
 
     def forward(self, board):
         tensor = []
@@ -88,7 +88,7 @@ class ParallelNetwork(nn.Module):
         y = torch.ones((episode_length), dtype=dtype) * reward
 
 
-        loss = self.loss_fn(self.predictions, y) / 15
+        loss = (self.predictions - y).pow(2).sum() / 15
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
