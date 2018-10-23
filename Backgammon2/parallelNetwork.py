@@ -10,7 +10,7 @@ hidden_layers = [100]
 dtype=torch.double
 
 learning_rate = 5e-4
-node_count = 10
+node_count = 4
 last_vector = node_count * output_width
 
 def make_layers():
