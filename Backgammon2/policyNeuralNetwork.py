@@ -44,7 +44,7 @@ class PolicyNeuralNetwork(Policy):
         move = best_move
         self.number_of_decisions_0 += int(move == 0)
         self.counter += 1
-        # move = best_move if random.random() > self.epsilon else e_greedy(last_index_of_boards)
+        move = best_move if random.random() > self.epsilon else e_greedy(last_index_of_boards)
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
         return move
 
