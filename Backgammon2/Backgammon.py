@@ -232,6 +232,7 @@ def main():
         winrate = np.sum(last_100_wins) / 5
         highest_win_rate = winrate if winrate > highest_win_rate else highest_win_rate
         print("")
+        print(winner)
         print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(winrate) +  "%" + " (max - stddev =" + str(highest_win_rate - 2) + "%), std-dev of this is ~2%")
         print("")
         print("")
