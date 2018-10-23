@@ -69,8 +69,6 @@ class BasicNetworkForTesting():
         # y[0] er u.th.b. exp_retur
         for i in range(episode_length):
             y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
-        print("Expected return")
-        print(exp_return)
 
         loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
@@ -78,6 +76,8 @@ class BasicNetworkForTesting():
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
 
+        print("Expected return")
+        print(exp_return)
         print("")
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * y[0])))
