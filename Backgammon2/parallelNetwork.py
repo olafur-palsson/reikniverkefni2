@@ -5,12 +5,12 @@ import itertools
 from functools import reduce
 
 input_width = 464
-output_width = 10
+output_width = 50
 hidden_layers = [100]
 dtype=torch.double
 
 learning_rate = 5e-4
-node_count = 4
+node_count = 3
 last_vector = node_count * output_width
 
 def make_layers():
@@ -90,7 +90,7 @@ class ParallelNetwork(nn.Module):
         y = torch.ones((episode_length), dtype=dtype) * reward
 
 
-        loss = (self.predictions - y).pow(2).sum() / 15
+        loss = (self.predictions - y).pow(2).sum() / episode_length
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
