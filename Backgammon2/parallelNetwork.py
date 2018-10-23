@@ -10,7 +10,7 @@ hidden_layers = [500, 500]
 dtype=torch.double
 node_layers = 2
 
-learning_rate = 5e-4
+learning_rate = 5e-5
 node_count = 2
 last_vector = node_count * output_width
 
