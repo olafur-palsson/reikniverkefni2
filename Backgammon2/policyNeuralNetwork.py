@@ -60,5 +60,5 @@ class PolicyNeuralNetwork(Policy):
     def get_reward(self, reward):
         self.last_500[self.counter % 500] = reward
         exp_return = np.sum(self.last_500) / 500 # this is from -1 to 1
-        self.net.get_reward(reward, exp_return=exp_return)
+        self.net.get_reward(reward, exp_return)
         self.log_and_reset_no_zeros()

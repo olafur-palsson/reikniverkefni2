@@ -85,7 +85,7 @@ class ParallelNetwork(nn.Module):
         with torch.no_grad():
             return self(board_features)
 
-    def get_reward(self, reward):
+    def get_reward(self, reward, exp_return):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
 
