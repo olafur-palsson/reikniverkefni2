@@ -6,8 +6,9 @@ from functools import reduce
 
 input_width = 464
 output_width = 10
-hidden_layers = [100, 100]
+hidden_layers = [500, 500]
 dtype=torch.double
+node_layers = 2
 
 learning_rate = 5e-4
 node_count = 2
@@ -23,6 +24,7 @@ def make_layers():
         layers.append(nn.Linear(last_width, layer_width))
         last_width = layer_width
     final = nn.Linear(last_width, output_width)
+
     layers.append(final)
     return layers
 
@@ -42,6 +44,7 @@ class Node(nn.Module):
         return self.model(board)
 
 def make_nodes(n):
+
     nodes = []
     for i in range(n):
         nodes.append(Node())
@@ -54,6 +57,7 @@ def get_parameters(nodes):
     return chained
 
 class ParallelNetwork(nn.Module):
+
     def __init__(self):
         super(ParallelNetwork, self).__init__()
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
