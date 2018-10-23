@@ -8,7 +8,7 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 2e-4
+learning_rate = 2e-5
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
@@ -69,8 +69,8 @@ class BasicNetworkForTesting():
         # y[0] er u.th.b. exp_retur
         for i in range(episode_length):
             y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
-
-
+        print("Expected return")
+        print(exp_return)
 
         loss = self.loss_fn(self.predictions, y)
         self.optimizer.zero_grad()
