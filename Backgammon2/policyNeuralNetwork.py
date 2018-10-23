@@ -16,6 +16,7 @@ class PolicyNeuralNetwork(Policy):
 
 
     number_of_decisions_0 = 0
+    decision_counter = 0
     counter = 0
     epsilon = 0.15
     net = 0
@@ -45,6 +46,7 @@ class PolicyNeuralNetwork(Policy):
         best_move = max_i
         move = best_move
         self.number_of_decisions_0 += int(move == 0)
+        self.decision_counter += 1
         self.counter += 1
         move = best_move if random.random() > self.epsilon else e_greedy(last_index_of_boards)
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
@@ -53,9 +55,9 @@ class PolicyNeuralNetwork(Policy):
     def log_and_reset_no_zeros(self):
         print("")
         print("% of decisions '0' (first of array), lower is better ")
-        print(str(float(self.number_of_decisions_0) / self.counter))
+        print(str(float(self.number_of_decisions_0) / self.decision_counter))
         self.number_of_decisions_0 = 0
-        self.counter = 0
+        self.decision_counter = 0
 
     def get_reward(self, reward):
         self.last_500[self.counter % 500] = reward
