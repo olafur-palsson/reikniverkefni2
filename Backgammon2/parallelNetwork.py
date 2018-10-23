@@ -20,6 +20,7 @@ def make_layers():
     for layer_width in hidden_layers:
         layers.append(nn.Linear(last_width, layer_width))
         layers.append(nn.ReLU6())
+        layers.append(nn.Dropout())
         last_width = layer_width
     final = nn.Linear(last_width, output_width)
 
