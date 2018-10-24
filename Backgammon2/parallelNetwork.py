@@ -5,12 +5,12 @@ import itertools
 from functools import reduce
 
 input_width = 464
-output_width = 6
-hidden_layers = [100, 100]
+output_width = 50
+hidden_layers = [100]
 dtype=torch.double
 
 learning_rate = 5e-7
-node_count = 2
+node_count = 3
 last_vector = node_count * output_width
 
 def make_layers():
