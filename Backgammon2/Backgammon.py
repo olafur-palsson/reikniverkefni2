@@ -251,7 +251,7 @@ def main():
         print("")
         print("")
         print("")
-        if g % 1 == 0:
+        if g % 10 == 0:
             output_result(highest_win_rate, winrate, winners["1"], winners["-1"], g)
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
