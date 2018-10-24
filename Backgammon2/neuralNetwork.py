@@ -79,9 +79,6 @@ class BasicNetworkForTesting():
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
 
 
-        print("Expected return")
-        print(exp_return)
-        print("")
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
         print("First state")

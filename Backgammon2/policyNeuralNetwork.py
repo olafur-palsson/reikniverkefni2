@@ -63,6 +63,7 @@ class PolicyNeuralNetwork(Policy):
         self.counter += 1
         exp_return = np.sum(self.last_500) / 500 # this is from -1 to 1
         self.net.get_reward(reward, exp_return)
+        print("")
         print("Expected return")
         print(exp_return)
         self.log_and_reset_no_zeros()
