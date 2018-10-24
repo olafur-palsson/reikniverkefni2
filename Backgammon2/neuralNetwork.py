@@ -14,7 +14,7 @@ device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-hidden_layers_width = [500, 500, output_width]
+hidden_layers_width = [1000, 1000, output_width]
 # hidden_layers_width = [150, 150]
 
 all_width = 70
@@ -62,7 +62,7 @@ class BasicNetworkForTesting():
 
     def get_reward(self, reward, exp_return):
         episode_length = len(self.predictions)
-        y = torch.ones((episode_length), dtype=dtype) * reward
+        y = torch.ones((episode_length), dtype=dtype, requires_grad=False) * reward
 
         # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
         # y[seinast] = reward
