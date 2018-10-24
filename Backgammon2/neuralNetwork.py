@@ -15,7 +15,7 @@ device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-hidden_layers_width = [100, 100, output_width]
+hidden_layers_width = [700, 700, 700, 700, output_width]
 # hidden_layers_width = [150, 150]
 
 all_width = 70
