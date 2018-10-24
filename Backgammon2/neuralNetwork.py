@@ -64,6 +64,8 @@ class BasicNetworkForTesting():
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype, requires_grad=False) * reward
 
+
+        exp_return = 0 # thessi lina laetur y[i] = reward * i
         # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
         # y[seinast] = reward
         # y[0] er u.th.b. exp_return
