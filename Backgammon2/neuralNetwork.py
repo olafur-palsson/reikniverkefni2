@@ -70,7 +70,7 @@ class BasicNetworkForTesting():
         for i in range(episode_length):
             y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
 
-        loss = self.loss_fn(self.predictions, y)
+        loss = (self.predictions - y).pow(2).sum()
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
@@ -79,6 +79,7 @@ class BasicNetworkForTesting():
 
         print("Expected return")
         print(exp_return)
+        print(y[0])
         print("")
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
