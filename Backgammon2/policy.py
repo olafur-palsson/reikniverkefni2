@@ -32,6 +32,7 @@ class Policy():
         bias_vector = np.array([1, 1])
         features =  np.append(features, [jail_features, off_board_features, bias_vector])
         features = torch.from_numpy(features).float()
+        features.requires_grad = True
         return features
 
     def get_raw_data(self, board):
@@ -41,7 +42,9 @@ class Policy():
             for i in range(int(position)):
                 vector[i] = 1
             features = np.append(features, vector)
-        return torch.from_numpy(features).float()
+        features = torch.from_numpy(features).float()
+        features.requires_grad = True
+        return features
 
 
     # ! BROKEN, todo: FIX

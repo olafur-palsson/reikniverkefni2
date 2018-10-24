@@ -8,14 +8,14 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 5e-9
+learning_rate = 1e-3
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-# hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 55, output_width]
-hidden_layers_width = [150, 150]
+hidden_layers_width = [500, 100, 100, 40, 40, 40, 40, output_width]
+# hidden_layers_width = [150, 150]
 
 all_width = 70
 
@@ -35,7 +35,7 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        layers.append(nn.ReLU6()) # uncomment for ReLU
+        # layers.append(nn.ReLU6()) # uncomment for ReLU
 
 
     final = nn.Linear(last_width, output_width)
@@ -76,11 +76,15 @@ class BasicNetworkForTesting():
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
 
+        print(self.predictions)
+
         print("Expected return")
         print(exp_return)
         print("")
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
-        print(str(float(self.predictions[episode_length - 1] * y[0])))
+        print(str(float(self.predictions[episode_length - 1] * reward)))
+        print("First state")
+        print(str(float(self.predictions[0] * reward)))
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
