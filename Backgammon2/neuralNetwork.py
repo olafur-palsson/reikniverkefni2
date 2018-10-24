@@ -108,7 +108,7 @@ class BasicNetworkForTesting():
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
         print("First state")
-        print(str(float(self.predictions[0] * reward)))
+        print(str(float(self.predictions[0])))
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
