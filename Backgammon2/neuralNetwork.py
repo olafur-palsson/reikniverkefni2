@@ -42,6 +42,7 @@ def make_layers():
 
 
     final = nn.Linear(last_width, output_width)
+    layers.append(nn.Relu6()) # uncomment for ReLU
     layers.append(final)
     return layers
 
