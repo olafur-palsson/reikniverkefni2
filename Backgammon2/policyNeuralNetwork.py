@@ -51,6 +51,9 @@ class PolicyNeuralNetwork(Policy):
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
         return move
 
+    def get_file_name(self):
+        return self.net.file_name
+
     def log_and_reset_no_zeros(self):
         print("")
         print("% of decisions '0' (first of array), lower is better ")

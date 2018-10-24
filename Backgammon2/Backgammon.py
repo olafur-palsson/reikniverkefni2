@@ -9,6 +9,7 @@ However feel free to change this file as you wish.
 """
 import numpy as np
 import agent
+from pathlib import Path
 
 def init_board():
     # initializes the game board
@@ -215,12 +216,24 @@ def play_a_game(commentary = True):
     # return the winner
     return -1*player
 
+def output_result(highest_win_rate, win_rate, p1wins, p2wins, games_played):
+    file_name = "results/" + agent.get_file_name() + "_result.pt"
+    Path(file_name).touch()
+    file = open(file_name, "w")
+    file.write("Highest win rate last 500: " + str(highest_win_rate) + "\n")
+    file.write("End win rate: " +  str(win_rate) + "\n")
+    file.write("Wins: " + str(p1wins) + "\n")
+    file.write("Loses: " + str(p2wins) + "\n")
+    file.write("Games played: " + str(games_played) + "\n")
+    file.close()
+
 def main():
     winners = {}; winners["1"]=0; winners["-1"]=0;
     nGames = 1000
     g = 0
     last_100_wins = np.zeros(500)
     highest_win_rate = 0
+    output_file_name = agent.get_file_name()
     while True:
         g = g + 1
         winner = play_a_game(commentary=False)
@@ -238,6 +251,8 @@ def main():
         print("")
         print("")
         print("")
+        if g % 1 == 0:
+            output_result(highest_win_rate, winrate, winners["1"], winners["-1"], g)
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
     print("player", -1, "won", winners["-1"],"times")

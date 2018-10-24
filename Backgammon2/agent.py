@@ -29,6 +29,9 @@ def action(board_copy,dice,player,i):
 def reward_player(reward):
     pub_stomper.get_reward(reward)
 
+def get_file_name():
+    return pub_stomper.get_file_name()
+
 def policy(possible_moves, possible_boards, dice, i):
 
     best_move = pub_stomper.evaluate(possible_boards)

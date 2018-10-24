@@ -4,9 +4,10 @@ import torch.nn as nn
 import torch.nn.functional as Function
 import torch.optim as Optimizer
 import numpy as np
+import datetime
 from functools import reduce
 from torch.autograd import Variable
-
+from pathlib import Path
 
 learning_rate = 1e-3
 dtype = torch.double
@@ -14,10 +15,12 @@ device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-hidden_layers_width = [1000, 1000, output_width]
+hidden_layers_width = [100, 100, output_width]
 # hidden_layers_width = [150, 150]
 
 all_width = 70
+counter = 0
+default_file_name = "".join(str(datetime.datetime.now()).split(" "))
 
 def make_layers():
     layers = []
@@ -45,11 +48,33 @@ def make_layers():
 
 class BasicNetworkForTesting():
 
-    def __init__(self):
+    def make_settings_file(self):
+        Path(self.settings_file_name).touch()
+        file = open(self.settings_file_name, "w")
+        file.write("Input vector size: " + str(input_width) + "\n")
+        file.write("Hidden layers: " + str(hidden_layers_width) + "\n")
+        file.write("Learning rate: " + str(learning_rate) + "\n")
+        file.close()
+
+    def __init__(self, load_file_name=False, export=False):
         self.model = nn.Sequential(*make_layers())
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
         self.optimizer = torch.optim.SGD(self.model.parameters(), lr=learning_rate)
+        self.export = export
+        self.file_name = load_file_name if load_file_name else default_file_name
+        self.model_file_name = "./tests/" + self.file_name + " model.pt"
+        self.optimizer_file_name = "./tests/" + self.file_name + " optim.pt"
+        self.settings_file_name = "results/" + self.file_name + "_settings.pt"
+        if load_file_name:
+            self.optimizer.load_state_dict(torch.load("./tests/" + self.file_name + " optim.pt"))
+            self.model.load_state_dict(torch.load("./tests/" + self.file_name + " model.pt"))
+        else:
+            self.make_settings_file()
+
+    def export_model(self):
+        torch.save(self.model.state_dict(), self.model_file_name)
+        torch.save(self.optimizer.state_dict(), self.optimizer_file_name)
 
     def run_decision(self, board_features):
         vector = board_features
@@ -77,7 +102,8 @@ class BasicNetworkForTesting():
         loss.backward()
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
-
+        if counter % 100 == 0 and self.export:
+            self.export_model()
 
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
