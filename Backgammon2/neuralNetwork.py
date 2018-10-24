@@ -76,7 +76,6 @@ class BasicNetworkForTesting():
         self.optimizer.step()
         # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
 
-        print(self.predictions)
 
         print("Expected return")
         print(exp_return)
