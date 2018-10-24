@@ -8,7 +8,7 @@ from functools import reduce
 from torch.autograd import Variable
 
 
-learning_rate = 1e-4
+learning_rate = 1e-3
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
@@ -79,7 +79,6 @@ class BasicNetworkForTesting():
 
         print("Expected return")
         print(exp_return)
-        print(y[0])
         print("")
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
