@@ -9,13 +9,13 @@ from functools import reduce
 from torch.autograd import Variable
 from pathlib import Path
 
-learning_rate = 1e-3
+learning_rate = 2e-5
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-hidden_layers_width = [700, 700, 700, 700, output_width]
+hidden_layers_width = [1000, 1000, 1000, output_width]
 # hidden_layers_width = [150, 150]
 
 all_width = 70
@@ -38,7 +38,8 @@ def make_layers():
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
-        # layers.append(nn.ReLU6()) # uncomment for ReLU
+        # layers.append(nn.ReLU()) # uncomment for ReLU
+        layers.append(nn.Dropout(p=0.025))
 
 
     final = nn.Linear(last_width, output_width)
@@ -61,7 +62,7 @@ class BasicNetworkForTesting():
         self.model = nn.Sequential(*make_layers())
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-        self.optimizer = torch.optim.SGD(self.model.parameters(), lr=learning_rate)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum=0.9, lr=learning_rate)
         self.export = export
         self.file_name = load_file_name if load_file_name else default_file_name
         self.model_file_name = "./tests/" + self.file_name + " model.pt"
