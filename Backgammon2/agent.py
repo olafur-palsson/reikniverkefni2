@@ -6,6 +6,7 @@ the agent
 import numpy as np
 import Backgammon
 from policyNeuralNetwork import PolicyNeuralNetwork
+from policyRandom import PolicyRandom
 
 pub_stomper = PolicyNeuralNetwork()
 

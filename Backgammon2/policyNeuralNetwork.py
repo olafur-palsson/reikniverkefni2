@@ -23,7 +23,7 @@ class PolicyNeuralNetwork(Policy):
     last_500 = np.zeros(500)
 
     def __init__(self):
-        self.net = BasicNetworkForTesting()
+        self.net = ParallelNetwork()
 
 
     def evaluate(self, possible_boards):
@@ -40,7 +40,7 @@ class PolicyNeuralNetwork(Policy):
             if move > max:
                 max = move
                 max_i = i
-                i = i + 1
+            i = i + 1
 
         last_index_of_boards = len(possible_boards) - 1
         best_move = max_i

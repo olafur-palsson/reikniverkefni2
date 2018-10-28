@@ -9,14 +9,14 @@ from functools import reduce
 from torch.autograd import Variable
 from pathlib import Path
 
-learning_rate = 5e-6
+learning_rate = 5e-5
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
-hidden_layers_width = [150, 150, 150, output_width]
-td_n = 2
+hidden_layers_width = [1000, 1000, 1000, output_width]
+td_n = 3
 # hidden_layers_width = [150, 150]
 
 all_width = 70
@@ -98,6 +98,7 @@ class BasicNetworkForTesting():
                     break
                 y[i] = self.predictions[i + td_n]
 
+
         """
         exp_return = 0 # thessi lina laetur y[i] = reward * i
         # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
@@ -118,6 +119,8 @@ class BasicNetworkForTesting():
         if counter % 100 == 0 and self.export:
             self.export_model()
 
+        print("First state td value")
+        print(y[0])
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
         print("First state")

@@ -6,10 +6,10 @@ from functools import reduce
 
 input_width = 464
 output_width = 50
-hidden_layers = [100]
+hidden_layers = [100,50,100]
 dtype=torch.double
 
-learning_rate = 5e-6
+learning_rate = 5e-5
 node_count = 3
 last_vector = node_count * output_width
 
@@ -19,7 +19,7 @@ def make_layers():
     last_width = input_width
     for layer_width in hidden_layers:
         layers.append(nn.Linear(last_width, layer_width))
-        layers.append(nn.ReLU6())
+        layers.append(nn.ReLU())
         last_width = layer_width
     final = nn.Linear(last_width, output_width)
 
