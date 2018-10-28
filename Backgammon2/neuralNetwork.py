@@ -39,7 +39,7 @@ def make_layers():
         layers.append(nn.Linear(last_width, width))
         last_width = width
         # layers.append(nn.ReLU()) # uncomment for ReLU
-        layers.append(nn.Dropout(p=0.025))
+        # layers.append(nn.Dropout(p=0.025))
 
 
     final = nn.Linear(last_width, output_width)
