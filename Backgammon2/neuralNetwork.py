@@ -9,13 +9,14 @@ from functools import reduce
 from torch.autograd import Variable
 from pathlib import Path
 
-learning_rate = 1e-6
+learning_rate = 5e-6
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 input_width, output_width = 464, 1
 hidden_layers_width = [150, 150, 150, output_width]
+td_n = 2
 # hidden_layers_width = [150, 150]
 
 all_width = 70
@@ -93,9 +94,9 @@ class BasicNetworkForTesting():
 
         with torch.no_grad():
             for i in range(len(self.predictions)):
-                if i == len(self.predictions) - 1:
+                if i == len(self.predictions) - td_n:
                     break
-                y[i] = self.predictions[i + 1]
+                y[i] = self.predictions[i + td_n]
 
         """
         exp_return = 0 # thessi lina laetur y[i] = reward * i
