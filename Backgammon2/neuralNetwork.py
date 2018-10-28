@@ -9,7 +9,7 @@ from functools import reduce
 from torch.autograd import Variable
 from pathlib import Path
 
-learning_rate = 1e-4
+learning_rate = 1e-6
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
