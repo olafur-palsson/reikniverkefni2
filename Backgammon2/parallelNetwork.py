@@ -55,6 +55,7 @@ def get_parameters(nodes):
     return chained
 
 class ParallelNetwork(nn.Module):
+    file_name = 'parallel_test'
 
     def __init__(self):
         super(ParallelNetwork, self).__init__()
