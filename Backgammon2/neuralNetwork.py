@@ -91,13 +91,23 @@ class BasicNetworkForTesting():
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype, requires_grad=False) * reward
 
+        with torch.no_grad():
+            for i in range(len(self.predictions)):
+                if i == len(self.predictions) - 1:
+                    break
+                y[i] = self.predictions[i + 1]
 
+        """
         exp_return = 0 # thessi lina laetur y[i] = reward * i
         # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
         # y[seinast] = reward
         # y[0] er u.th.b. exp_return
+
         for i in range(episode_length):
-            y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
+          y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
+        """
+
+
 
         loss = (self.predictions - y).pow(2).sum()
         self.optimizer.zero_grad()
