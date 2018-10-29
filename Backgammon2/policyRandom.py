@@ -5,9 +5,6 @@ import random
 
 from policy import Policy
 
-    return random.randint(0, n)
-
-
 # example of an extended policy
 class PolicyRandom(Policy):
     def get_file_name(self):
@@ -16,7 +13,6 @@ class PolicyRandom(Policy):
     def evaluate(self, possible_boards):
         for board in possible_boards:
             feature_vector = self.get_feature_vector(board)
-
         return random.randint(len(possible_boards) - 1)
 
     def get_reward(self, reward):

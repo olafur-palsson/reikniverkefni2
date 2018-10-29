@@ -26,7 +26,7 @@ class PolicyNeuralNetwork(Policy):
     # or
     # self.net = ParallelNetwork() <-- little crazy
     def __init__(self):
-        self.net = ParallelNetwork()
+        self.net = BasicNetworkForTesting()
 
     def evaluate(self, possible_boards):
 
@@ -67,7 +67,7 @@ class PolicyNeuralNetwork(Policy):
 
     def get_reward(self, reward):
         # only necessary line in this function
-        self.net.get_reward(reward, exp_return)
+        self.net.get_reward(reward)
 
         # statistics
         self.last_500[self.counter % 500] = reward

@@ -14,32 +14,27 @@ dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
+# Make this one the same as the output of the featuere vector
 input_width, output_width = 464, 1
-hidden_layers_width = [700, 700, 700, output_width]
-td_n = 3
-# hidden_layers_width = [150, 150]
 
-all_width = 70
+# Decide how many hidden layers
+hidden_layers_width = [250, 250, output_width]
+
+# If update is with with n-step algorithm, n = td_n
+temporal_delay = 3
+
 counter = 0
-default_file_name = "".join(str(datetime.datetime.now()).split(" "))
+default_file_name = "_".join(str(datetime.datetime.now()).split(" "))
 
+# make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
 def make_layers():
     layers = []
-
     last_width = input_width
-
-    """
-    layers.append(nn.Linear(last_width, all_width))
-    last_width = all_width
-    for i in range(20):
-        layers.append(nn.Linear(all_width, all_width))
-    """
-
     for width in hidden_layers_width:
         layers.append(nn.Linear(last_width, width))
         last_width = width
         # layers.append(nn.ReLU()) # uncomment for ReLU
-        # layers.append(nn.Dropout(p=0.025))
+        # layers.append(nn.Dropout(p=0.025)) # uncomment for drop-out
 
     final = nn.Linear(last_width, output_width)
     # layers.append(nn.ReLU()) # uncomment for ReLU
@@ -57,7 +52,7 @@ class BasicNetworkForTesting():
         file.write("Learning rate: " + str(learning_rate) + "\n")
         file.close()
 
-    def make_file_name_from_string(file_name_root_string):
+    def make_file_name_from_string(self, file_name_root_string):
         # sets class-wide filename for exporting to files
         self.model_file_name = "./tests/" + file_name_root_string + " model.pt"
         self.optimizer_file_name = "./tests/" + file_name_root_string + " optim.pt"
@@ -117,7 +112,7 @@ class BasicNetworkForTesting():
             return self.model(board_features)
 
     # Function run on the end of each game.
-    def get_reward(self, reward, exp_return):
+    def get_reward(self, reward):
         """
             We at this point have accumulated predictions of the network in self.predictions
             Here we decide what values we should we should move towards. We shall name that
@@ -130,18 +125,11 @@ class BasicNetworkForTesting():
         # TD valued reward
         with torch.no_grad():
             for i in range(len(self.predictions)):
-                if i == len(self.predictions) - td_n:
+                if i == len(self.predictions) - temporal_delay:
                     break
-                y[i] = self.predictions[i + td_n]
+                y[i] = self.predictions[i + temporal_delay]
 
-        self.rewards = append(y)
-
-        """
-        # reward based on expected return (e.g 4 predictions with reward = 1, exp_return = 0.4 gives [0.4, 0.6, 0.8, 1])
-        # exp_return = 0 # uncomment for linear ([0.25, 0.5, 0.75, 1] in example above)
-        for i in range(episode_length):
-          y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
-        """
+        self.rewards.append(y)
 
         # Sum of squared error as loss
         loss = (self.predictions - y).pow(2).sum()
