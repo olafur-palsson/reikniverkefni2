@@ -33,7 +33,6 @@ def make_layers():
     last_width = all_width
     for i in range(20):
         layers.append(nn.Linear(all_width, all_width))
-
     """
 
     for width in hidden_layers_width:
@@ -41,7 +40,6 @@ def make_layers():
         last_width = width
         # layers.append(nn.ReLU()) # uncomment for ReLU
         # layers.append(nn.Dropout(p=0.025))
-
 
     final = nn.Linear(last_width, output_width)
     # layers.append(nn.ReLU()) # uncomment for ReLU
@@ -51,7 +49,6 @@ def make_layers():
 
 class BasicNetworkForTesting():
 
-
     def make_settings_file(self):
         Path(self.settings_file_name).touch()
         file = open(self.settings_file_name, "w")
@@ -60,41 +57,77 @@ class BasicNetworkForTesting():
         file.write("Learning rate: " + str(learning_rate) + "\n")
         file.close()
 
+    def make_file_name_from_string(file_name_root_string):
+        # sets class-wide filename for exporting to files
+        self.model_file_name = "./tests/" + file_name_root_string + " model.pt"
+        self.optimizer_file_name = "./tests/" + file_name_root_string + " optim.pt"
+        self.settings_file_name = "results/" + file_name_root_string + "_settings.pt"
+
+
     def __init__(self, load_file_name=False, export=False):
-        self.model = nn.Sequential(*make_layers())
-        self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
-        self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum=0.9, lr=learning_rate)
-        self.export = export
+        # set up file_names for exporting
         self.file_name = load_file_name if load_file_name else default_file_name
-        self.model_file_name = "./tests/" + self.file_name + " model.pt"
-        self.optimizer_file_name = "./tests/" + self.file_name + " optim.pt"
-        self.settings_file_name = "results/" + self.file_name + "_settings.pt"
+        self.make_file_name_from_string(self.file_name)
+
+        # make layers in neural network and make the network sequential
+        # (i.e) input -> layer_1 -> ... -> layer_n -> output  for layers in 'make_layers()'
+        self.model = nn.Sequential(*make_layers())
+
+        # initialize prediction storage
+        self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
+
+        # set loss function for backprop (usage is optional)
+        self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
+
+        # set optimizer for adjusting the weights (e.g Stochastic Gradient Descent, SGD)
+        # Note: learning_rate is at the top of the script
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum=0.9, lr=learning_rate)
+
+        # True if should export, False if we throw it away after running
+        self.export = export
+
+        # Game counter for intervals
         self.counter = 0
+
+        # Reward storage for batched learning
         self.rewards = []
+
+        # If we want to load a model we input the name of the file, if exists -> load
         if load_file_name:
+            # import model
             self.optimizer.load_state_dict(torch.load("./tests/" + self.file_name + " optim.pt"))
             self.model.load_state_dict(torch.load("./tests/" + self.file_name + " model.pt"))
         else:
+            # export current settings
             self.make_settings_file()
 
     def export_model(self):
         torch.save(self.model.state_dict(), self.model_file_name)
         torch.save(self.optimizer.state_dict(), self.optimizer_file_name)
 
+    # run a feature vector through the model accumulating greadient
     def run_decision(self, board_features):
         vector = board_features
         prediction = self.model(board_features)
         self.predictions = torch.cat((self.predictions, prediction.double()))
 
+    # run a feature vector through the model without accumulating gradient
     def predict(self, board_features):
         with torch.no_grad():
             return self.model(board_features)
 
+    # Function run on the end of each game.
     def get_reward(self, reward, exp_return):
+        """
+            We at this point have accumulated predictions of the network in self.predictions
+            Here we decide what values we should we should move towards. We shall name that
+            vector 'y'
+        """
+
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype, requires_grad=False) * reward
 
+        # TD valued reward
         with torch.no_grad():
             for i in range(len(self.predictions)):
                 if i == len(self.predictions) - td_n:
@@ -104,36 +137,34 @@ class BasicNetworkForTesting():
         self.rewards = append(y)
 
         """
-        exp_return = 0 # thessi lina laetur y[i] = reward * i
-        # lata early moves fa expected return med sma nudge, late moves fa meira reward, a milli er progressive
-        # y[seinast] = reward
-        # y[0] er u.th.b. exp_return
-
+        # reward based on expected return (e.g 4 predictions with reward = 1, exp_return = 0.4 gives [0.4, 0.6, 0.8, 1])
+        # exp_return = 0 # uncomment for linear ([0.25, 0.5, 0.75, 1] in example above)
         for i in range(episode_length):
           y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
         """
 
-        length = 0
-        for reward_vector in self.rewards:
-            length = len(reward)
-
-        if counter % 20 == 0:
-
-
+        # Sum of squared error as loss
         loss = (self.predictions - y).pow(2).sum()
+        # Zero all accumulated gradients
         self.optimizer.zero_grad()
+        # Recalculate gradients based on 'loss' (i.e. what it takes for loss -> 0)
         loss.backward()
+        # Use optimizer to calculate new weights
         self.optimizer.step()
-        # print(self.predictions - torch.ones((episode_length), dtype=dtype) * torch.mean(self.predictions))
+
+        # Export model each 100 episodes
         if counter % 100 == 0 and self.export:
             self.export_model()
 
+        # Log out statistics of current game
         print("First state td value")
         print(y[0])
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
         print(str(float(self.predictions[episode_length - 1] * reward)))
         print("First state")
         print(str(float(self.predictions[0])))
+
+        # reset empty predictions
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()

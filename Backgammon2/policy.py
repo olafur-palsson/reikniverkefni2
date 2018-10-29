@@ -6,7 +6,9 @@ import torch
 
 
 
+# Extend this class to make a policy to have all the feature_vector functions
 class Policy():
+    #
     def get_feature_vector(self, board):
         return self.get_raw_data(board)
         main_board = board[1:25]
@@ -35,6 +37,7 @@ class Policy():
         features.requires_grad = True
         return features
 
+    # expand board -> 464 vector
     def get_raw_data(self, board):
         features = np.array([])
         for position in board:
@@ -46,10 +49,10 @@ class Policy():
         features.requires_grad = True
         return features
 
-
-    # ! BROKEN, todo: FIX
+    # Override these methods
     def get_reward(self, reward):
         print("Reward function not set")
-
     def evaluate(self, board):
         print("Evaluation function not set")
+    def get_file_name():
+        print("File name not set")

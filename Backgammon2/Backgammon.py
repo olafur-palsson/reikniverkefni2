@@ -216,6 +216,7 @@ def play_a_game(commentary = True):
     # return the winner
     return -1*player
 
+# Print results out to a file (every 100 games)
 def output_result(highest_win_rate, win_rate, p1wins, p2wins, games_played):
     file_name = "results/" + agent.get_file_name() + "_result.pt"
     Path(file_name).touch()
@@ -231,19 +232,28 @@ def main():
     winners = {}; winners["1"]=0; winners["-1"]=0;
     nGames = 1000
     g = 0
+
+    # statistics
     last_100_wins = np.zeros(500)
     highest_win_rate = 0
     output_file_name = agent.get_file_name()
+
+    # play games forever
     while True:
         g = g + 1
         winner = play_a_game(commentary=False)
-        agent.reward_player(winner)
-        win = winner if winner > 0 else 0
-        last_100_wins[g % 500] = win
         winners[str(winner)] += 1
 
+        # reward the agent
+        agent.reward_player(winner)
+
+        # Gather the win/loss of last 500 games
+        win = winner if winner > 0 else 0
+        last_100_wins[g % 500] = win
         winrate = np.sum(last_100_wins) / 5
         highest_win_rate = winrate if winrate > highest_win_rate else highest_win_rate
+
+        # Print out a log of game-stats
         print("")
         print(winner)
         print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(winrate) +  "%" + " (max - stddev =" + str(highest_win_rate - 2) + "%), std-dev of this is ~2%")
@@ -253,6 +263,8 @@ def main():
         print("")
         if g % 10 == 0:
             output_result(highest_win_rate, winrate, winners["1"], winners["-1"], g)
+
+    # Default log that was given with code
     print("out of", nGames, "games,")
     print("player", 1, "won", winners["1"],"times and")
     print("player", -1, "won", winners["-1"],"times")
