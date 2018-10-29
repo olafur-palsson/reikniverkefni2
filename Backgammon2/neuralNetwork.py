@@ -113,6 +113,9 @@ class BasicNetworkForTesting():
           y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
         """
 
+        length = 0
+        for reward_vector in self.rewards:
+            length = len(reward)
 
         if counter % 20 == 0:
 
