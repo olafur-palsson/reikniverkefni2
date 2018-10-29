@@ -51,6 +51,7 @@ def make_layers():
 
 class BasicNetworkForTesting():
 
+
     def make_settings_file(self):
         Path(self.settings_file_name).touch()
         file = open(self.settings_file_name, "w")
@@ -69,6 +70,8 @@ class BasicNetworkForTesting():
         self.model_file_name = "./tests/" + self.file_name + " model.pt"
         self.optimizer_file_name = "./tests/" + self.file_name + " optim.pt"
         self.settings_file_name = "results/" + self.file_name + "_settings.pt"
+        self.counter = 0
+        self.rewards = []
         if load_file_name:
             self.optimizer.load_state_dict(torch.load("./tests/" + self.file_name + " optim.pt"))
             self.model.load_state_dict(torch.load("./tests/" + self.file_name + " model.pt"))
@@ -98,6 +101,7 @@ class BasicNetworkForTesting():
                     break
                 y[i] = self.predictions[i + td_n]
 
+        self.rewards = append(y)
 
         """
         exp_return = 0 # thessi lina laetur y[i] = reward * i
@@ -109,6 +113,8 @@ class BasicNetworkForTesting():
           y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
         """
 
+
+        if counter % 20 == 0:
 
 
         loss = (self.predictions - y).pow(2).sum()
