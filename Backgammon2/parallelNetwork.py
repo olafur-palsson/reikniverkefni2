@@ -5,7 +5,7 @@ import itertools
 from functools import reduce
 
 input_width = 464
-output_width = 20
+output_width = 10
 hidden_layers = [250, 250]
 dtype=torch.double
 td_n = 2
@@ -62,8 +62,8 @@ class ParallelNetwork(nn.Module):
         super(ParallelNetwork, self).__init__()
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
         self.nodes = make_nodes(node_count)
-        self.prefinal = nn.Linear(last_vector, 100)
-        self.final = nn.Linear(100, 1)
+        self.prefinal = nn.Linear(last_vector, 50)
+        self.final = nn.Linear(50, 1)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
         self.optimizer = torch.optim.SGD(itertools.chain(self.prefinal.parameters(), self.final.parameters(), get_parameters(self.nodes)), momentum=0.9, lr=learning_rate)
 
@@ -112,8 +112,12 @@ class ParallelNetwork(nn.Module):
         print("Expected return")
         print(exp_return)
         print("")
+        print("First state td value")
+        print(y[0])
         print("Prediction of last state ('-' means guessed wrong, number is confidence, optimal = 1 > p > 0.8) ")
-        print(str(float(self.predictions[episode_length - 1] * y[0])))
+        print(str(float(self.predictions[episode_length - 1] * reward)))
+        print("First state")
+        print(str(float(self.predictions[0])))
         self.predictions = torch.empty(0, dtype = dtype, requires_grad=True)
         # kalla a predictions.sum til ad kalla bara einu sinni a
         # loss.backward()
