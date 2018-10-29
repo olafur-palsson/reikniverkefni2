@@ -5,12 +5,13 @@ import itertools
 from functools import reduce
 
 input_width = 464
-output_width = 10
-hidden_layers = [100,100,100]
+output_width = 20
+hidden_layers = [250, 250]
 dtype=torch.double
+td_n = 2
 
 learning_rate = 5e-5
-node_count = 6
+node_count = 2
 last_vector = node_count * output_width
 
 def make_layers():
@@ -64,7 +65,7 @@ class ParallelNetwork(nn.Module):
         self.prefinal = nn.Linear(last_vector, 100)
         self.final = nn.Linear(100, 1)
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-        self.optimizer = torch.optim.SGD(itertools.chain(self.prefinal.parameters(), self.final.parameters(), get_parameters(self.nodes)), lr=learning_rate)
+        self.optimizer = torch.optim.SGD(itertools.chain(self.prefinal.parameters(), self.final.parameters(), get_parameters(self.nodes)), momentum=0.9, lr=learning_rate)
 
     def forward(self, board):
         tensor = []
@@ -89,8 +90,17 @@ class ParallelNetwork(nn.Module):
         episode_length = len(self.predictions)
         y = torch.ones((episode_length), dtype=dtype) * reward
 
+
+        with torch.no_grad():
+            for i in range(len(self.predictions)):
+                if i == len(self.predictions) - td_n:
+                    break
+                y[i] = self.predictions[i + td_n]
+
+        """
         for i in range(episode_length):
             y[i] = (y[i] * i + (episode_length - (i + 1) ) * exp_return) / (episode_length - 1)
+        """
 
 
         loss = (self.predictions - y).pow(2).sum() / episode_length
