@@ -8,8 +8,10 @@ Most (if not all) of your agent-develeping code should be written in the agent.p
 However feel free to change this file as you wish.
 """
 import numpy as np
-import agent
 from pathlib import Path
+
+import agent
+
 
 def init_board():
     # initializes the game board
@@ -179,15 +181,22 @@ def play_a_game(commentary = True):
     board = init_board() # initialize the board
     player = 1 # player 1 starts
 
+
+
     # play on
     while not game_over(board): #and not check_for_error(board):
-        if commentary: print("lets go player ",player)
+        if commentary: 
+            print("lets go player ",player)
+
 
         dice = roll_dice() # roll dice
         if commentary: print("rolled dices:", dice)
 
         # make a move (2 moves if the same number appears on the dice)
-        for i in range(1+int(dice[0] == dice[1])):
+
+        n = 1+int(dice[0] == dice[1])
+
+        for i in range(n):
             board_copy = np.copy(board)
 
             # make the move
@@ -209,9 +218,11 @@ def play_a_game(commentary = True):
                 else:
                     pretty_print(flip_board(board))
 
+
         # players take turns
         player = -player
         board = flip_board(board)
+        
 
     # return the winner
     return -1*player

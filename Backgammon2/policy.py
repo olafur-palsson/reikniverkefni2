@@ -1,10 +1,5 @@
-
-
-
 import numpy as np
 import torch
-
-
 
 # Extend this class to make a policy to have all the feature_vector functions
 class Policy():

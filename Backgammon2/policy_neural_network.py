@@ -1,10 +1,11 @@
 
-
-from policy import Policy
-from neuralNetwork import BasicNetworkForTesting
-from parallelNetwork import ParallelNetwork
 import numpy as np
 import random
+
+from policy import Policy
+from basic_network_for_testing import BasicNetworkForTesting
+from parallel_network import ParallelNetwork
+
 
 
 

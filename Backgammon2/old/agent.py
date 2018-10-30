@@ -5,8 +5,8 @@ the agent
 """
 import numpy as np
 import Backgammon
-from policyNeuralNetwork import PolicyNeuralNetwork
-from policyRandom import PolicyRandom
+from policy_neural_network import PolicyNeuralNetwork
+from policy_random import PolicyRandom
 
 pub_stomper = PolicyNeuralNetwork()
 
@@ -27,11 +27,14 @@ def action(board_copy,dice,player,i):
 
     return move
 
+
 def reward_player(reward):
     pub_stomper.get_reward(reward)
 
+
 def get_file_name():
     return pub_stomper.get_file_name()
+
 
 def policy(possible_moves, possible_boards, dice, i):
 
