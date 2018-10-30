@@ -1,4 +1,8 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+This hasn't been implemented and maybe won't be.  Ignore for the time being.
+"""
 
 COMMANDS = [
     {

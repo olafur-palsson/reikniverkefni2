@@ -39,11 +39,6 @@ def str_symbol(board, pos, height):
         Symbols "x", "o" or " ".
     """
 
-    #
-    # height = 2
-    # height = 1
-    # height = 0
-
     if abs(board[pos]) > height:
         if board[pos] > 0:
             # White
@@ -407,7 +402,13 @@ class Backgammon:
     @staticmethod
     def to_string(board):
         """
-        The board
+        Returns a CLI representation of the game
+
+        Args:
+            board (ndarray): the board
+
+        Returns:
+            A CLI representation (string) of the game.
         """
 
         msg = ""

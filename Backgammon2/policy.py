@@ -1,11 +1,26 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+I think this class, `Policy`, should be extended.
+"""
+
 import numpy as np
 import torch
 
 # Extend this class to make a policy to have all the feature_vector functions
 class Policy():
-    #
-    def get_feature_vector(self, board):
-        return self.get_raw_data(board)
+
+    def get_tesauro_feature_vector(self, board):
+        """
+        I think this returns a feature vecture as is used by Tesauro in
+        TD-Gammon.
+
+        Args:
+            board (ndarray): a backgammon board
+
+        Returns:
+            A feature vector.
+        """
         main_board = board[1:25]
         jail1, jail2, off1, off2 = board[25], board[26], board[27], board[28]
         features = np.array([])
@@ -31,9 +46,33 @@ class Policy():
         features = torch.from_numpy(features).float()
         features.requires_grad = True
         return features
+    
+
+    def get_feature_vector(self, board):
+        """
+        Returns the raw feature vector for the backgammon board `board`.
+
+        Args:
+            board (ndarray): a backgammon board
+
+        Returns:
+            A feature vector.
+        """
+        return self.get_raw_data(board)
+        # return self.get_tesauro_feature_vector(self, board)
+
 
     # expand board -> 464 vector
     def get_raw_data(self, board):
+        """
+        Returns the raw feature vector for the backgammon board `board`.
+
+        Args:
+            board (ndarray): a backgammon board
+
+        Returns:
+            A feature vector.
+        """
         features = np.array([])
         for position in board:
             vector = np.zeros(16)
@@ -46,8 +85,11 @@ class Policy():
 
     # Override these methods
     def get_reward(self, reward):
-        print("Reward function not set")
+        raise Exception("Reward function not set")
+
     def evaluate(self, board):
-        print("Evaluation function not set")
-    def get_file_name():
-        print("File name not set")
+        raise Exception("Evaluation function not set")
+
+    def get_file_name(self):
+        raise Exception("File name not set")
+

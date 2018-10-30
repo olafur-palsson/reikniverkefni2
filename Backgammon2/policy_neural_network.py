@@ -1,13 +1,16 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
 
+TODO: epsilon should be a parameter for this class, and also whether
+one wants to use Parallel Network.
+"""
 import numpy as np
 import random
 
 from policy import Policy
 from basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
-
-
-
 
 
 class PolicyNeuralNetwork(Policy):
@@ -29,7 +32,18 @@ class PolicyNeuralNetwork(Policy):
     def __init__(self):
         self.net = BasicNetworkForTesting()
 
+
     def evaluate(self, possible_boards):
+        """
+        Evaluates the possible boards given to this method as an argument and
+        returns a move.
+
+        Args:
+            possible_boards: possible boards
+
+        Returns:
+            A move.
+        """
 
         # variable to hold ratings
         move_ratings = []
@@ -54,10 +68,18 @@ class PolicyNeuralNetwork(Policy):
         self.decision_counter += 1
         # move = best_move if random.random() > self.epsilon else random.rand_int(len(possible_boards - 1)) # uncomment for e_greedy
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
+        
         return move
 
     def get_file_name(self):
+        """
+        Returns the file name for this neural network attached to this instance.
+
+        Returns:
+            The file name of the neural network.
+        """
         return self.net.file_name
+
 
     def log_and_reset_number_of_decisions_0(self):
         print("")
@@ -65,6 +87,7 @@ class PolicyNeuralNetwork(Policy):
         print(str(float(self.number_of_decisions_0) / self.decision_counter))
         self.number_of_decisions_0 = 0
         self.decision_counter = 0
+
 
     def get_reward(self, reward):
         # only necessary line in this function

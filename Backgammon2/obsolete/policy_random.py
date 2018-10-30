@@ -1,4 +1,7 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+"""
 import numpy as np
 import torch
 import random
@@ -11,9 +14,7 @@ class PolicyRandom(Policy):
         return "lol"
 
     def evaluate(self, possible_boards):
-        for board in possible_boards:
-            feature_vector = self.get_feature_vector(board)
-        return random.randint(len(possible_boards) - 1)
+        return random.randint(0, len(possible_boards) - 1)
 
     def get_reward(self, reward):
         print("lol")

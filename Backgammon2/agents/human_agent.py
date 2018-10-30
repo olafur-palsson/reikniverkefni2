@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+"""
 import re
 
 import numpy as np
@@ -7,6 +11,15 @@ from backgammon_game import Backgammon
 
 
 def parse_input(s):
+    """
+    Parses the input `s` into `None` or a move.
+
+    Args:
+        s (str): a string which looks something like "3 21"
+    
+    Returns:
+        A move or `None`.
+    """
     s = s.strip()
     if len(s) == 0:
         return []
@@ -19,57 +32,6 @@ def parse_input(s):
             return move
         except:
             return None
-
-
-
-
-def is_first_move_legal(all_legal_moves, first_move):
-
-    print(all_legal_moves)
-    print(first_move)
-
-    if len(all_legal_moves) == 0:
-        # No moves to be made
-        if len(first_move) == 0:
-            return True
-    else:
-        # Some moves are possible
-        for moves in all_legal_moves:
-            # Moves [[1, 2], [3, 4]]
-            if len(moves) == 1 or len(moves) == 2:
-                # 1 legal moves
-                move_1 = moves[0]
-                if first_move[0] == move_1[0] and first_move[1] == move_1[1]:
-                    return True
-            elif len(moves) == 0:
-                # 0 legal moves
-                if len(first_move) == 0:
-                    return True
-            else:
-                raise Exception("This shouldn't have happened!")
-    
-    return False
-
-def is_second_move_legal(all_legal_moves, first_move, second_move):
-
-    for moves in all_legal_moves:
-        # Moves [[1, 2], [3, 4]]
-        if len(moves) == 1 or len(moves) == 2:
-            # 1 legal moves
-            move_1 = moves[0]
-            if first_move[0] == move_1[0] and first_move[1] == move_1[1]:
-                return True
-        elif len(moves) == 0:
-            # 0 legal moves
-            if len(first_move) == 0:
-                return True
-        else:
-            raise Exception("This shouldn't have happened!")
-
-    return False
-
-
-
 
 
 class HumanAgent(AgentInterface):
@@ -136,11 +98,3 @@ class HumanAgent(AgentInterface):
                         print("Invalid second move")
                 else:
                     print("Invalid move")
-
-
-
-
-    
-
-
-

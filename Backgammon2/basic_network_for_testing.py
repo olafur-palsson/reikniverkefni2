@@ -1,12 +1,16 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+This *IS* the neural network under consideration.
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as Function
 import torch.optim as Optimizer
+from torch.autograd import Variable
 import numpy as np
 import datetime
 from functools import reduce
-from torch.autograd import Variable
 from pathlib import Path
 
 learning_rate = 5e-5
@@ -26,8 +30,14 @@ temporal_delay = 3
 counter = 0
 default_file_name = "_".join(str(datetime.datetime.now()).split(" "))
 
+
 # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
 def make_layers():
+    """
+    Create layers for neural network.
+
+    TODO: maybe this should be parameterized in the future?
+    """
     layers = []
     last_width = input_width
     for width in hidden_layers_width:
@@ -43,23 +53,16 @@ def make_layers():
 
 
 class BasicNetworkForTesting():
-
-    def make_settings_file(self):
-        Path(self.settings_file_name).touch()
-        file = open(self.settings_file_name, "w")
-        file.write("Input vector size: " + str(input_width) + "\n")
-        file.write("Hidden layers: " + str(hidden_layers_width) + "\n")
-        file.write("Learning rate: " + str(learning_rate) + "\n")
-        file.close()
-
-    def make_file_name_from_string(self, file_name_root_string):
-        # sets class-wide filename for exporting to files
-        self.model_file_name = "./tests/" + file_name_root_string + " model.pt"
-        self.optimizer_file_name = "./tests/" + file_name_root_string + " optim.pt"
-        self.settings_file_name = "results/" + file_name_root_string + "_settings.pt"
-
+    """
+    Creates a basic neural network for testing... or something like that.
+    """
 
     def __init__(self, load_file_name=False, export=False):
+        """
+        Args:
+            load_file_name (bool): ? default `False`
+            export (bool): ? default `False`
+        """
         # set up file_names for exporting
         self.file_name = load_file_name if load_file_name else default_file_name
         self.make_file_name_from_string(self.file_name)
@@ -96,9 +99,26 @@ class BasicNetworkForTesting():
             # export current settings
             self.make_settings_file()
 
+    def make_settings_file(self):
+        Path(self.settings_file_name).touch()
+        file = open(self.settings_file_name, "w")
+        file.write("Input vector size: " + str(input_width) + "\n")
+        file.write("Hidden layers: " + str(hidden_layers_width) + "\n")
+        file.write("Learning rate: " + str(learning_rate) + "\n")
+        file.close()
+
+
+    def make_file_name_from_string(self, file_name_root_string):
+        # sets class-wide filename for exporting to files
+        self.model_file_name = "./tests/" + file_name_root_string + " model.pt"
+        self.optimizer_file_name = "./tests/" + file_name_root_string + " optim.pt"
+        self.settings_file_name = "results/" + file_name_root_string + "_settings.pt"
+
+
     def export_model(self):
         torch.save(self.model.state_dict(), self.model_file_name)
         torch.save(self.optimizer.state_dict(), self.optimizer_file_name)
+
 
     # run a feature vector through the model accumulating greadient
     def run_decision(self, board_features):
@@ -106,17 +126,46 @@ class BasicNetworkForTesting():
         prediction = self.model(board_features)
         self.predictions = torch.cat((self.predictions, prediction.double()))
 
+
     # run a feature vector through the model without accumulating gradient
     def predict(self, board_features):
+        """
+        Returns the value of the board represented by the feature vector
+        `board_features`.
+
+        This method behaves like the value function.
+
+        Args:
+            board_features (ndarray or list): the feature vector for the board under consideration.
+
+        Returns:
+            The value of the board
+        """
+        # TODO: what does with statement here do?
         with torch.no_grad():
+
+            # I guess this inputs the feature vector (features) into the neural
+            # network, denoted `self.model` and outputs a number (the value of
+            # the board).
             return self.model(board_features)
+
 
     # Function run on the end of each game.
     def get_reward(self, reward):
         """
-            We at this point have accumulated predictions of the network in self.predictions
-            Here we decide what values we should we should move towards. We shall name that
-            vector 'y'
+        We at this point have accumulated predictions of the network in self.predictions
+        Here we decide what values we should move towards. We shall name that
+        vector 'y'
+
+        NOTE: I think this method does all the learning.
+
+        TODO: add a parameter `verbose` or something like that to disable `print`
+
+        TODO: the name of this method should be something like `add_reward` as 
+        this method doesn't return anything (get_...).
+
+        Args:
+            reward (number): the reward (a scalar)
         """
 
         episode_length = len(self.predictions)

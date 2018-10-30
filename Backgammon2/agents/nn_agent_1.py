@@ -8,10 +8,7 @@ import numpy as np
 from agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
-
-
 from policy_neural_network import PolicyNeuralNetwork
-from policy_random import PolicyRandom
 
 
 class NNAgent1(AgentInterface):

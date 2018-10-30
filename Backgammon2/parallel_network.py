@@ -1,4 +1,8 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+A parallel network or something...
+"""
 import torch
 import torch.nn as nn
 import itertools
@@ -27,6 +31,7 @@ def make_layers():
     layers.append(final)
     return layers
 
+
 class Node(nn.Module):
     def __init__(self):
         super(Node, self).__init__()
@@ -42,18 +47,19 @@ class Node(nn.Module):
     def run_decision(self, board):
         return self.model(board)
 
-def make_nodes(n):
+    def make_nodes(n):
 
-    nodes = []
-    for i in range(n):
-        nodes.append(Node())
-    return nodes
+        nodes = []
+        for i in range(n):
+            nodes.append(Node())
+        return nodes
 
-def get_parameters(nodes):
-    chained = []
-    for node in nodes:
-        itertools.chain(chained, node.parameters())
-    return chained
+    def get_parameters(nodes):
+        chained = []
+        for node in nodes:
+            itertools.chain(chained, node.parameters())
+        return chained
+
 
 class ParallelNetwork(nn.Module):
     file_name = 'parallel_test'

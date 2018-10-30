@@ -1,8 +1,11 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+"""
 import numpy as np
 
 from agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
-
 
 
 class RandomAgent(AgentInterface):
@@ -31,6 +34,3 @@ class RandomAgent(AgentInterface):
             move = possible_moves[np.random.randint(len(possible_moves))]
         
         return move
-
-
-
