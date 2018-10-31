@@ -23,15 +23,16 @@ class PolicyNeuralNetwork(Policy):
     decision_counter = 0
     counter = 0
     net = 0
-    last_500 = np.zeros(500)
 
     # Decide what neural network to use
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self):
-        self.net = BasicNetworkForTesting()
-
+    def __init__(self, load_best=False, verbose=False):
+        if load_best:
+            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded="nn_best", verbose=verbose)
+        else:
+            self.net = BasicNetworkForTesting(verbose=verbose)
 
     def evaluate(self, possible_boards):
         """
@@ -68,7 +69,7 @@ class PolicyNeuralNetwork(Policy):
         self.decision_counter += 1
         # move = best_move if random.random() > self.epsilon else random.rand_int(len(possible_boards - 1)) # uncomment for e_greedy
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
-        
+
         return move
 
     def get_file_name(self):
@@ -88,16 +89,14 @@ class PolicyNeuralNetwork(Policy):
         self.number_of_decisions_0 = 0
         self.decision_counter = 0
 
+    def export_network(file_name=False):
+        self.net.export(file_name=file_name)
 
-    def get_reward(self, reward):
+    def add_reward(self, reward):
         # only necessary line in this function
-        self.net.get_reward(reward)
+        self.net.give_reward_to_nn(reward)
 
         # statistics
-        self.last_500[self.counter % 500] = reward
         self.counter += 1
-        exp_return = np.sum(self.last_500) / 500 # this is from -1 to 1
-        print("")
-        print("Expected return")
-        print(exp_return)
+
         self.log_and_reset_number_of_decisions_0()

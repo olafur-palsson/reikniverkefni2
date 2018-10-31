@@ -21,80 +21,99 @@ from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
 
 
-# Print results out to a file (every 100 games)
-def output_result(agent, highest_win_rate, win_rate, p1wins, p2wins, games_played):
-    """
-    Save something from `do_default()`.
-    """
-    file_name = "results/" + agent.get_file_name() + "_result.pt"
-    Path(file_name).touch()
-    file = open(file_name, "w")
-    file.write("Highest win rate last 500: " + str(highest_win_rate) + "\n")
-    file.write("End win rate: " +  str(win_rate) + "\n")
-    file.write("Wins: " + str(p1wins) + "\n")
-    file.write("Loses: " + str(p2wins) + "\n")
-    file.write("Games played: " + str(games_played) + "\n")
-    file.close()
+# Set logs
+verbose = True
 
+
+class Statstics():
+    last_500_wins = np.zeros(500)
+    winners = [0, 0]
+    games_played = 0
+    highest_win_rate = 0
+    win_rate = 0
+    verbose = False
+
+    def __init__(self, agent, verbose=False):
+        self.agent = agent
+        if verbose:
+            self.verbose = True
+
+    def two_digits(self, double_number):
+        return "{0:.2f}".format(double_number)
+
+    def update_win_rate(self, winner):
+        win = 1 if winner > 0 else 0
+        self.last_500_wins[self.games_played % 500] = win
+        self.win_rate = np.sum(self.last_500_wins) / 5
+        if self.win_rate > self.highest_win_rate:
+            self.highest_win_rate = self.win_rate
+
+    def add_win(self, winner, verbose=False):
+        self.games_played += 1
+        self.update_win_rate(winner)
+        i = 0 if winner == 1 else 1
+        self. winners[i] += 1
+        if self.verbose:
+            self.verbose_print()
+
+    def verbose_print(self):
+        string =      "Player 1 : Player 2 : Total     "
+        string +=     str(self.winners[0]) + " : " + str(self.winners[1]) + " : " + str(self.games_played)
+        string +=     "        moving average 500:   "
+        string +=     str(self.win_rate) + "%"
+        string +=     " (max - stddev = "
+        string +=     str(self.two_digits(self.highest_win_rate - 2)) + "%), std-dev of this is ~2%"
+        print("")
+        print(string)
+        print("")
+        print("")
+        print("")
+        print("")
+
+    # Print results out to a file (every 100 games)
+    # agent object needs to have a get_file_name() method!
+    def output_result(self):
+        """
+        Save something from `do_default()`.
+        """
+        file_name = "results/" + self.agent.get_file_name() + "_result.pt"
+        Path(file_name).touch()
+        file = open(file_name, "w")
+        file.write("Highest win rate last 500: " + str(self.highest_win_rate) + "\n")
+        file.write("End win rate: " +  str(self.win_rate) + "\n")
+        file.write("Wins: " + str(self.winners[0]) + "\n")
+        file.write("Loses: " + str(self.winners[1]) + "\n")
+        file.write("Games played: " + str(self.games_played) + "\n")
+        file.close()
 
 def do_default():
     """
-    Do the default think as in Backgammon.py.
+    Play with a neural network against random
     """
-    
-    winners = {
-        "1": 0,
-        "-1": 0
-    }
 
-    nGames = 1000
-    g = 0
-
-    # statistics
-    last_100_wins = np.zeros(500)
-    highest_win_rate = 0
-
-    player1 = NNAgent1()
+    player1 = NNAgent1(verbose=True)
     player2 = RandomAgent()
+
+    stats = Statstics(player1, verbose=True)
 
     output_file_name = player1.get_file_name()
 
     # play games forever
     while True:
-        g = g + 1
 
         bg = Backgammon()
         bg.set_player_1(player1)
         bg.set_player_2(player2)
         winner = bg.play()
 
-        winners[str(winner)] += 1
-
         # Reward the neural network agent
         player1.reward_player(winner)
 
-        # Gather the win/loss of last 500 games
-        win = winner if winner > 0 else 0
-        last_100_wins[g % 500] = win
-        winrate = np.sum(last_100_wins) / 5
-        highest_win_rate = winrate if winrate > highest_win_rate else highest_win_rate
+        stats.add_win(winner)
 
         # Print out a log of game-stats
-        print("")
-        print(winner)
-        print("Player 1 : Player 2 : Total     " + str( winners["1"]) + " : " + str(winners["-1"]) +  " : " + str(g) +  "        moving average 500:   " +  str(winrate) +  "%" + " (max - stddev =" + str(highest_win_rate - 2) + "%), std-dev of this is ~2%")
-        print("")
-        print("")
-        print("")
-        print("")
-        if g % 10 == 0:
-            output_result(player1, highest_win_rate, winrate, winners["1"], winners["-1"], g)
-
-    # Default log that was given with code
-    print("out of", nGames, "games,")
-    print("player", 1, "won", winners["1"],"times and")
-    print("player", -1, "won", winners["-1"],"times")
-
+        if stats.games_played % 10 == 0:
+            stats.output_result()
 
 
 def self_play():
@@ -124,6 +143,9 @@ def random_play():
     bg.set_player_2(player2)
     bg.play(commentary=True, verbose=True)
 
+def nn_vs_nn_export_better_player():
+    print("TODO")
+
 
 def main():
     """
@@ -135,6 +157,7 @@ def main():
     # Arguments
     args = sys.argv[1:]
 
+    # No argument provided
     if len(args) == 0:
         print("Usage: python3 " + str(sys.argv[0]) + " [COMMAND]")
         print("")
@@ -143,13 +166,18 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
+        print("    challange-best-network")
+        # Stop execution if no argument
+        return
 
-    if len(args) == 1 and args[0] == "default":
+    if args[0] == "default":
         do_default()
-    elif len(args) == 1 and args[0] == "self-play":
+    elif args[0] == "self-play":
         self_play()
-    elif len(args) == 1 and args[0] == "random-play":
+    elif args[0] == "random-play":
         random_play()
+    elif args[0] == "challange-best-network":
+        nn_vs_nn_export_better_player()
 
 
 

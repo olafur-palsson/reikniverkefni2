@@ -12,7 +12,7 @@ class Policy():
 
     def get_tesauro_feature_vector(self, board):
         """
-        I think this returns a feature vecture as is used by Tesauro in
+        This returns a feature vecture as is used by Tesauro in
         TD-Gammon.
 
         Args:
@@ -46,7 +46,7 @@ class Policy():
         features = torch.from_numpy(features).float()
         features.requires_grad = True
         return features
-    
+
 
     def get_feature_vector(self, board):
         """
@@ -84,7 +84,7 @@ class Policy():
         return features
 
     # Override these methods
-    def get_reward(self, reward):
+    def add_reward(self, reward):
         raise Exception("Reward function not set")
 
     def evaluate(self, board):
@@ -92,4 +92,3 @@ class Policy():
 
     def get_file_name(self):
         raise Exception("File name not set")
-

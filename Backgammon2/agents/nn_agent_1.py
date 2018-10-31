@@ -13,9 +13,9 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
-    def __init__(self):
-        self.pub_stomper = PolicyNeuralNetwork()
+    def __init__(self, load_best=False, verbose=False):
 
+        self.pub_stomper = PolicyNeuralNetwork(verbose=verbose)
 
     def action(self, board, dice, player):
         """
@@ -38,12 +38,12 @@ class NNAgent1(AgentInterface):
 
 
     def reward_player(self, reward):
-        self.pub_stomper.get_reward(reward)
+        self.pub_stomper.add_reward(reward)
 
 
     def get_file_name(self):
         return self.pub_stomper.get_file_name()
-    
+
 
     def policy(self, possible_moves, possible_boards, dice):
 
@@ -53,5 +53,3 @@ class NNAgent1(AgentInterface):
         # gamli kodinn fyrir random
         # move = possible_moves[np.random.randint(len(possible_moves))]
         return move
-
-
