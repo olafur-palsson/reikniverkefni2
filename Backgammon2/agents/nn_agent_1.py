@@ -36,6 +36,8 @@ class NNAgent1(AgentInterface):
 
         return move
 
+    def export_model(self, file_name=False):
+        self.net.export_model(file_name=file_name)
 
     def reward_player(self, reward):
         self.pub_stomper.add_reward(reward)

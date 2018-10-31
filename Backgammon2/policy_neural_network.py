@@ -28,11 +28,11 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, load_best=False, verbose=False):
+    def __init__(self, load_best=False, verbose=False, export=False):
         if load_best:
-            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded="nn_best", verbose=verbose)
+            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded="nn_best", verbose=verbose, export=True)
         else:
-            self.net = BasicNetworkForTesting(verbose=verbose)
+            self.net = BasicNetworkForTesting(verbose=verbose, export=export)
 
     def evaluate(self, possible_boards):
         """

@@ -19,6 +19,7 @@ from backgammon_game import Backgammon
 from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
+from agents.nn_agent_best_so_far import BestNNAgent
 
 
 # Set logs
@@ -26,6 +27,11 @@ verbose = True
 
 
 class Statstics():
+    # notum til ad skoda hvort tauganetid er consistently betra
+
+    goal_win_rate = 0.54
+
+    last_5000_wins = np.zeros(1500)
     last_500_wins = np.zeros(500)
     winners = [0, 0]
     games_played = 0
@@ -44,9 +50,15 @@ class Statstics():
     def update_win_rate(self, winner):
         win = 1 if winner > 0 else 0
         self.last_500_wins[self.games_played % 500] = win
+        self.last_5000_wins[self.games_played % 5000] = win
         self.win_rate = np.sum(self.last_500_wins) / 5
         if self.win_rate > self.highest_win_rate:
             self.highest_win_rate = self.win_rate
+
+    def nn_is_better(self):
+        if np.sum(self.last_5000_wins) / 5000 > self.goal_win_rate:
+            return True
+        return False
 
     def add_win(self, winner, verbose=False):
         self.games_played += 1
@@ -96,8 +108,6 @@ def do_default():
 
     stats = Statstics(player1, verbose=True)
 
-    output_file_name = player1.get_file_name()
-
     # play games forever
     while True:
 
@@ -114,6 +124,34 @@ def do_default():
         # Print out a log of game-stats
         if stats.games_played % 10 == 0:
             stats.output_result()
+
+def nn_vs_nn_export_better_player():
+    player1 = NNAgent1(verbose=True)
+    player2 = BestNNAgent()
+
+    stats = Statstics(player1, verbose=True)
+
+    while True:
+        bg = Backgammon()
+        bg.set_player_1(player1)
+        bg.set_player_2(player2)
+        winner = bg.play()
+
+        player1.reward_player(winner)
+        player2.reward_player(-1 * winner)
+
+        stats.add_win(winner)
+
+        if stats.nn_is_better():
+            break
+
+    # only way to reach this point is if the current
+    # neural network is better than the BestNNAgent()
+    # ... at least I think so
+    # thus, we export the current as best
+    print("Congratulations, you brought the network one step closer")
+    print("to taking over the world (of backgammon)!!!")
+    player1.export_model(file_name="nn_best_model")
 
 
 def self_play():
@@ -143,8 +181,6 @@ def random_play():
     bg.set_player_2(player2)
     bg.play(commentary=True, verbose=True)
 
-def nn_vs_nn_export_better_player():
-    print("TODO")
 
 
 def main():
@@ -166,7 +202,7 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
-        print("    challange-best-network")
+        print("    challenge-best-network")
         # Stop execution if no argument
         return
 
@@ -176,8 +212,10 @@ def main():
         self_play()
     elif args[0] == "random-play":
         random_play()
-    elif args[0] == "challange-best-network":
+    elif args[0] == "challenge-best-network":
         nn_vs_nn_export_better_player()
+
+    print("Invalid parameter")
 
 
 
