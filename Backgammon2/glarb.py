@@ -154,45 +154,82 @@ def do_glarb():
             "cfg": agent_config,
             "agent": agent,
             "rating": Rating(25, 25/3),
-            "played_games": 0
+            "played_games": 0,
+            "losses": 0,
+            "wins": 0,
+            "agent_config_name": agent_config_name
         }
 
         competitors += [competitior]
 
     # Train
-    n = 100 # 4 * len(competitors)
-    print("Training for " + str(n) + " games")
     
-    for i in range(n):
+    print("Training...")
+    
+    iteration = 0
+    try:
+        while True:
+            iteration += 1
+            print(str(iteration))
 
-        print(str(i + 1) + " / " + str(n))
+            competitor1, competitor2 = random_pair_not_self(competitors)
 
-        competitor1, competitor2 = random_pair_not_self(competitors)
+            player1 = competitor1['agent']
+            player2 = competitor2['agent']
 
-        player1 = competitor1['agent']
-        player2 = competitor2['agent']
+            player1.training = True
+            player2.training = True
 
-        player1.training = True
-        player2.training = True
+            bg = Backgammon()
+            bg.set_player_1(player1)
+            bg.set_player_2(player2)
 
-        bg = Backgammon()
-        bg.set_player_1(player1)
-        bg.set_player_2(player2)
+            # 1 if player 1 won, -1 if player 2 won
+            result = bg.play()
 
-        # 1 if player 1 won, -1 if player 2 won
-        result = bg.play()
+            player1.add_reward(result)
+            player2.add_reward(-result)
 
-        player1.add_reward(result)
-        player2.add_reward(-result)
+            competitor1['played_games'] += 1
+            competitor2['played_games'] += 1
 
-        competitor1['played_games'] += 1
-        competitor2['played_games'] += 1
+            if result == 1:
+                # Player 1 won
+                # Player 2 lost
+                competitor1['wins'] += 1
+                competitor2['losses'] += 1
+            elif result == -1:
+                # Player 1 lost
+                # Player 2 won
+                competitor1['losses'] += 1
+                competitor2['wins'] += 1
+            else:
+                raise Exception("Unexpected result: " + str(result))
 
+            # Rate performance
+            rating1, rating2 = competitor1['rating'], competitor2['rating']
+            competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
 
+            if iteration % 10 == 0:
+                print("Rating of each player")
+                print("")
 
-        # Rate performance
-        rating1, rating2 = competitor1['rating'], competitor2['rating']
-        competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
+                # Sort competitors by their TrueSkill rating.
+                competitors.sort(key=lambda competitor: competitor['rating'])
+
+                for i, competitor in enumerate(competitors):
+                    rating = competitor['rating']
+                    name = competitor['cfg']['name']
+
+                    print("Player " + str(i + 1) + " ("  + name + "): ")
+                    print("    TrueSkill: " + rating_to_string(rating))
+                    print("    Played games: " + str(competitor['played_games']))
+                    print("    Wins/losses: " + str(competitor['wins']) + " / " + str(competitor['losses']))
+                    _wlr = float('inf') if competitor['losses'] == 0 else competitor['wins'] / competitor['losses']
+                    print("    Win/Loss Ratio: " + str(_wlr))
+
+    except:
+        print("Halted!")
 
     print("Rating of each player")
     print("")
@@ -209,3 +246,17 @@ def do_glarb():
         print("    Played games: " + str(competitor['played_games']))
 
     # print("Comparing players")
+
+    print("Saving...")
+    for i, competitor in enumerate(competitors):
+        
+        agent_config_name = competitor['agent_config_name']
+        agent_config = competitor['cfg']
+        agnet = competitor['agent']
+
+        print(agent_config_name)
+        print(agent_config)
+        print(agnet)
+
+
+    print("Exiting...")

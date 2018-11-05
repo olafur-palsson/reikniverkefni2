@@ -98,6 +98,21 @@ class HumanAgent(AgentInterface):
                         print("Invalid second move")
                 else:
                     print("Invalid move")
+
+    def add_action(self, action):
+        pass
     
     def add_reward(self, reward):
+        pass
+
+    def add_state(self, state):
+        pass
+    
+    def get_filename(self):
+        pass
+    
+    def load(self, filepath = None):
+        pass
+    
+    def save(self, filepath = None):
         pass

@@ -1,3 +1,12 @@
+"""
+
+Brain naming convention
+
+
+{agent config. type}-{agent config. name}-{timestamp}[-...]
+
+"""
+
 
 from agents.random_agent import RandomAgent
 from agents.human_agent import HumanAgent
@@ -15,6 +24,16 @@ import os
 
 agent_configs_source = {}
 agent_configs = {}
+
+
+
+
+def get_brain_name(agent_config_type, agent_config_name, timestamp):
+    return None
+
+
+
+
 
 def load_agent_configs(dirname = "configs"):
     """
@@ -70,6 +89,7 @@ def get_agent_config_by_config_name(config_name):
 
     return agent_config
 
+
 def get_agent_by_config_name(config_name):
 
     agent_config = get_agent_config_by_config_name(config_name)
@@ -85,6 +105,8 @@ def get_agent_by_config_name(config_name):
     print(agent_config_type)
 
     # TODO: implement load brain
+
+    # Brain name
 
     agent = None
 

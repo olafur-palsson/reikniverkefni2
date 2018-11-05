@@ -14,7 +14,7 @@ from functools import reduce
 from pathlib import Path
 import copy
 
-from lib.utils import load_file_as_json
+from lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
 
 
 dtype = torch.double
@@ -72,10 +72,8 @@ class BasicNetworkForTesting():
     Creates a basic neural network for testing.
     """
 
-    def __init__(self, file_name_of_network_to_bo_loaded = False, export = False, verbose = False, agent_cfg = None):
+    def __init__(self, file_name_of_network_to_bo_loaded = False, export = False, verbose = False, agent_cfg = None, archive_name = None):
         """
-        Previous parameters: (self, )
-
         Args:
             file_name_of_network_to_bo_loaded: default `False`
 
@@ -125,6 +123,9 @@ class BasicNetworkForTesting():
         # Reward storage for batched learning
         self.rewards = []
 
+        if archive_name:
+            self.import_from_file(archive_name)
+
         # If we want to load a model we input the name of the file, if exists -> load
         if file_name_of_network_to_bo_loaded:
             # import model
@@ -133,6 +134,73 @@ class BasicNetworkForTesting():
         else:
             # export current settings
             self.make_settings_file()
+
+    def export_to_file(self, directory="./repository/"):
+        """
+        Exports everything related to the instantiation of this class to a
+        ZIP file.
+
+        Args:
+            directory: directory where to place archive
+
+        Returns:
+            The path to the ZIP file.
+        """
+
+        # Save settings
+        filename_settings = directory + get_random_string(64)
+        Path(filename_settings).touch()
+        file = open(filename_settings, "w")
+        file.write("Input vector size: " + str(self.agent_cfg['cfg']['neural_network']['input_layer']) + "\n")
+        file.write("Hidden layers: " + str(self.agent_cfg['cfg']['neural_network']['hidden_layers']) + "\n")
+        file.write("Learning rate: " + str(self.agent_cfg['cfg']['sgd']['learning_rate']) + "\n")
+        file.close()
+        filename_settings = rename_file_to_content_addressable(filename_settings, ignore_extension=True, extension="_settings.pt")
+
+        # Save model
+        filename_model = directory + get_random_string(64)
+        torch.save(self.model.state_dict(), filename_model)
+        filename_model = rename_file_to_content_addressable(filename_model, ignore_extension=True, extension="_model.pt")
+
+        # Save optimizer
+        filename_optimizer = directory + get_random_string(64)
+        torch.save(self.optimizer.state_dict(), filename_optimizer)
+        filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
+
+        # Filenames
+        filenames = [
+            filename_settings,
+            filename_model,
+            filename_optimizer
+        ]
+
+        # Archive
+        archive_name = get_random_string(64)
+        
+        archive_files(archive_name, filenames, cleanup = True)
+        archive_name = rename_file_to_content_addressable(archive_name, ignore_extension=True, extension="_bnft.zip")
+    
+
+    def import_from_file(self, archive_name):
+
+        # CHECK IF FILE EXISTS
+
+        filenames = unarchive_archive(archive_name, cleanup=False)
+
+        # [-9:]
+
+        filename_model = None
+        filename_optimizer = None
+
+        for filename in filenames:
+            if filename[-9:] == '_optim.pt':
+                filename_optimizer = filename
+            if filename[-9:] == "_model.pt":
+                filename_model = filename
+
+        self.optimizer.load_state_dict(filename_optimizer)
+        self.model.load_state_dict(filename_model)
+
 
     def make_settings_file(self):
         Path(self.settings_file_name).touch()

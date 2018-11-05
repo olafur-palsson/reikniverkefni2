@@ -69,10 +69,19 @@ class AgentInterface():
         """
         raise Exception("Not implemented!")
 
+    
+    def get_filename(self):
+        """
+        This method should generate a filename for this agent.
+        """
+        raise Exception("Not implemented!")
+
 
     def load(self, filepath = None):
         """
         Loads agent from disk.
+
+        Should use get_filename(...)
 
         Refrain from using `filepath`.
         """
@@ -82,6 +91,8 @@ class AgentInterface():
     def save(self, filepath = None):
         """
         Saves agent to disk.
+
+        Should use get_filename(...)
 
         Refrain from using `filepath`.
         """

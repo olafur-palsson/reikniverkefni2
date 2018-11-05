@@ -46,6 +46,9 @@ class NNAgent1(AgentInterface):
 
         return move
 
+    def add_action(self, action):
+        pass
+
     def export_model(self, file_name=False):
         self.net.export_model(file_name=file_name)
 
@@ -62,7 +65,29 @@ class NNAgent1(AgentInterface):
         if self.training:
             self.pub_stomper.add_reward(reward)
 
+    def add_state(self, state):
+        pass
+
+    def get_filename(self, filename = None):
+        pub_stomper_filename = self.pub_stomper.get_file_name()
+        return pub_stomper_filename
+
+    def load(self, filename):
+        pass
+
+    def save(self, filename = None):
+
+        if filename is None:
+            filename = self.get_filename()
+
+
+        return filename
+
+
+
+
     def get_file_name(self):
+        # obsolete
         return self.pub_stomper.get_file_name()
 
 
