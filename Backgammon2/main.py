@@ -22,6 +22,8 @@ from agents.nn_agent_1 import NNAgent1
 from agents.nn_agent_best_so_far import BestNNAgent
 
 
+
+
 # Set logs
 verbose = True
 
@@ -187,6 +189,20 @@ def random_play():
     bg.play(commentary=True, verbose=True)
 
 
+def test_play():
+    """
+    Makes a human agent play against another (or the same) human agent.
+    """
+
+    player1 = HumanAgent()
+    player2 = BestNNAgent()
+
+    bg = Backgammon()
+    bg.set_player_1(player1)
+    bg.set_player_2(player2)
+    bg.play()
+
+
 
 def main():
     """
@@ -219,6 +235,8 @@ def main():
         random_play()
     elif args[0] == "challange-best-network":
         nn_vs_nn_export_better_player()
+    elif args[0] == "test-play":
+        test_play()
 
     print("Invalid parameter")
 
