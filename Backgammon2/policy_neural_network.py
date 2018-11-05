@@ -89,8 +89,10 @@ class PolicyNeuralNetwork(Policy):
         self.number_of_decisions_0 = 0
         self.decision_counter = 0
 
-    def export_network(file_name=False):
+
+    def export_network(self, file_name=False):
         self.net.export(file_name=file_name)
+
 
     def add_reward(self, reward):
         # only necessary line in this function

@@ -1,0 +1,19 @@
+{
+    "competitors": [
+        {
+            "cfg": "random"
+        },
+        {
+            "cfg": "nn_default"
+        },
+        {
+            "cfg": "nn_default"
+        },
+        {
+            "cfg": "nn_default"
+        },
+        {
+            "cfg": "nn_shallow"
+        }
+    ]
+}

@@ -21,6 +21,8 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 # Make this one the same as the output of the featuere vector
 input_width, output_width = 464, 1
 
+# NOTE: output layer is not hidden
+
 # Decide how many hidden layers
 hidden_layers_width = [250, 250, output_width]
 
