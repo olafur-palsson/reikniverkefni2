@@ -13,9 +13,19 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
-    def __init__(self, load_best=False, verbose=False):
+    def __init__(self, load_best=False, verbose=False, agent_cfg = None):
+        """
+        Creates a neural network agent
 
-        self.pub_stomper = PolicyNeuralNetwork(verbose=verbose)
+        Args:
+            load_best: default `False`
+            verbose: default `False`
+        """
+
+        AgentInterface.__init__(self)
+
+        self.pub_stomper = PolicyNeuralNetwork(load_best = load_best, verbose = verbose, agent_cfg = agent_cfg)
+
 
     def action(self, board, dice, player):
         """
@@ -39,9 +49,18 @@ class NNAgent1(AgentInterface):
     def export_model(self, file_name=False):
         self.net.export_model(file_name=file_name)
 
-    def reward_player(self, reward):
-        self.pub_stomper.add_reward(reward)
 
+    def add_reward(self, reward):
+        """
+        Adds reward `reward` to this neural network agent.  
+
+        NOTE: if you add a reward to the neural network it will immediately
+        train.
+        """
+        
+        # Hence, we only add rewards when we're training..
+        if self.training:
+            self.pub_stomper.add_reward(reward)
 
     def get_file_name(self):
         return self.pub_stomper.get_file_name()

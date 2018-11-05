@@ -6,12 +6,14 @@ from trueskill import Rating, quality_1vs1, rate_1vs1
 
 from pathlib import Path
 
-from agents.agent import get_agent
-
 from lib.utils import load_file_as_json
 from backgammon_game import Backgammon
 
+import numpy as np
+
 import os
+
+from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
 
 
 def update_rating(rating1, rating2, result):
@@ -97,50 +99,113 @@ def ts_test():
         print(str(i) + ": P1 (" + rating_to_string(rating1) + "), P2(" + rating_to_string(rating2) + ")")
 
 
-agent_configs = {}
 
 
-def load_agent_configs():
-    dirname = "configs"
-    agent_config_filenames = list(filter(lambda name: name[0:5] == 'agent' and name[-4:] == 'json', os.listdir(dirname)))
 
-    for agent_config_filename in agent_config_filenames:
-        filepath = str(Path(dirname, agent_config_filename))
-        agent_config = load_file_as_json(filepath)
-        name = agent_config['name']
-        if name not in agent_configs:
-            agent_configs[name] = agent_config
-        else:
-            raise Exception("At least two agent configs. share the same name: " + str(name))
+
+
+
+
+def random_pair_indices_not_self(n):
+    if n == 0:
+        raise Exception("Something went wrong:" + str(n))
+    elif n == 1:
+        return (0, 0)
+    if n > 1:
+        idx1 = np.random.randint(0, n)
+        idx2 = idx1
+        while idx2 == idx1:
+            idx2 = np.random.randint(0, n)
+        return (idx1, idx2)
+    raise Exception("Something went wrong:" + str(n))
+
+def random_pair_not_self(arr):
+    if len(arr) == 0:
+        raise Exception("Shouldn't happen!")
+    elif len(arr) == 1:
+        return (arr[0], arr[0])
+    if len(arr) > 1:
+        n = len(arr)
+        idx1 = np.random.randint(0, n)
+        idx2 = idx1
+        while idx2 == idx1:
+            idx2 = np.random.randint(0, n)
+        return (arr[idx1], arr[idx2])
+    raise Exception("Shouldn't happen!")
 
 
 def do_glarb():
 
-    # Load in agent configurations
-    load_agent_configs()
-
-    
-
+    # Load in information about competitors.
     competitors_info = load_file_as_json("configs/playerbase_test.json")["competitors"]
-    # Load in competitors
     
+    # Load in competitors
     competitors = []
     for competitor_info in competitors_info:
+
         agent_config_name = competitor_info["cfg"]
 
-        agent_config = agent_configs[agent_config_name]
-        agent = get_agent(agent_config)
+        agent_config = get_agent_config_by_config_name(agent_config_name)
+        agent = get_agent_by_config_name(agent_config_name)
+
+        
 
         competitior = {
             "cfg": agent_config,
-            "agent": agent
+            "agent": agent,
+            "rating": Rating(25, 25/3),
+            "played_games": 0
         }
 
         competitors += [competitior]
 
-    print(competitors)
+    # Train
+    n = 100 # 4 * len(competitors)
+    print("Training for " + str(n) + " games")
+    
+    for i in range(n):
+
+        print(str(i + 1) + " / " + str(n))
+
+        competitor1, competitor2 = random_pair_not_self(competitors)
+
+        player1 = competitor1['agent']
+        player2 = competitor2['agent']
+
+        player1.training = True
+        player2.training = True
+
+        bg = Backgammon()
+        bg.set_player_1(player1)
+        bg.set_player_2(player2)
+
+        # 1 if player 1 won, -1 if player 2 won
+        result = bg.play()
+
+        player1.add_reward(result)
+        player2.add_reward(-result)
+
+        competitor1['played_games'] += 1
+        competitor2['played_games'] += 1
 
 
 
+        # Rate performance
+        rating1, rating2 = competitor1['rating'], competitor2['rating']
+        competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
 
-    pass
+    print("Rating of each player")
+    print("")
+
+    # Sort competitors by their TrueSkill rating.
+    competitors.sort(key=lambda competitor: competitor['rating'])
+
+    for i, competitor in enumerate(competitors):
+        rating = competitor['rating']
+        name = competitor['cfg']['name']
+
+        print("Player " + str(i + 1) + " ("  + name + "): ")
+        print("    TrueSkill: " + rating_to_string(rating))
+        print("    Played games: " + str(competitor['played_games']))
+
+    # print("Comparing players")

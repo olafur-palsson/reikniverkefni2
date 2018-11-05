@@ -1,6 +1,6 @@
 {
-	"name": "nn_default",
-	"type": "nn1",
+	"name": "nn_default_best",
+	"type": "best_nn1",
 	"cfg": {
 		"feature_vector": "raw1",
 		"epsilon": 0.15,

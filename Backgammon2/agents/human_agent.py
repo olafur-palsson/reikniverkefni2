@@ -37,7 +37,7 @@ def parse_input(s):
 class HumanAgent(AgentInterface):
 
     def __init__(self):
-        pass
+        AgentInterface.__init__(self)
 
     def action(self, board, dice, player):
         """
@@ -98,3 +98,6 @@ class HumanAgent(AgentInterface):
                         print("Invalid second move")
                 else:
                     print("Invalid move")
+    
+    def add_reward(self, reward):
+        pass

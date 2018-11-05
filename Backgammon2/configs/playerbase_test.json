@@ -4,16 +4,20 @@
             "cfg": "random"
         },
         {
-            "cfg": "nn_default"
+            "cfg": "nn_default:4a62548e2a3cf73f5644a3259507a9ef2d779d1a",
+            "brain": "new"
         },
         {
-            "cfg": "nn_default"
+            "cfg": "nn_default:4a62548e2a3cf73f5644a3259507a9ef2d779d1a",
+            "brain": "best"
         },
         {
-            "cfg": "nn_default"
+            "cfg": "nn_shallow:92ce858d0a8f7f979ad22e191fa72dec32855433",
+            "brain": "new"
         },
         {
-            "cfg": "nn_shallow"
+            "cfg": "nn_shallow:92ce858d0a8f7f979ad22e191fa72dec32855433",
+            "brain": "best"
         }
     ]
 }

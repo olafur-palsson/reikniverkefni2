@@ -33,6 +33,7 @@ def make_layers():
 
 
 class Node(nn.Module):
+    
     def __init__(self):
         super(Node, self).__init__()
         self.model = nn.Sequential(*make_layers())

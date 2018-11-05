@@ -41,8 +41,11 @@ def do_default():
     Play with a neural network against random
     """
 
-    player1 = NNAgent1(verbose=True)
+    player1 = NNAgent1(verbose = True)
     player2 = RandomAgent()
+
+    player1.training = True
+    player2.training = True
 
     stats = Statistic(player1, verbose=True)
 
@@ -54,8 +57,11 @@ def do_default():
         bg.set_player_2(player2)
         winner = bg.play()
 
+        player1.add_reward(winner)
+        player2.add_reward(-winner)
+
         # Reward the neural network agent
-        player1.reward_player(winner)
+        # player1.reward_player(winner)
 
         stats.add_win(winner)
 
@@ -63,8 +69,9 @@ def do_default():
         if stats.games_played % 10 == 0:
             stats.output_result()
 
+
 def nn_vs_nn_export_better_player():
-    player1 = NNAgent1(verbose=True)
+    player1 = NNAgent1(verbose = True)
     player2 = BestNNAgent()
 
     stats = Statistic(player1, verbose=True)

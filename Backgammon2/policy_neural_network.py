@@ -13,10 +13,13 @@ from basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
 
 
+
+
 class PolicyNeuralNetwork(Policy):
 
     # Epsilon for e-greedy
-    epsilon = 0.15
+    # use agent_cfg['cfg']['epsilon'] instead
+    # epsilon = 0.15
 
     # Data for statistics
     number_of_decisions_0 = 0
@@ -28,11 +31,26 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, load_best=False, verbose=False, export=False):
+    def __init__(self, load_best = False, verbose = False, export = False, agent_cfg = None):
+        """
+
+
+        Args:
+            load_best (bool): default `False`
+            verbose (bool): default `False`
+            export (bool): default `False`
+            agent_cfg: default `None`
+        """
+
+        Policy.__init__(self)
+
+        self.verbose = verbose
+
         if load_best:
-            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded="nn_best", verbose=verbose, export=True)
+            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
         else:
-            self.net = BasicNetworkForTesting(verbose=verbose, export=export)
+            self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg)
+
 
     def evaluate(self, possible_boards):
         """
@@ -83,9 +101,10 @@ class PolicyNeuralNetwork(Policy):
 
 
     def log_and_reset_number_of_decisions_0(self):
-        print("")
-        print("% of decisions '0' (first of array), lower is better ")
-        print(str(float(self.number_of_decisions_0) / self.decision_counter))
+        if self.verbose:
+            print("")
+            print("% of decisions '0' (first of array), lower is better ")
+            print(str(float(self.number_of_decisions_0) / self.decision_counter))
         self.number_of_decisions_0 = 0
         self.decision_counter = 0
 

@@ -9,6 +9,15 @@ import torch
 
 # Extend this class to make a policy to have all the feature_vector functions
 class Policy():
+    """
+    A policy.
+    """
+
+    def __init__(self):
+        """
+        Lalala
+        """
+        pass
 
     def get_tesauro_feature_vector(self, board):
         """

@@ -12,47 +12,59 @@ import numpy as np
 import datetime
 from functools import reduce
 from pathlib import Path
+import copy
 
-learning_rate = 5e-5
+from lib.utils import load_file_as_json
+
+
 dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-# Make this one the same as the output of the featuere vector
-input_width, output_width = 464, 1
-
-# NOTE: output layer is not hidden
-
-# Decide how many hidden layers
-hidden_layers_width = [250, 250, output_width]
-
-# If update is with with n-step algorithm, n = td_n
-temporal_delay = 3
-
 default_file_name = "_".join(str(datetime.datetime.now()).split(" "))
+
+default_agent_cfg = load_file_as_json('configs/agent_nn_default.json')
 
 
 # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
-def make_layers():
+def make_layers(agent_cfg):
     """
     Create layers for neural network.
 
     David: Maybe this should be parameterized in the future?
     Oli:   It is possible but wouldn't that just move the setup
            data to a different location?
+    David: Exactly.
     """
+
+    layers_widths = []
+    layers_widths += [ agent_cfg['cfg']['neural_network']['input_layer']   ]
+    layers_widths +=   agent_cfg['cfg']['neural_network']['hidden_layers']
+    layers_widths += [ agent_cfg['cfg']['neural_network']['output_layer']  ]
+
+    # Total number of layers
+    n = len(layers_widths)
+
     layers = []
-    last_width = input_width
-    for width in hidden_layers_width:
-        layers.append(nn.Linear(last_width, width))
-        last_width = width
+
+    for i in range(n - 1):
+        layer_width_left  = layers_widths[i]
+        layer_width_right = layers_widths[i + 1]
+
+        linear_module = nn.Linear(layer_width_left, layer_width_right)
+        
         # layers.append(nn.ReLU()) # uncomment for ReLU
         # layers.append(nn.Dropout(p=0.025)) # uncomment for drop-out
+        layers += [linear_module]
 
-    final = nn.Linear(last_width, output_width)
     # layers.append(nn.ReLU()) # uncomment for ReLU
-    layers.append(final)
+
     return layers
+
+
+
+
+
 
 
 class BasicNetworkForTesting():
@@ -60,23 +72,39 @@ class BasicNetworkForTesting():
     Creates a basic neural network for testing.
     """
 
-    def __init__(self, file_name_of_network_to_bo_loaded=False, export=False, verbose=False):
+    def __init__(self, file_name_of_network_to_bo_loaded = False, export = False, verbose = False, agent_cfg = None):
         """
+        Previous parameters: (self, )
+
         Args:
-            file_name_of_network_to_bo_loaded (bool): default `False`
-            export (bool): ? default `False`
-            verbose (bool): print out logs default `False`
+            file_name_of_network_to_bo_loaded: default `False`
 
         """
+
+        if agent_cfg is None:
+            agent_cfg = copy.deepcopy(default_agent_cfg)
+        
+        self.agent_cfg = agent_cfg
+
+        file_name_of_network_to_bo_loaded = file_name_of_network_to_bo_loaded
+        export = export
+        verbose = verbose
+        
+        self.agent_cfg = agent_cfg
+
         self.last_500 = np.zeros(500)
         self.verbose = verbose
         # set up file_names for exporting
         self.file_name = file_name_of_network_to_bo_loaded if file_name_of_network_to_bo_loaded else default_file_name
+
+        if True:
+            print("TEST:::", self.file_name)
+
         self.make_file_name_from_string(self.file_name)
 
         # make layers in neural network and make the network sequential
         # (i.e) input -> layer_1 -> ... -> layer_n -> output  for layers in 'make_layers()'
-        self.model = nn.Sequential(*make_layers())
+        self.model = nn.Sequential(*make_layers(self.agent_cfg))
 
         # initialize prediction storage
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
@@ -86,7 +114,7 @@ class BasicNetworkForTesting():
 
         # set optimizer for adjusting the weights (e.g Stochastic Gradient Descent, SGD)
         # Note: learning_rate is at the top of the script
-        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum=0.9, lr=learning_rate)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.agent_cfg['cfg']['sgd']['momentum'], lr = self.agent_cfg['cfg']['sgd']['learning_rate'])
 
         # True if should export, False if we throw it away after running
         self.export = export
@@ -109,9 +137,9 @@ class BasicNetworkForTesting():
     def make_settings_file(self):
         Path(self.settings_file_name).touch()
         file = open(self.settings_file_name, "w")
-        file.write("Input vector size: " + str(input_width) + "\n")
-        file.write("Hidden layers: " + str(hidden_layers_width) + "\n")
-        file.write("Learning rate: " + str(learning_rate) + "\n")
+        file.write("Input vector size: " + str(self.agent_cfg['cfg']['neural_network']['input_layer']) + "\n")
+        file.write("Hidden layers: " + str(self.agent_cfg['cfg']['neural_network']['hidden_layers']) + "\n")
+        file.write("Learning rate: " + str(self.agent_cfg['cfg']['sgd']['learning_rate']) + "\n")
         file.close()
 
 
@@ -132,7 +160,6 @@ class BasicNetworkForTesting():
 
     # run a feature vector through the model accumulating greadient
     def run_decision(self, board_features):
-        vector = board_features
         prediction = self.model(board_features)
         self.predictions = torch.cat((self.predictions, prediction.double()))
 
@@ -167,6 +194,10 @@ class BasicNetworkForTesting():
     # Function run on the end of each game.
     def give_reward_to_nn(self, reward):
         """
+
+        TODO: this is problematic because we might not want to train the network yet,
+        i.e. maybe we want to accumulate rewards and games then train
+
         We at this point have accumulated predictions of the network in self.predictions
         Here we decide what values we should move towards. We shall name that
         vector 'y'
@@ -185,9 +216,9 @@ class BasicNetworkForTesting():
         # TD valued reward
         with torch.no_grad():
             for i in range(len(self.predictions)):
-                if i == len(self.predictions) - temporal_delay:
+                if i == len(self.predictions) - self.agent_cfg['cfg']['temporal_delay']:
                     break
-                y[i] = self.predictions[i + temporal_delay]
+                y[i] = self.predictions[i + self.agent_cfg['cfg']['temporal_delay']]
 
         self.rewards.append(y)
 

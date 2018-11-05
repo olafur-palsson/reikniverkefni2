@@ -5,9 +5,11 @@
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
-		"input_layer": 464,
-		"hidden_layers": [],
-		"output_layer": 1,
+		"neural_network": {
+			"input_layer": 464,
+			"hidden_layers": [],
+			"output_layer": 1
+		},
 		"temporal_delay": 3,
 		"sgd": {
 			"momentum": 0.9,

@@ -15,7 +15,11 @@ class Statistic():
     win_rate = 0
     verbose = False
 
-    def __init__(self, agent, verbose=False):
+    def __init__(self, agent=None, verbose=False):
+
+        if agent is None:
+            raise Exception("lawl")
+
         self.agent = agent
         if verbose:
             self.verbose = True
@@ -53,9 +57,6 @@ class Statistic():
         string +=     str(self.two_digits(self.highest_win_rate - 2)) + "%), std-dev of this is ~2%"
         print("")
         print(string)
-        print("")
-        print("")
-        print("")
         print("")
 
     # Print results out to a file (every 100 games)

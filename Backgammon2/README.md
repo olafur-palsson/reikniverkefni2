@@ -1,6 +1,10 @@
 # Backgammon
 Backgammon interface for the final project in Computational Intelligence
 
+## Setup
+
+* https://pypi.org/project/trueskill/
+
 ## The board interpretation
 The two players are defined as player 1 and player -1.
 The board then currently has 29 positions:
