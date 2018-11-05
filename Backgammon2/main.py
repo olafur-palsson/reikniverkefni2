@@ -29,9 +29,14 @@ verbose = True
 class Statstics():
     # notum til ad skoda hvort tauganetid er consistently betra
 
-    goal_win_rate = 0.54
+    # likur a ad nn se betra eru tha 98.9% i hvert skipti sem er tekkad
+    # vid tekkum hver 100 skipti svo vid ovart setjum ekki jafn gott/verra net
+    # i stadinn fyrir thad besta (ef thad winnur 51% skipta tha verdur thad
+    # nogu heppid a ~2000 leikja fresti)
+    goal_win_rate = 0.537
 
-    last_5000_wins = np.zeros(1500)
+
+    last_5000_wins = np.zeros(1000)
     last_500_wins = np.zeros(500)
     winners = [0, 0]
     games_played = 0
@@ -142,7 +147,7 @@ def nn_vs_nn_export_better_player():
 
         stats.add_win(winner)
 
-        if stats.nn_is_better():
+        if stats.nn_is_better() and stats.games_played % 100 == 0:
             break
 
     # only way to reach this point is if the current
@@ -202,7 +207,7 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
-        print("    challenge-best-network")
+        print("    challange-best-network")
         # Stop execution if no argument
         return
 
@@ -212,7 +217,7 @@ def main():
         self_play()
     elif args[0] == "random-play":
         random_play()
-    elif args[0] == "challenge-best-network":
+    elif args[0] == "challange-best-network":
         nn_vs_nn_export_better_player()
 
     print("Invalid parameter")
