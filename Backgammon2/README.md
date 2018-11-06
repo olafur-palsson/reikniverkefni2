@@ -5,6 +5,13 @@ Backgammon interface for the final project in Computational Intelligence
 
 * https://pypi.org/project/trueskill/
 
+Run, 
+
+```bash
+pip install trueskill
+``` 
+
+
 ## The board interpretation
 The two players are defined as player 1 and player -1.
 The board then currently has 29 positions:
