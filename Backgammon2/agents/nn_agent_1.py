@@ -13,9 +13,21 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
-    def __init__(self, load_best=False, verbose=False):
+    def __init__(self, load_best=False, verbose=False, agent_cfg = None, archive_name=None):
+        """
+        Creates a neural network agent.
 
-        self.pub_stomper = PolicyNeuralNetwork(verbose=verbose)
+        To load the best NNAgent1 simply set load_best=True
+
+        Args:
+            load_best: default `False`
+            verbose: default `False`
+        """
+
+        AgentInterface.__init__(self)
+
+        self.pub_stomper = PolicyNeuralNetwork(load_best = load_best, verbose = verbose, agent_cfg = agent_cfg, archive_name=archive_name)
+
 
     def action(self, board, dice, player):
         """
@@ -36,14 +48,39 @@ class NNAgent1(AgentInterface):
 
         return move
 
+    def add_action(self, action):
+        pass
+
     def export_model(self, file_name=False):
         self.net.export_model(file_name=file_name)
 
-    def reward_player(self, reward):
-        self.pub_stomper.add_reward(reward)
+
+    def add_reward(self, reward):
+        """
+        Adds reward `reward` to this neural network agent.  
+
+        NOTE: if you add a reward to the neural network it will immediately
+        train.
+        """
+        
+        # Hence, we only add rewards when we're training..
+        if self.training:
+            self.pub_stomper.add_reward(reward)
+
+    def add_state(self, state):
+        pass
+
+    def load(self, filename):
+        self.pub_stomper.load(filename)
+
+    def save(self, filename = None):
+        return self.pub_stomper.save()
+
+
 
 
     def get_file_name(self):
+        # obsolete
         return self.pub_stomper.get_file_name()
 
 

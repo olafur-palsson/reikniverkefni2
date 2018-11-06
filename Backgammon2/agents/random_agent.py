@@ -34,3 +34,12 @@ class RandomAgent(AgentInterface):
             move = possible_moves[np.random.randint(len(possible_moves))]
         
         return move
+    
+    def add_reward(self, reward):
+        pass
+
+    def save(self):
+        pass
+    
+    def load(self):
+        pass

@@ -19,7 +19,12 @@ from backgammon_game import Backgammon
 from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
-from agents.nn_agent_best_so_far import BestNNAgent
+
+from statistic import Statistic
+
+from glarb import do_glarb
+
+
 
 
 
@@ -28,92 +33,19 @@ from agents.nn_agent_best_so_far import BestNNAgent
 verbose = True
 
 
-class Statstics():
-    # notum til ad skoda hvort tauganetid er consistently betra
-
-    # likur a ad nn se betra eru tha 98.9% i hvert skipti sem er tekkad
-    # vid tekkum hver 100 skipti svo vid ovart setjum ekki jafn gott/verra net
-    # i stadinn fyrir thad besta (ef thad winnur 51% skipta tha verdur thad
-    # nogu heppid a ~2000 leikja fresti)
-    goal_win_rate = 0.537
-
-
-    last_5000_wins = np.zeros(1000)
-    last_500_wins = np.zeros(500)
-    winners = [0, 0]
-    games_played = 0
-    highest_win_rate = 0
-    win_rate = 0
-    verbose = False
-
-    def __init__(self, agent, verbose=False):
-        self.agent = agent
-        if verbose:
-            self.verbose = True
-
-    def two_digits(self, double_number):
-        return "{0:.2f}".format(double_number)
-
-    def update_win_rate(self, winner):
-        win = 1 if winner > 0 else 0
-        self.last_500_wins[self.games_played % 500] = win
-        self.last_5000_wins[self.games_played % 5000] = win
-        self.win_rate = np.sum(self.last_500_wins) / 5
-        if self.win_rate > self.highest_win_rate:
-            self.highest_win_rate = self.win_rate
-
-    def nn_is_better(self):
-        if np.sum(self.last_5000_wins) / 5000 > self.goal_win_rate:
-            return True
-        return False
-
-    def add_win(self, winner, verbose=False):
-        self.games_played += 1
-        self.update_win_rate(winner)
-        i = 0 if winner == 1 else 1
-        self. winners[i] += 1
-        if self.verbose:
-            self.verbose_print()
-
-    def verbose_print(self):
-        string =      "Player 1 : Player 2 : Total     "
-        string +=     str(self.winners[0]) + " : " + str(self.winners[1]) + " : " + str(self.games_played)
-        string +=     "        moving average 500:   "
-        string +=     str(self.win_rate) + "%"
-        string +=     " (max - stddev = "
-        string +=     str(self.two_digits(self.highest_win_rate - 2)) + "%), std-dev of this is ~2%"
-        print("")
-        print(string)
-        print("")
-        print("")
-        print("")
-        print("")
-
-    # Print results out to a file (every 100 games)
-    # agent object needs to have a get_file_name() method!
-    def output_result(self):
-        """
-        Save something from `do_default()`.
-        """
-        file_name = "results/" + self.agent.get_file_name() + "_result.pt"
-        Path(file_name).touch()
-        file = open(file_name, "w")
-        file.write("Highest win rate last 500: " + str(self.highest_win_rate) + "\n")
-        file.write("End win rate: " +  str(self.win_rate) + "\n")
-        file.write("Wins: " + str(self.winners[0]) + "\n")
-        file.write("Loses: " + str(self.winners[1]) + "\n")
-        file.write("Games played: " + str(self.games_played) + "\n")
-        file.close()
 
 def do_default():
     """
     Play with a neural network against random
     """
 
-    player1 = NNAgent1(verbose=True)
+    player1 = NNAgent1(verbose = True)
     player2 = RandomAgent()
 
-    stats = Statstics(player1, verbose=True)
+    player1.training = True
+    player2.training = True
+
+    stats = Statistic(player1, verbose=True)
 
     # play games forever
     while True:
@@ -123,8 +55,11 @@ def do_default():
         bg.set_player_2(player2)
         winner = bg.play()
 
+        player1.add_reward(winner)
+        player2.add_reward(-winner)
+
         # Reward the neural network agent
-        player1.reward_player(winner)
+        # player1.reward_player(winner)
 
         stats.add_win(winner)
 
@@ -132,11 +67,14 @@ def do_default():
         if stats.games_played % 10 == 0:
             stats.output_result()
 
-def nn_vs_nn_export_better_player():
-    player1 = NNAgent1(verbose=True)
-    player2 = BestNNAgent()
 
-    stats = Statstics(player1, verbose=True)
+def nn_vs_nn_export_better_player():
+    player1 = NNAgent1(verbose = True)
+    player2 = NNAgent1(load_best=True)
+
+    
+
+    stats = Statistic(player1, verbose=True)
 
     while True:
         bg = Backgammon()
@@ -144,8 +82,8 @@ def nn_vs_nn_export_better_player():
         bg.set_player_2(player2)
         winner = bg.play()
 
-        player1.reward_player(winner)
-        player2.reward_player(-1 * winner)
+        player1.add_reward(winner)
+        player2.add_reward(-1 * winner)
 
         stats.add_win(winner)
 
@@ -195,12 +133,20 @@ def test_play():
     """
 
     player1 = HumanAgent()
-    player2 = BestNNAgent()
+    player2 = NNAgent1(load_best=True)
 
     bg = Backgammon()
     bg.set_player_1(player1)
     bg.set_player_2(player2)
     bg.play()
+
+
+
+
+
+def test_glarb():
+    do_glarb()
+
 
 
 
@@ -237,8 +183,10 @@ def main():
         nn_vs_nn_export_better_player()
     elif args[0] == "test-play":
         test_play()
-
-    print("Invalid parameter")
+    elif args[0] == "glarb":
+        test_glarb()
+    else:
+        print("Say what?")
 
 
 

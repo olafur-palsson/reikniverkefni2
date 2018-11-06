@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 
+
+
 TODO: epsilon should be a parameter for this class, and also whether
 one wants to use Parallel Network.
 """
@@ -13,10 +15,13 @@ from basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
 
 
+
+
 class PolicyNeuralNetwork(Policy):
 
     # Epsilon for e-greedy
-    epsilon = 0.15
+    # use agent_cfg['cfg']['epsilon'] instead
+    # epsilon = 0.15
 
     # Data for statistics
     number_of_decisions_0 = 0
@@ -28,11 +33,30 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, load_best=False, verbose=False, export=False):
-        if load_best:
-            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded="nn_best", verbose=verbose, export=True)
-        else:
-            self.net = BasicNetworkForTesting(verbose=verbose, export=export)
+    def __init__(self, load_best = False, verbose = False, export = False, agent_cfg = None, archive_name = None):
+        """
+
+
+        Args:
+            load_best (bool): default `False`
+            verbose (bool): default `False`
+            export (bool): default `False`
+            agent_cfg: default `None`
+            archive_name: default `None`.
+        """
+
+        Policy.__init__(self)
+
+        self.verbose = verbose
+
+        self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg, archive_name=archive_name)
+
+        if False:
+            if load_best:
+                self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
+            else:
+                self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg)
+
 
     def evaluate(self, possible_boards):
         """
@@ -72,6 +96,12 @@ class PolicyNeuralNetwork(Policy):
 
         return move
 
+    def save(self):
+        return self.net.save()
+    
+    def load(self, filename):
+        self.net.load(filename)
+
     def get_file_name(self):
         """
         Returns the file name for this neural network attached to this instance.
@@ -83,14 +113,17 @@ class PolicyNeuralNetwork(Policy):
 
 
     def log_and_reset_number_of_decisions_0(self):
-        print("")
-        print("% of decisions '0' (first of array), lower is better ")
-        print(str(float(self.number_of_decisions_0) / self.decision_counter))
+        if self.verbose:
+            print("")
+            print("% of decisions '0' (first of array), lower is better ")
+            print(str(float(self.number_of_decisions_0) / self.decision_counter))
         self.number_of_decisions_0 = 0
         self.decision_counter = 0
 
-    def export_network(file_name=False):
+
+    def export_network(self, file_name=False):
         self.net.export(file_name=file_name)
+
 
     def add_reward(self, reward):
         # only necessary line in this function
