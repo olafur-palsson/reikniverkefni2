@@ -5,9 +5,14 @@ import numpy as np
 class Statistic():
     # notum til ad skoda hvort tauganetid er consistently betra
 
-    goal_win_rate = 0.54
+    # likur a ad nn se betra eru tha 98.9% i hvert skipti sem er tekkad
+    # vid tekkum hver 100 skipti svo vid ovart setjum ekki jafn gott/verra net
+    # i stadinn fyrir thad besta (ef thad winnur 51% skipta tha verdur thad
+    # nogu heppid a ~2000 leikja fresti)
+    goal_win_rate = 0.537
 
-    last_5000_wins = np.zeros(1500)
+
+    last_5000_wins = np.zeros(1000)
     last_500_wins = np.zeros(500)
     winners = [0, 0]
     games_played = 0
@@ -15,11 +20,7 @@ class Statistic():
     win_rate = 0
     verbose = False
 
-    def __init__(self, agent=None, verbose=False):
-
-        if agent is None:
-            raise Exception("lawl")
-
+    def __init__(self, agent, verbose=False):
         self.agent = agent
         if verbose:
             self.verbose = True
@@ -58,6 +59,9 @@ class Statistic():
         print("")
         print(string)
         print("")
+        print("")
+        print("")
+        print("")
 
     # Print results out to a file (every 100 games)
     # agent object needs to have a get_file_name() method!
@@ -74,3 +78,6 @@ class Statistic():
         file.write("Loses: " + str(self.winners[1]) + "\n")
         file.write("Games played: " + str(self.games_played) + "\n")
         file.close()
+
+
+
