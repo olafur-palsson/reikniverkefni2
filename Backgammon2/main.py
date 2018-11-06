@@ -20,6 +20,8 @@ from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
 
+from lib.utils import hash_json, load_file_as_json
+
 from statistic import Statistic
 
 from glarb import do_glarb
@@ -169,7 +171,9 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
-        print("    challange-best-network")
+        print("    challenge-best-network")
+        print("    glarb")
+        print("    jsonhash <path to json>")
         # Stop execution if no argument
         return
 
@@ -179,12 +183,18 @@ def main():
         self_play()
     elif args[0] == "random-play":
         random_play()
-    elif args[0] == "challange-best-network":
+    elif args[0] == "challenge-best-network":
         nn_vs_nn_export_better_player()
     elif args[0] == "test-play":
         test_play()
     elif args[0] == "glarb":
         test_glarb()
+    elif args[0] == "jsonhash":
+        try:
+            path = " ".join(args[1:])
+            print(hash_json(load_file_as_json(path)))
+        except:
+            print("File is not JSON.")
     else:
         print("Say what?")
 

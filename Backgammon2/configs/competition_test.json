@@ -4,19 +4,19 @@
             "cfg": "random"
         },
         {
-            "cfg": "nn_default:4a62548e2a3cf73f5644a3259507a9ef2d779d1a",
+            "cfg": "nn_default:8183752bee5fa6bd34640fccb1f8fcc7379368bf",
             "brain": "new"
         },
         {
-            "cfg": "nn_default:4a62548e2a3cf73f5644a3259507a9ef2d779d1a",
+            "cfg": "nn_shallow:885f8d1a516fd11917aa43227cfe24c0f2b2c065",
+            "brain": "new"
+        },
+        {
+            "cfg": "nn_default:8183752bee5fa6bd34640fccb1f8fcc7379368bf",
             "brain": "best"
         },
         {
-            "cfg": "nn_shallow:92ce858d0a8f7f979ad22e191fa72dec32855433",
-            "brain": "new"
-        },
-        {
-            "cfg": "nn_shallow:92ce858d0a8f7f979ad22e191fa72dec32855433",
+            "cfg": "nn_shallow:885f8d1a516fd11917aa43227cfe24c0f2b2c065",
             "brain": "best"
         }
     ]
