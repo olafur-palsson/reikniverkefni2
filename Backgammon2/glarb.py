@@ -6,7 +6,7 @@ from trueskill import Rating, quality_1vs1, rate_1vs1
 
 from pathlib import Path
 
-from lib.utils import load_file_as_json, does_file_exist, save_json_to_file
+from lib.utils import load_file_as_json, does_file_exist, save_json_to_file, hash_json, timestamp
 from backgammon_game import Backgammon
 
 import numpy as np
@@ -50,16 +50,6 @@ def update_rating(rating1, rating2, result):
     return (new_rating1, new_rating2)
 
 
-def test2():
-    # Assign Alice and Bob's ratings
-    alice = Rating(mu=25.000, sigma=8.333)
-    bob = Rating(mu=25.000, sigma=8.333)
-
-
-    alice2, bob2 = update_rating(alice, bob, 0)
-    
-    print(alice, bob)
-    print(alice2, bob2)
 
 
 
@@ -73,54 +63,6 @@ def rating_to_string(rating):
     return "µ = " + str.format(fmt_s, mu) + ", σ = " + str.format(fmt_s, sigma)
 
 
-def ts_test():
-    player1 = RandomAgent()
-    player2 = BestNNAgent()
-
-    rating1 = Rating()
-    rating2 = Rating()
-
-    # Play n games
-
-    n = 100
-
-    print("P1: " + str("random"))
-    print("P2: " + str("best NN"))
-
-    i = 0
-    print(str(i) + ": P1 (" + rating_to_string(rating1) + "), P2(" + rating_to_string(rating2) + ")")
-
-    while True:
-        print('{:.1%} chance to draw'.format(quality_1vs1(rating1, rating2)))
-        bg = Backgammon()
-        bg.set_player_1(player1)
-        bg.set_player_2(player2)
-        result = bg.play()
-        print(result)
-        rating1, rating2 = update_rating(rating1, rating2, result)
-        i += 1
-        print(str(i) + ": P1 (" + rating_to_string(rating1) + "), P2(" + rating_to_string(rating2) + ")")
-
-
-
-
-
-
-
-
-
-def random_pair_indices_not_self(n):
-    if n == 0:
-        raise Exception("Something went wrong:" + str(n))
-    elif n == 1:
-        return (0, 0)
-    if n > 1:
-        idx1 = np.random.randint(0, n)
-        idx2 = idx1
-        while idx2 == idx1:
-            idx2 = np.random.randint(0, n)
-        return (idx1, idx2)
-    raise Exception("Something went wrong:" + str(n))
 
 def random_pair_not_self(arr):
     if len(arr) == 0:
@@ -139,8 +81,6 @@ def random_pair_not_self(arr):
 
 
 
-        
-
 
 
 
@@ -148,7 +88,10 @@ def random_pair_not_self(arr):
 
 def do_glarb():
 
+    
+
     competition = load_file_as_json("configs/competition_test.json")
+
     competitors_info = competition["competitors"]
 
     # Load in information about competitors.
@@ -165,17 +108,18 @@ def do_glarb():
 
         
 
-        competitior = {
+        competitor = {
             "cfg": agent_config,
             "agent": agent,
             "rating": Rating(25, 25/3),
             "played_games": 0,
             "losses": 0,
             "wins": 0,
-            "agent_config_name": agent_config_name
+            "agent_config_name": agent_config_name,
+            "brain": brain
         }
 
-        competitors += [competitior]
+        competitors += [competitor]
 
     # Train
     
@@ -266,6 +210,13 @@ def do_glarb():
 
     manifest = Manifest("./repository/manifest.json")
     manifest.load()
+    # competition
+
+    competition_config_hash = hash_json(competition)
+
+    competition_result = {
+        "competitor_result_hashes": []
+    }
     
     for i, competitor in enumerate(competitors):
         
@@ -273,27 +224,64 @@ def do_glarb():
         agent_config = competitor['cfg']
         agent = competitor['agent']
 
+
+        agent_config_hash = hash_json(competitor["cfg"])
+
         print(competitor['agent'])
 
-        filename = agent.save()
-        print("> " + str(filename))
+        brain_location = agent.save()
+        print("> " + str(brain_location))
 
-        if filename:
+        competitor_result = {
+            "trueskill_rating": {
+                "mu": competitor['rating'].mu,
+                "sigma": competitor['rating'].sigma
+            },
+            "wins": competitor['wins'],
+            "losses": competitor['losses'],
+            "competition_config_hash": competition_config_hash,
+            "timestamp": timestamp(),
+            "agent_config_hash": agent_config_hash,
+            "played_games": competitor["played_games"]
+        }
 
-            info = {
-                "rating": {
-                    "mu": competitor['rating'].mu,
-                    "sigma": competitor['rating'].sigma
-                },
-                "wins": competitor['wins'],
-                "losses": competitor['losses'],
-                "agent_config_name": competitor['agent_config_name']
-            }
+        
 
-            manifest.set(
-                "filenames{}" + filename + "{}log[]+",
-                info
-            )
+        if brain_location:
+            competitor_result["brain_location"] = brain_location
+
+        competitor_result_hash = hash_json(competitor_result)
+
+        competition_result["competitor_result_hashes"] += [competitor_result_hash]
+
+        manifest.set("competitor_result{}" + competitor_result_hash, competitor_result)
+        manifest.set("agent{}" + agent_config_hash + "{}competitions[]+", competitor_result_hash)
+
+        manifest.set("agent_config{}" + agent_config_hash + "{}name", agent_config_name)
+
+
+        try:
+            best_trueskill = manifest.get("agent_config{}" + agent_config_hash + "{}best{}trueskill")
+
+            a = competitor_result["trueskill_rating"]["mu"] - competitor_result["trueskill_rating"]["sigma"]
+            b = best_trueskill["mu"] - best_trueskill["sigma"]
+
+            if a > b:
+                manifest.set("agent_config{}" + agent_config_hash + "{}best{}trueskill", competitor_result["trueskill_rating"])
+                manifest.set("agent_config{}" + agent_config_hash + "{}best{}competitor_result_hash", competitor_result_hash)
+        except:
+            manifest.set("agent_config{}" + agent_config_hash + "{}best{}trueskill", competitor_result["trueskill_rating"])
+            manifest.set("agent_config{}" + agent_config_hash + "{}best{}competitor_result_hash", competitor_result_hash)
+
+
+    competition_result_hash = hash_json(competition_result)
+
+    competition_hash = hash_json(competition)
+
+    manifest.set("competition{}" + competition_hash + "{}results{}" + competition_result_hash, competition_result)
+    
+
+        
     
     manifest.save()
 
