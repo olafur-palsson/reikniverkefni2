@@ -6,7 +6,7 @@ from trueskill import Rating, quality_1vs1, rate_1vs1
 
 from pathlib import Path
 
-from lib.utils import load_file_as_json
+from lib.utils import load_file_as_json, does_file_exist, save_json_to_file
 from backgammon_game import Backgammon
 
 import numpy as np
@@ -14,6 +14,9 @@ import numpy as np
 import os
 
 from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
+
+
+from lib.manifest import Manifest
 
 
 def update_rating(rating1, rating2, result):
@@ -134,19 +137,31 @@ def random_pair_not_self(arr):
     raise Exception("Shouldn't happen!")
 
 
+
+
+        
+
+
+
+
+
+
 def do_glarb():
 
+    competition = load_file_as_json("configs/competition_test.json")
+    competitors_info = competition["competitors"]
+
     # Load in information about competitors.
-    competitors_info = load_file_as_json("configs/playerbase_test.json")["competitors"]
     
     # Load in competitors
     competitors = []
     for competitor_info in competitors_info:
 
         agent_config_name = competitor_info["cfg"]
+        brain = competitor_info["brain"] if "brain" in competitor_info else "new"
 
         agent_config = get_agent_config_by_config_name(agent_config_name)
-        agent = get_agent_by_config_name(agent_config_name)
+        agent = get_agent_by_config_name(agent_config_name, brain)
 
         
 
@@ -248,15 +263,39 @@ def do_glarb():
     # print("Comparing players")
 
     print("Saving...")
+
+    manifest = Manifest("./repository/manifest.json")
+    manifest.load()
+    
     for i, competitor in enumerate(competitors):
         
         agent_config_name = competitor['agent_config_name']
         agent_config = competitor['cfg']
-        agnet = competitor['agent']
+        agent = competitor['agent']
 
-        print(agent_config_name)
-        print(agent_config)
-        print(agnet)
+        print(competitor['agent'])
+
+        filename = agent.save()
+        print("> " + str(filename))
+
+        if filename:
+
+            info = {
+                "rating": {
+                    "mu": competitor['rating'].mu,
+                    "sigma": competitor['rating'].sigma
+                },
+                "wins": competitor['wins'],
+                "losses": competitor['losses'],
+                "agent_config_name": competitor['agent_config_name']
+            }
+
+            manifest.set(
+                "filenames{}" + filename + "{}log[]+",
+                info
+            )
+    
+    manifest.save()
 
 
     print("Exiting...")

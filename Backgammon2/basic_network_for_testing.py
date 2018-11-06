@@ -62,7 +62,12 @@ def make_layers(agent_cfg):
     return layers
 
 
-
+def weights_init(m):
+    classname = m.__class__.__name__
+    # print(classname)
+    if classname.find('Linear') != -1:
+        # print(m.weight)
+        pass
 
 
 
@@ -76,7 +81,10 @@ class BasicNetworkForTesting():
         """
         Args:
             file_name_of_network_to_bo_loaded: default `False`
-
+            export: default `False` 
+            verbose: default `False`
+            agent_cfg: default `False`
+            archive_name: default `None`
         """
 
         if agent_cfg is None:
@@ -95,14 +103,14 @@ class BasicNetworkForTesting():
         # set up file_names for exporting
         self.file_name = file_name_of_network_to_bo_loaded if file_name_of_network_to_bo_loaded else default_file_name
 
-        if True:
-            print("TEST:::", self.file_name)
 
         self.make_file_name_from_string(self.file_name)
 
         # make layers in neural network and make the network sequential
         # (i.e) input -> layer_1 -> ... -> layer_n -> output  for layers in 'make_layers()'
         self.model = nn.Sequential(*make_layers(self.agent_cfg))
+
+        self.model.apply(weights_init)
 
         # initialize prediction storage
         self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
@@ -126,16 +134,18 @@ class BasicNetworkForTesting():
         if archive_name:
             self.import_from_file(archive_name)
 
-        # If we want to load a model we input the name of the file, if exists -> load
-        if file_name_of_network_to_bo_loaded:
-            # import model
-            self.optimizer.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_optim.pt"))
-            self.model.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_model.pt"))
-        else:
-            # export current settings
-            self.make_settings_file()
+        if False:
+            # If we want to load a model we input the name of the file, if exists -> load
+            if file_name_of_network_to_bo_loaded:
+                # import model
+                self.optimizer.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_optim.pt"))
+                self.model.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_model.pt"))
+            else:
+                # export current settings
+                self.make_settings_file()
 
-    def export_to_file(self, directory="./repository/"):
+
+    def save(self, directory="./repository/"):
         """
         Exports everything related to the instantiation of this class to a
         ZIP file.
@@ -146,6 +156,8 @@ class BasicNetworkForTesting():
         Returns:
             The path to the ZIP file.
         """
+
+        print("SAVING...")
 
         # Save settings
         filename_settings = directory + get_random_string(64)
@@ -175,13 +187,15 @@ class BasicNetworkForTesting():
         ]
 
         # Archive
-        archive_name = get_random_string(64)
+        archive_name = directory + get_random_string(64)
         
         archive_files(archive_name, filenames, cleanup = True)
         archive_name = rename_file_to_content_addressable(archive_name, ignore_extension=True, extension="_bnft.zip")
+
+        return archive_name
     
 
-    def import_from_file(self, archive_name):
+    def load(self, archive_name):
 
         # CHECK IF FILE EXISTS
 
@@ -301,6 +315,7 @@ class BasicNetworkForTesting():
 
         # Export model each 100 episodes
         self.counter += 1
+
         if self.counter % 100 == 0 and self.export:
             self.export_model()
 

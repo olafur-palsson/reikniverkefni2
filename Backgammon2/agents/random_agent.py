@@ -37,3 +37,9 @@ class RandomAgent(AgentInterface):
     
     def add_reward(self, reward):
         pass
+
+    def save(self):
+        pass
+    
+    def load(self):
+        pass

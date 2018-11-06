@@ -108,9 +108,6 @@ class HumanAgent(AgentInterface):
     def add_state(self, state):
         pass
     
-    def get_filename(self):
-        pass
-    
     def load(self, filepath = None):
         pass
     

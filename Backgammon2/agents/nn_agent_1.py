@@ -13,9 +13,11 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
-    def __init__(self, load_best=False, verbose=False, agent_cfg = None):
+    def __init__(self, load_best=False, verbose=False, agent_cfg = None, archive_name=None):
         """
-        Creates a neural network agent
+        Creates a neural network agent.
+
+        To load the best NNAgent1 simply set load_best=True
 
         Args:
             load_best: default `False`
@@ -24,7 +26,7 @@ class NNAgent1(AgentInterface):
 
         AgentInterface.__init__(self)
 
-        self.pub_stomper = PolicyNeuralNetwork(load_best = load_best, verbose = verbose, agent_cfg = agent_cfg)
+        self.pub_stomper = PolicyNeuralNetwork(load_best = load_best, verbose = verbose, agent_cfg = agent_cfg, archive_name=archive_name)
 
 
     def action(self, board, dice, player):
@@ -68,20 +70,11 @@ class NNAgent1(AgentInterface):
     def add_state(self, state):
         pass
 
-    def get_filename(self, filename = None):
-        pub_stomper_filename = self.pub_stomper.get_file_name()
-        return pub_stomper_filename
-
     def load(self, filename):
-        pass
+        self.pub_stomper.load(filename)
 
     def save(self, filename = None):
-
-        if filename is None:
-            filename = self.get_filename()
-
-
-        return filename
+        return self.pub_stomper.save()
 
 
 

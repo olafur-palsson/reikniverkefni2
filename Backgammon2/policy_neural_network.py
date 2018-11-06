@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 
+
+
 TODO: epsilon should be a parameter for this class, and also whether
 one wants to use Parallel Network.
 """
@@ -31,7 +33,7 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, load_best = False, verbose = False, export = False, agent_cfg = None):
+    def __init__(self, load_best = False, verbose = False, export = False, agent_cfg = None, archive_name = None):
         """
 
 
@@ -40,16 +42,20 @@ class PolicyNeuralNetwork(Policy):
             verbose (bool): default `False`
             export (bool): default `False`
             agent_cfg: default `None`
+            archive_name: default `None`.
         """
 
         Policy.__init__(self)
 
         self.verbose = verbose
 
-        if load_best:
-            self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
-        else:
-            self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg)
+        self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg, archive_name=archive_name)
+
+        if False:
+            if load_best:
+                self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
+            else:
+                self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg)
 
 
     def evaluate(self, possible_boards):
@@ -89,6 +95,12 @@ class PolicyNeuralNetwork(Policy):
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
 
         return move
+
+    def save(self):
+        return self.net.save()
+    
+    def load(self, filename):
+        self.net.load(filename)
 
     def get_file_name(self):
         """

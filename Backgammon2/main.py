@@ -19,7 +19,6 @@ from backgammon_game import Backgammon
 from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
-from agents.nn_agent_best_so_far import BestNNAgent
 
 from statistic import Statistic
 
@@ -72,7 +71,9 @@ def do_default():
 
 def nn_vs_nn_export_better_player():
     player1 = NNAgent1(verbose = True)
-    player2 = BestNNAgent()
+    player2 = NNAgent1(load_best=True)
+
+    
 
     stats = Statistic(player1, verbose=True)
 
@@ -82,8 +83,8 @@ def nn_vs_nn_export_better_player():
         bg.set_player_2(player2)
         winner = bg.play()
 
-        player1.reward_player(winner)
-        player2.reward_player(-1 * winner)
+        player1.add_reward(winner)
+        player2.add_reward(-1 * winner)
 
         stats.add_win(winner)
 
@@ -133,7 +134,7 @@ def test_play():
     """
 
     player1 = HumanAgent()
-    player2 = BestNNAgent()
+    player2 = NNAgent1(load_best=True)
 
     bg = Backgammon()
     bg.set_player_1(player1)

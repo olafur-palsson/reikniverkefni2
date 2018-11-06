@@ -11,13 +11,12 @@ Brain naming convention
 from agents.random_agent import RandomAgent
 from agents.human_agent import HumanAgent
 from agents.nn_agent_1 import NNAgent1
-from agents.nn_agent_best_so_far import BestNNAgent
 
 
 from pathlib import Path
 from lib.utils import load_file_as_json
 from lib.utils import load_file_as_string
-from lib.utils import hash_string
+from lib.utils import hash_string, does_file_exist
 import os
 
 
@@ -76,10 +75,6 @@ def get_agent_config_by_config_name(config_name):
 
         actual_config_hash = hash_string(agent_configs_source[config_name])
 
-        if True:
-            print("Expected hash: " + config_hash)
-            print("Actual hash: " + actual_config_hash)
-
         if config_hash == actual_config_hash:
             agent_config = agent_configs[config_name]
         else:
@@ -90,19 +85,12 @@ def get_agent_config_by_config_name(config_name):
     return agent_config
 
 
-def get_agent_by_config_name(config_name):
+def get_agent_by_config_name(config_name, brain_name = "new"):
 
     agent_config = get_agent_config_by_config_name(config_name)
 
-
-
     agent_config_name = agent_config['name']
     agent_config_type = agent_config['type']
-
-    print(agent_config)
-
-    print(agent_config_name)
-    print(agent_config_type)
 
     # TODO: implement load brain
 
@@ -115,9 +103,21 @@ def get_agent_by_config_name(config_name):
     elif agent_config_type == "human":
         agent = HumanAgent()
     elif agent_config_type == "nn1":
-        agent = NNAgent1(agent_cfg = agent_config)
+        if brain_name == "new":
+            agent = NNAgent1(agent_cfg = agent_config)
+        elif brain_name == "best":
+            agent = NNAgent1(agent_cfg = agent_config)
+            print("Fetching best brain")
+            if does_file_exist('./repository/manifest.json'):
+                manifest = load_file_as_json('./repository/manifest.json')
+                print(manifest)
+            else:
+                print(":'(")
+                agent = NNAgent1(agent_cfg = agent_config)
+        else:
+            raise Exception("Something is not right")
     elif agent_config_type == 'best_nn1':
-        agent = BestNNAgent(agent_cfg = agent_config)
+        agent = NNAgent1(agent_cfg = agent_config, load_best=True)
     else:
         raise Exception('Unknown type of agent: ' + str(agent_config['type']))
 
