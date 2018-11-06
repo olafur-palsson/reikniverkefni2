@@ -7,9 +7,9 @@ Backgammon interface for the final project in Computational Intelligence
 
 Run, 
 
-```bash
+````bash
 pip install trueskill
-``` 
+````
 
 
 ## The board interpretation
