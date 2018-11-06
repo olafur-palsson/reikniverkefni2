@@ -33,6 +33,66 @@ from glarb import do_glarb
 verbose = True
 
 
+class Statstics():
+    # notum til ad skoda hvort tauganetid er consistently betra
+
+    # likur a ad nn se betra eru tha 98.9% i hvert skipti sem er tekkad
+    # vid tekkum hver 100 skipti svo vid ovart setjum ekki jafn gott/verra net
+    # i stadinn fyrir thad besta (ef thad winnur 51% skipta tha verdur thad
+    # nogu heppid a ~2000 leikja fresti)
+    goal_win_rate = 0.537
+
+
+    last_5000_wins = np.zeros(1000)
+    last_500_wins = np.zeros(500)
+    winners = [0, 0]
+    games_played = 0
+    highest_win_rate = 0
+    win_rate = 0
+    verbose = False
+
+    def __init__(self, agent, verbose=False):
+        self.agent = agent
+        if verbose:
+            self.verbose = True
+
+    def two_digits(self, double_number):
+        return "{0:.2f}".format(double_number)
+
+    def update_win_rate(self, winner):
+        win = 1 if winner > 0 else 0
+        self.last_500_wins[self.games_played % 500] = win
+        self.last_5000_wins[self.games_played % 5000] = win
+        self.win_rate = np.sum(self.last_500_wins) / 5
+        if self.win_rate > self.highest_win_rate:
+            self.highest_win_rate = self.win_rate
+
+    def nn_is_better(self):
+        if np.sum(self.last_5000_wins) / 5000 > self.goal_win_rate:
+            return True
+        return False
+
+    def add_win(self, winner, verbose=False):
+        self.games_played += 1
+        self.update_win_rate(winner)
+        i = 0 if winner == 1 else 1
+        self. winners[i] += 1
+        if self.verbose:
+            self.verbose_print()
+
+    def verbose_print(self):
+        string =      "Player 1 : Player 2 : Total     "
+        string +=     str(self.winners[0]) + " : " + str(self.winners[1]) + " : " + str(self.games_played)
+        string +=     "        moving average 500:   "
+        string +=     str(self.win_rate) + "%"
+        string +=     " (max - stddev = "
+        string +=     str(self.two_digits(self.highest_win_rate - 2)) + "%), std-dev of this is ~2%"
+        print("")
+        print(string)
+        print("")
+        print("")
+        print("")
+        print("")
 
 
 def do_default():
@@ -88,7 +148,7 @@ def nn_vs_nn_export_better_player():
 
         stats.add_win(winner)
 
-        if stats.nn_is_better():
+        if stats.nn_is_better() and stats.games_played % 100 == 0:
             break
 
     # only way to reach this point is if the current
@@ -170,7 +230,7 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
-        print("    challenge-best-network")
+        print("    challange-best-network")
         # Stop execution if no argument
         return
 
@@ -180,7 +240,7 @@ def main():
         self_play()
     elif args[0] == "random-play":
         random_play()
-    elif args[0] == "challenge-best-network":
+    elif args[0] == "challange-best-network":
         nn_vs_nn_export_better_player()
     elif args[0] == "test-play":
         test_play()
