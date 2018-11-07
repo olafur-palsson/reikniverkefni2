@@ -11,11 +11,6 @@ import random
 import zipfile
 import time
 
-# https://pypi.org/project/bencode.py/
-# pip install bencode.py
-# import bencode
-
-# pip install json_stable_stringify_python
 import json_stable_stringify_python as json_stable
 
 
@@ -263,6 +258,11 @@ def archive_files(archive_filename, filenames, cleanup = False):
     return None
 
 
+def print_json(json_object):
+    string = json.dumps(json_object, sort_keys=True, indent=2, separators=(',', ':'))
+    print(string)
+
+
 def unarchive_archive(archive_filename, cleanup = False):
     """
     Unarchives archive `archive_filename` into the same directory that the
@@ -289,8 +289,12 @@ def unarchive_archive(archive_filename, cleanup = False):
         dirname = os.path.dirname(archive_filename)
         zip_file = zipfile.ZipFile(archive_filename, 'r')
         filenames = zip_file.namelist()
-        zip_file.extractall(dirname)
+        zip_file.extractall('.')
         zip_file.close()
+
+        for filename in filenames:
+            assert does_file_exist(filename), "Extracted file doesn't exist: " + str(filename)
+
         if cleanup:
             os.remove(archive_filename)
         return filenames

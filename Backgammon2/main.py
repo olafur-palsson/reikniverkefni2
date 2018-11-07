@@ -28,9 +28,6 @@ from glarb import do_glarb
 
 
 
-
-
-
 # Set logs
 verbose = True
 

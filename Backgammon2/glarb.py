@@ -1,21 +1,10 @@
-
-# Experimental
-# $ pip install trueskill
 from trueskill import Rating, quality_1vs1, rate_1vs1
-
-
 from pathlib import Path
-
 from lib.utils import load_file_as_json, does_file_exist, save_json_to_file, hash_json, timestamp
 from backgammon_game import Backgammon
-
 import numpy as np
-
 import os
-
 from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
-
-
 from lib.manifest import Manifest
 
 
@@ -50,10 +39,10 @@ def update_rating(rating1, rating2, result):
     return (new_rating1, new_rating2)
 
 
-
-
-
 def rating_to_string(rating):
+    """
+    Helper function
+    """
 
     fmt_s = '{0:.6f}'
 
@@ -63,8 +52,10 @@ def rating_to_string(rating):
     return "µ = " + str.format(fmt_s, mu) + ", σ = " + str.format(fmt_s, sigma)
 
 
-
 def random_pair_not_self(arr):
+    """
+    Garbage function
+    """
     if len(arr) == 0:
         raise Exception("Shouldn't happen!")
     elif len(arr) == 1:
@@ -81,119 +72,9 @@ def random_pair_not_self(arr):
 
 
 
-
-
-
-
-
-def do_glarb():
-
-    
-
-    competition = load_file_as_json("configs/competition_test.json")
-
-    competitors_info = competition["competitors"]
-
-    # Load in information about competitors.
-    
-    # Load in competitors
-    competitors = []
-    for competitor_info in competitors_info:
-
-        agent_config_name = competitor_info["cfg"]
-        brain = competitor_info["brain"] if "brain" in competitor_info else "new"
-
-        agent_config = get_agent_config_by_config_name(agent_config_name)
-        agent = get_agent_by_config_name(agent_config_name, brain)
-
-        
-
-        competitor = {
-            "cfg": agent_config,
-            "agent": agent,
-            "rating": Rating(25, 25/3),
-            "played_games": 0,
-            "losses": 0,
-            "wins": 0,
-            "agent_config_name": agent_config_name,
-            "brain": brain
-        }
-
-        competitors += [competitor]
-
-    # Train
-    
-    print("Training...")
-    
-    iteration = 0
-    try:
-        while True:
-            iteration += 1
-            print(str(iteration))
-
-            competitor1, competitor2 = random_pair_not_self(competitors)
-
-            player1 = competitor1['agent']
-            player2 = competitor2['agent']
-
-            player1.training = True
-            player2.training = True
-
-            bg = Backgammon()
-            bg.set_player_1(player1)
-            bg.set_player_2(player2)
-
-            # 1 if player 1 won, -1 if player 2 won
-            result = bg.play()
-
-            player1.add_reward(result)
-            player2.add_reward(-result)
-
-            competitor1['played_games'] += 1
-            competitor2['played_games'] += 1
-
-            if result == 1:
-                # Player 1 won
-                # Player 2 lost
-                competitor1['wins'] += 1
-                competitor2['losses'] += 1
-            elif result == -1:
-                # Player 1 lost
-                # Player 2 won
-                competitor1['losses'] += 1
-                competitor2['wins'] += 1
-            else:
-                raise Exception("Unexpected result: " + str(result))
-
-            # Rate performance
-            rating1, rating2 = competitor1['rating'], competitor2['rating']
-            competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
-
-            if iteration % 10 == 0:
-                print("Rating of each player")
-                print("")
-
-                # Sort competitors by their TrueSkill rating.
-                competitors.sort(key=lambda competitor: competitor['rating'])
-
-                for i, competitor in enumerate(competitors):
-                    rating = competitor['rating']
-                    name = competitor['cfg']['name']
-
-                    print("Player " + str(i + 1) + " ("  + name + "): ")
-                    print("    TrueSkill: " + rating_to_string(rating))
-                    print("    Played games: " + str(competitor['played_games']))
-                    print("    Wins/losses: " + str(competitor['wins']) + " / " + str(competitor['losses']))
-                    _wlr = float('inf') if competitor['losses'] == 0 else competitor['wins'] / competitor['losses']
-                    print("    Win/Loss Ratio: " + str(_wlr))
-
-    except:
-        print("Halted!")
-
+def print_competitors(competitors):
     print("Rating of each player")
     print("")
-
-    # Sort competitors by their TrueSkill rating.
     competitors.sort(key=lambda competitor: competitor['rating'])
 
     for i, competitor in enumerate(competitors):
@@ -203,14 +84,18 @@ def do_glarb():
         print("Player " + str(i + 1) + " ("  + name + "): ")
         print("    TrueSkill: " + rating_to_string(rating))
         print("    Played games: " + str(competitor['played_games']))
+        print("    Wins/losses: " + str(competitor['wins']) + " / " + str(competitor['losses']))
+        _wlr = float('inf') if competitor['losses'] == 0 else competitor['wins'] / competitor['losses']
+        print("    Win/Loss Ratio: " + str(_wlr))
 
-    # print("Comparing players")
 
+
+def save_competitors(competition, competitors):
     print("Saving...")
 
     manifest = Manifest("./repository/manifest.json")
     manifest.load()
-    # competition
+    
 
     competition_config_hash = hash_json(competition)
 
@@ -218,7 +103,7 @@ def do_glarb():
         "competitor_result_hashes": []
     }
     
-    for i, competitor in enumerate(competitors):
+    for competitor in competitors:
         
         agent_config_name = competitor['agent_config_name']
         agent_config = competitor['cfg']
@@ -280,10 +165,106 @@ def do_glarb():
 
     manifest.set("competition{}" + competition_hash + "{}results{}" + competition_result_hash, competition_result)
     
-
-        
-    
     manifest.save()
+
+
+def do_glarb():
+    
+    # Load in competition.
+    competition = load_file_as_json("configs/competition_test.json")
+
+    # Get competitors information.
+    competitors_info = competition["competitors"]
+
+    
+    # Load in competitors.
+    competitors = []
+    for competitor_info in competitors_info:
+
+        # Get agent configuration.
+        agent_config_name = competitor_info["cfg"]
+
+        # Determine which "brain" to load in, e.g. which neural network.
+        brain = competitor_info["brain"] if "brain" in competitor_info else "new"
+
+        # Acquire the agent configuration JSON.
+        agent_config = get_agent_config_by_config_name(agent_config_name)
+
+        # Load in the agent.
+        agent = get_agent_by_config_name(agent_config_name, brain)
+
+        # Create a container for the competitor.
+        competitor = {
+            "cfg": agent_config,
+            "agent": agent,
+            "rating": Rating(25, 25/3),
+            "played_games": 0,
+            "losses": 0,
+            "wins": 0,
+            "agent_config_name": agent_config_name,
+            "brain": brain
+        }
+
+        competitors += [competitor]
+
+    # Train
+    print("Training...")
+    
+    iteration = 0
+    try:
+        while True:
+            iteration += 1
+            print(str(iteration))
+
+            competitor1, competitor2 = random_pair_not_self(competitors)
+
+            player1 = competitor1['agent']
+            player2 = competitor2['agent']
+
+            player1.training = True
+            player2.training = True
+
+            bg = Backgammon()
+            bg.set_player_1(player1)
+            bg.set_player_2(player2)
+
+            # 1 if player 1 won, -1 if player 2 won
+            result = bg.play()
+
+            player1.add_reward(result)
+            player2.add_reward(-result)
+
+            competitor1['played_games'] += 1
+            competitor2['played_games'] += 1
+
+            if result == 1:
+                # Player 1 won
+                # Player 2 lost
+                competitor1['wins'] += 1
+                competitor2['losses'] += 1
+            elif result == -1:
+                # Player 1 lost
+                # Player 2 won
+                competitor1['losses'] += 1
+                competitor2['wins'] += 1
+            else:
+                raise Exception("Unexpected result: " + str(result))
+
+            # Rate performance
+            rating1, rating2 = competitor1['rating'], competitor2['rating']
+            competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
+
+            if iteration % 10 == 0:
+                print_competitors(competitors)
+
+            if iteration % 10000 == 0:
+                save_competitors(competition, competitors)
+    except:
+        print("Halted!")
+    
+    print_competitors(competitors)
+    save_competitors(competition, competitors)
+
 
 
     print("Exiting...")
