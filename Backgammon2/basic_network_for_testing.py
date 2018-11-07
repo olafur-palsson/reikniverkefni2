@@ -33,14 +33,6 @@ class BasicNetworkForTesting():
 
     # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
     def make_layers(self, agent_cfg):
-        """
-        Create layers for neural network.
-        David: Maybe this should be parameterized in the future?
-        Oli:   It is possible but wouldn't that just move the setup
-               data to a different location?
-        David: Exactly.
-        Oli:   Pretty clean bruh. •ᴗ•
-        """
         layers_widths = []
         layers_widths += [ agent_cfg['cfg']['neural_network']['input_layer']   ]
         layers_widths +=   agent_cfg['cfg']['neural_network']['hidden_layers']
@@ -60,17 +52,16 @@ class BasicNetworkForTesting():
 
     def make_filename_from_string(self, filename_root_string):
         # sets class-wide filename for exporting to files
-        self.filename_model = filename_root_string + "_model.pt"
-        self.filename_optimizer = filename_root_string + "_optim.pt"
+        self.filename_model = './repository/' + filename_root_string + "_model.pt"
+        self.filename_optimizer = './repository/' + filename_root_string + "_optim.pt"
 
     def parse_json(self, agent_cfg):
         self.cfg_sgd = agent_cfg['cfg']['sgd']
         self.cfg_neural_network = agent_cfg['cfg']['neural_network']
         self.name = agent_cfg['name']
         self.filename = agent_cfg['cfg']['filename']
-        self.export = agent_cfg['cfg']['neural_network']['exported']
 
-    def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None):
+    def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None, imported=False):
         """
         Args:
             filename_of_network_to_bo_loaded: default `False`
@@ -87,31 +78,31 @@ class BasicNetworkForTesting():
         # set up filenames for exporting
         self.make_filename_from_string(self.filename)
 
+        self.model = nn.Sequential(*self.make_layers(agent_cfg))
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
+
         # If import if the config tells us to import it
-        if self.cfg_neural_network['imported']:
-            self.load(self.filename)
+        if imported:
+            self.load()
             return
 
         # make layers in neural network and make the network sequential
         # (i.e) input -> layer_1 -> ... -> layer_n -> output  for layers in 'make_layers()'
-        self.model = nn.Sequential(*self.make_layers(agent_cfg))
         # loss function
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
         # optimizer
-        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
 
     def save(self, directory="./repository/"):
         """
         Exports everything related to the instantiation of this class to a
         ZIP file.
-
         Args:
             directory: directory where to place archive
 
         Returns:
             The path to the ZIP file.
         """
-        print("SAVING...")
+        print("Saving: " + self.filename_model + ' and ' + self.filename_optimizer)
 
         # Save model
         filename_model = directory + self.filename_model
@@ -122,22 +113,19 @@ class BasicNetworkForTesting():
         filename_optimizer = directory + self.filename_optimizer
         torch.save(self.optimizer.state_dict(), filename_optimizer)
         # filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
+        return filename_model, filename_optimizer
 
 
-    def load(self, archive_name):
-
+    def load(self):
+        print("Loading: " + self.filename_model + ' and ' + self.filename_optimizer)
         # CHECK IF FILE EXISTS
         if not os.path.isfile(self.filename_model) and not os.path.isfile(self.filename_optimizer):
             raise Exception('Did not find model or optimizer, export the model at least once first: \n',
-                            '   Model name: ' + model_path,
+                            '   Model name: ' + self.filename_model,
                             '   Edit ./configs/agent_' + self.name + '.json so you have "imported: false" and "exported: true"')
 
-        self.optimizer.load_state_dict(torch.load(filename_optimizer))
-        self.model.load_state_dict(torch.load(filename_model))
-
-        # Cleanup
-        for filename in filenames:
-            os.remove(filename)
+        self.model.load_state_dict(torch.load(self.filename_model))
+        self.optimizer.load_state_dict(torch.load(self.filename_optimizer))
 
     # initialize prediction storage
     predictions = torch.empty((1), dtype = dtype, requires_grad=True)
@@ -214,9 +202,6 @@ class BasicNetworkForTesting():
 
         # Export model each 100 episodes
         self.counter += 1
-
-        if self.counter % 15 == 0 and self.export:
-            self.save()
 
         if self.verbose:
             # Log out statistics of current game

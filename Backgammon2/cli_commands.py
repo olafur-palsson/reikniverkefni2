@@ -15,6 +15,5 @@ COMMANDS = [
     }
 ]
 
-
 def get_commands_object():
     return None

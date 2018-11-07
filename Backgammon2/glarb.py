@@ -24,7 +24,6 @@ def update_rating(rating1, rating2, result):
     Returns:
         Updated (rating1', rating2')
     """
-
     new_rating1 = None
     new_rating2 = None
 
@@ -80,6 +79,7 @@ def make_competitor(agent_config, agent, agent_config_name, brain):
         "brain": brain
     }
 
+    
 def update_wins_and_losses(result, competitor1, competitor2):
     competitor1['played_games'] += 1
     competitor2['played_games'] += 1
@@ -90,7 +90,11 @@ def update_wins_and_losses(result, competitor1, competitor2):
         competitor1['losses'] += 1
         competitor2['wins'] += 1
 
-def print_competitors(competitors):
+def print_competitors(competitors, iteration):
+    print("")
+    print("")
+    print("State at game number: " + str(iteration))
+    print("")
     print("Rating of each player")
     print("")
     competitors.sort(key=lambda competitor: competitor['rating'])
@@ -112,7 +116,6 @@ def save_competitors(competition, competitors):
 
     manifest = Manifest("./repository/manifest.json")
     manifest.load()
-
 
     competition_config_hash = hash_json(competition)
 
@@ -226,7 +229,6 @@ def do_glarb():
     try:
         while True:
             iteration += 1
-            print(str(iteration))
 
             competitor1, competitor2 = random_pair_not_self(competitors)
 
@@ -252,7 +254,7 @@ def do_glarb():
             competitor1['rating'], competitor2['rating'] = update_rating(competitor1['rating'], competitor2['rating'], result)
 
             if iteration % 10 == 0:
-                print_competitors(competitors)
+                print_competitors(competitors, iteration)
 
             if iteration % 10000 == 0:
                 save_competitors(competition, competitors)

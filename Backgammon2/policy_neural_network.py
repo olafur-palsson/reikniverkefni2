@@ -33,7 +33,7 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, verbose = False, agent_cfg = None):
+    def __init__(self, verbose = False, agent_cfg = None, imported=False):
         """
         Args:
             load_best (bool): default `False`
@@ -42,20 +42,9 @@ class PolicyNeuralNetwork(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
-
         Policy.__init__(self)
-
         self.verbose = verbose
-
-        self.net = BasicNetworkForTesting(verbose = verbose, agent_cfg = agent_cfg)
-
-        """
-        if load_best:
-            # override if we are loading best
-            # self.net = BasicNetworkForTesting(filename_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
-            self.net = BasicNetworkForTesting(archive_name = "nn_best", verbose = verbose, export = True, agent_cfg = None)
-        """
-
+        self.net = BasicNetworkForTesting(verbose = verbose, agent_cfg = agent_cfg, imported=imported)
 
     def evaluate(self, possible_boards):
         """

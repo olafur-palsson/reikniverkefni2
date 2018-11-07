@@ -13,7 +13,7 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
-    def __init__(self, verbose=False, agent_cfg = None):
+    def __init__(self, verbose=False, agent_cfg=None, imported=False):
         """
         Creates a neural network agent.
 
@@ -23,10 +23,8 @@ class NNAgent1(AgentInterface):
             load_best: default `False`
             verbose: default `False`
         """
-
         AgentInterface.__init__(self)
-
-        self.pub_stomper = PolicyNeuralNetwork(verbose = verbose, agent_cfg = agent_cfg)
+        self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
 
 
     def action(self, board, dice, player):
