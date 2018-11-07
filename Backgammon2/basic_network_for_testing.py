@@ -22,129 +22,83 @@ dtype = torch.double
 device = torch.device("cpu")
 device = torch.device("cuda:0") # Uncomment this to run on GPU
 
-default_file_name = "_".join(str(datetime.datetime.now()).split(" "))
+default_filename = "_".join(str(datetime.datetime.now()).split(" "))
 
-default_agent_cfg = load_file_as_json('configs/agent_nn_default.json')
-
-
-# make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
-def make_layers(agent_cfg):
-    """
-    Create layers for neural network.
-
-    David: Maybe this should be parameterized in the future?
-    Oli:   It is possible but wouldn't that just move the setup
-           data to a different location?
-    David: Exactly.
-    """
-
-    layers_widths = []
-    layers_widths += [ agent_cfg['cfg']['neural_network']['input_layer']   ]
-    layers_widths +=   agent_cfg['cfg']['neural_network']['hidden_layers']
-    layers_widths += [ agent_cfg['cfg']['neural_network']['output_layer']  ]
-
-    # Total number of layers
-    n = len(layers_widths)
-
-    layers = []
-
-    for i in range(n - 1):
-        layer_width_left  = layers_widths[i]
-        layer_width_right = layers_widths[i + 1]
-
-        linear_module = nn.Linear(layer_width_left, layer_width_right)
-        
-        # layers.append(nn.ReLU()) # uncomment for ReLU
-        # layers.append(nn.Dropout(p=0.025)) # uncomment for drop-out
-        layers += [linear_module]
-
-    # layers.append(nn.ReLU()) # uncomment for ReLU
-
-    return layers
-
-
-def weights_init(m):
-    classname = m.__class__.__name__
-    # print(classname)
-    if classname.find('Linear') != -1:
-        # print(m.weight)
-        pass
-
-
-
+default_agent_cfg = copy.deepcopy(load_file_as_json('configs/agent_nn_default.json'))
 
 class BasicNetworkForTesting():
     """
     Creates a basic neural network for testing.
     """
 
-    def __init__(self, file_name_of_network_to_bo_loaded = False, export = False, verbose = False, agent_cfg = None, archive_name = None):
+    # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
+    def make_layers(self, agent_cfg):
+        """
+        Create layers for neural network.
+        David: Maybe this should be parameterized in the future?
+        Oli:   It is possible but wouldn't that just move the setup
+               data to a different location?
+        David: Exactly.
+        Oli:   Pretty clean bruh. •ᴗ•
+        """
+        layers_widths = []
+        layers_widths += [ agent_cfg['cfg']['neural_network']['input_layer']   ]
+        layers_widths +=   agent_cfg['cfg']['neural_network']['hidden_layers']
+        layers_widths += [ agent_cfg['cfg']['neural_network']['output_layer']  ]
+        # Total number of layers
+        n = len(layers_widths)
+        layers = []
+        for i in range(n - 1):
+            layer_width_left  = layers_widths[i]
+            layer_width_right = layers_widths[i + 1]
+            linear_module = nn.Linear(layer_width_left, layer_width_right)
+            # layers.append(nn.ReLU()) # uncomment for ReLU
+            # layers.append(nn.Dropout(p=0.025)) # uncomment for drop-out
+            layers += [linear_module]
+            # layers.append(nn.ReLU()) # uncomment for ReLU
+        return layers
+
+    def make_filename_from_string(self, filename_root_string):
+        # sets class-wide filename for exporting to files
+        self.filename_model = filename_root_string + "_model.pt"
+        self.filename_optimizer = filename_root_string + "_optim.pt"
+
+    def parse_json(self, agent_cfg):
+        self.cfg_sgd = agent_cfg['cfg']['sgd']
+        self.cfg_neural_network = agent_cfg['cfg']['neural_network']
+        self.name = agent_cfg['name']
+        self.filename = agent_cfg['cfg']['filename']
+        self.export = agent_cfg['cfg']['neural_network']['exported']
+
+    def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None):
         """
         Args:
-            file_name_of_network_to_bo_loaded: default `False`
+            filename_of_network_to_bo_loaded: default `False`
             export: default `False` 
             verbose: default `False`
             agent_cfg: default `False`
             archive_name: default `None`
         """
-
-        if agent_cfg is None:
-            agent_cfg = copy.deepcopy(default_agent_cfg)
-        
-        self.agent_cfg = agent_cfg
-
-        file_name_of_network_to_bo_loaded = file_name_of_network_to_bo_loaded
-        export = export
-        verbose = verbose
-        
-        self.agent_cfg = agent_cfg
-
-        self.last_500 = np.zeros(500)
         self.verbose = verbose
-        # set up file_names for exporting
-        self.file_name = file_name_of_network_to_bo_loaded if file_name_of_network_to_bo_loaded else default_file_name
 
+        agent_cfg = agent_cfg if agent_cfg else default_agent_cfg
+        self.parse_json(agent_cfg)
 
-        self.make_file_name_from_string(self.file_name)
+        # set up filenames for exporting
+        self.make_filename_from_string(self.filename)
+
+        # If import if the config tells us to import it
+        if self.cfg_neural_network['imported']:
+            self.load(self.filename)
+            return
 
         # make layers in neural network and make the network sequential
         # (i.e) input -> layer_1 -> ... -> layer_n -> output  for layers in 'make_layers()'
-        self.model = nn.Sequential(*make_layers(self.agent_cfg))
-
-        self.model.apply(weights_init)
-
-        # initialize prediction storage
-        self.predictions = torch.empty((1), dtype = dtype, requires_grad=True)
-
-        # set loss function for backprop (usage is optional)
+        self.model = nn.Sequential(*self.make_layers(agent_cfg))
+        # loss function
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
-
-        # set optimizer for adjusting the weights (e.g Stochastic Gradient Descent, SGD)
-        # Note: learning_rate is at the top of the script
-        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.agent_cfg['cfg']['sgd']['momentum'], lr = self.agent_cfg['cfg']['sgd']['learning_rate'])
-
-        # True if should export, False if we throw it away after running
-        self.export = export
-
-        # Game counter for intervals
-        self.counter = 0
-
-        # Reward storage for batched learning
-        self.rewards = []
-
-        if archive_name:
-            self.load(archive_name)
-
-        if False:
-            # If we want to load a model we input the name of the file, if exists -> load
-            if file_name_of_network_to_bo_loaded:
-                # import model
-                self.optimizer.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_optim.pt"))
-                self.model.load_state_dict(torch.load("./exported_networks/" + self.file_name + "_model.pt"))
-            else:
-                # export current settings
-                self.make_settings_file()
-
+        # optimizer
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
 
     def save(self, directory="./repository/"):
         """
@@ -157,61 +111,26 @@ class BasicNetworkForTesting():
         Returns:
             The path to the ZIP file.
         """
-
         print("SAVING...")
 
-        # Save settings
-        filename_settings = directory + get_random_string(64)
-        Path(filename_settings).touch()
-        file = open(filename_settings, "w")
-        file.write("Input vector size: " + str(self.agent_cfg['cfg']['neural_network']['input_layer']) + "\n")
-        file.write("Hidden layers: " + str(self.agent_cfg['cfg']['neural_network']['hidden_layers']) + "\n")
-        file.write("Learning rate: " + str(self.agent_cfg['cfg']['sgd']['learning_rate']) + "\n")
-        file.close()
-        filename_settings = rename_file_to_content_addressable(filename_settings, ignore_extension=True, extension="_settings.pt")
-
         # Save model
-        filename_model = directory + get_random_string(64)
+        filename_model = directory + self.filename_model
         torch.save(self.model.state_dict(), filename_model)
-        filename_model = rename_file_to_content_addressable(filename_model, ignore_extension=True, extension="_model.pt")
+        # filename_model = rename_file_to_content_addressable(filename_model, ignore_extension=True, extension="_model.pt")
 
         # Save optimizer
-        filename_optimizer = directory + get_random_string(64)
+        filename_optimizer = directory + self.filename_optimizer
         torch.save(self.optimizer.state_dict(), filename_optimizer)
-        filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
+        # filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
 
-        # Filenames
-        filenames = [
-            filename_settings,
-            filename_model,
-            filename_optimizer
-        ]
-
-        # Archive
-        archive_name = directory + get_random_string(64)
-        
-        archive_files(archive_name, filenames, cleanup = True)
-        archive_name = rename_file_to_content_addressable(archive_name, ignore_extension=True, extension="_bnft.zip")
-
-        return archive_name
-    
 
     def load(self, archive_name):
 
         # CHECK IF FILE EXISTS
-
-        filenames = unarchive_archive(archive_name, cleanup=False)
-
-        # [-9:]
-
-        filename_model = None
-        filename_optimizer = None
-
-        for filename in filenames:
-            if filename[-9:] == '_optim.pt':
-                filename_optimizer = filename
-            if filename[-9:] == "_model.pt":
-                filename_model = filename
+        if not os.path.isfile(self.filename_model) and not os.path.isfile(self.filename_optimizer):
+            raise Exception('Did not find model or optimizer, export the model at least once first: \n',
+                            '   Model name: ' + model_path,
+                            '   Edit ./configs/agent_' + self.name + '.json so you have "imported: false" and "exported: true"')
 
         self.optimizer.load_state_dict(torch.load(filename_optimizer))
         self.model.load_state_dict(torch.load(filename_model))
@@ -220,43 +139,16 @@ class BasicNetworkForTesting():
         for filename in filenames:
             os.remove(filename)
 
-
-    def make_settings_file(self):
-        Path(self.settings_file_name).touch()
-        file = open(self.settings_file_name, "w")
-        file.write("Input vector size: " + str(self.agent_cfg['cfg']['neural_network']['input_layer']) + "\n")
-        file.write("Hidden layers: " + str(self.agent_cfg['cfg']['neural_network']['hidden_layers']) + "\n")
-        file.write("Learning rate: " + str(self.agent_cfg['cfg']['sgd']['learning_rate']) + "\n")
-        file.close()
-
-
-    def make_file_name_from_string(self, file_name_root_string):
-        # sets class-wide filename for exporting to files
-        self.model_file_name = "./exported_networks/" + file_name_root_string + "_model.pt"
-        self.optimizer_file_name = "./exported_networks/" + file_name_root_string + "_optim.pt"
-        self.settings_file_name = "results/" + file_name_root_string + "_settings.pt"
-
-    def export_model(self, file_name=False):
-        if file_name:
-            torch.save(self.model.state_dict(), "./exported_networks/" + file_name + "_model.pt")
-            torch.save(self.optimizer.state_dict(), "./exported_networks/" + file_name + "_optim.pt")
-        else:
-            torch.save(self.model.state_dict(), self.model_file_name)
-            torch.save(self.optimizer.state_dict(), self.optimizer_file_name)
-
-
+    # initialize prediction storage
+    predictions = torch.empty((1), dtype = dtype, requires_grad=True)
     # run a feature vector through the model accumulating greadient
     def run_decision(self, board_features):
         prediction = self.model(board_features)
         self.predictions = torch.cat((self.predictions, prediction.double()))
 
-
     # run a feature vector through the model without accumulating gradient
     def predict(self, board_features):
         """
-        Returns the value of the board represented by the feature vector
-        `board_features`.
-
         This method behaves like the value function.
 
         Note:
@@ -268,16 +160,18 @@ class BasicNetworkForTesting():
             board_features (ndarray or list): the feature vector for the board under consideration.
 
         Returns:
-            The value of the board
+            The value of the board represented by the feature vector
         """
         with torch.no_grad():
-
             # This inputs the feature vector (features) into the neural
             # network, denoted `self.model` and outputs a number (the value of
             # the board).
             return self.model(board_features)
 
-
+    # Initialize reward storage and statistical variables
+    rewards = []
+    counter = 0
+    last_500_wins = np.zeros(500)
     # Function run on the end of each game.
     def give_reward_to_nn(self, reward):
         """
@@ -303,9 +197,9 @@ class BasicNetworkForTesting():
         # TD valued reward
         with torch.no_grad():
             for i in range(len(self.predictions)):
-                if i == len(self.predictions) - self.agent_cfg['cfg']['temporal_delay']:
+                if i == len(self.predictions) - self.cfg_neural_network['temporal_delay']:
                     break
-                y[i] = self.predictions[i + self.agent_cfg['cfg']['temporal_delay']]
+                y[i] = self.predictions[i + self.cfg_neural_network['temporal_delay']]
 
         self.rewards.append(y)
 
@@ -321,13 +215,13 @@ class BasicNetworkForTesting():
         # Export model each 100 episodes
         self.counter += 1
 
-        if self.counter % 100 == 0 and self.export:
-            self.export_model()
+        if self.counter % 15 == 0 and self.export:
+            self.save()
 
         if self.verbose:
             # Log out statistics of current game
-            self.last_500[self.counter % 500] = reward
-            exp_return = np.sum(self.last_500) / 500 # this is from -1 to 1
+            self.last_500_wins[self.counter % 500] = reward
+            exp_return = np.sum(self.last_500_wins) / 500 # this is from -1 to 1
             print(self.counter)
             print("")
             print("Expected return")

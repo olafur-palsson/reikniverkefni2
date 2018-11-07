@@ -12,8 +12,10 @@ const x = {
 
 	// Configuration
 	"cfg": {
+    // This filename is used for exports and imports
+    "filename": "some_name",
 
-		// * tesauro 
+		// * tesauro
 		// * raw1
 		// * raw_hot
 		"feature_vector": "raw1",
@@ -22,7 +24,7 @@ const x = {
 		"epsilon": 0.15,
 
 		// * net: basic network for testing
-		// 
+		//
 		"net": "basic",
 
 		// How many nodes are in the input layer
@@ -37,7 +39,7 @@ const x = {
 
 		// Not sure what this is, but OK.
 		// I guess this is for the n-step TD.
-		"temporal_delay": 3,
+		// "temporal_delay": 3, // MOVED TO KEY 'neural_network'
 
 		// Stochastic gradient descent
 		"sgd": {
@@ -46,4 +48,3 @@ const x = {
 		}
 	}
 }
-

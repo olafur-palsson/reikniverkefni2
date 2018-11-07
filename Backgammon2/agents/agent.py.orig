@@ -80,6 +80,10 @@ def get_agent_by_config_name(config_name, brain_name = "new"):
         if brain_name == "new":
             agent = NNAgent1(agent_cfg = agent_config)
         elif brain_name == "best":
+<<<<<<< HEAD
+=======
+
+>>>>>>> export_implementation
             print("Fetching best brain")
             if does_file_exist('./repository/manifest.json'):
                 agent = None
@@ -103,7 +107,7 @@ def get_agent_by_config_name(config_name, brain_name = "new"):
                     agent = NNAgent1(agent_cfg = agent_config)
 
 
-
+                
 
 
             else:
