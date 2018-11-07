@@ -9,6 +9,7 @@ Run,
 
 ````bash
 pip install trueskill
+pip install json_stable_stringify_python
 ````
 
 

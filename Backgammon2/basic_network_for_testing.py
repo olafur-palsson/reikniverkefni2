@@ -13,6 +13,7 @@ import datetime
 from functools import reduce
 from pathlib import Path
 import copy
+import os
 
 from lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
 
@@ -132,7 +133,7 @@ class BasicNetworkForTesting():
         self.rewards = []
 
         if archive_name:
-            self.import_from_file(archive_name)
+            self.load(archive_name)
 
         if False:
             # If we want to load a model we input the name of the file, if exists -> load
@@ -212,8 +213,12 @@ class BasicNetworkForTesting():
             if filename[-9:] == "_model.pt":
                 filename_model = filename
 
-        self.optimizer.load_state_dict(filename_optimizer)
-        self.model.load_state_dict(filename_model)
+        self.optimizer.load_state_dict(torch.load(filename_optimizer))
+        self.model.load_state_dict(torch.load(filename_model))
+
+        # Cleanup
+        for filename in filenames:
+            os.remove(filename)
 
 
     def make_settings_file(self):
