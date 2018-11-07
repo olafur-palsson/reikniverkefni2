@@ -1,13 +1,13 @@
 {
-	"name": "nn_default_best",
-	"type": "best_nn1",
+	"name": "nn_test1",
+	"type": "nn1",
 	"cfg": {
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
 		"neural_network": {
 			"input_layer": 464,
-			"hidden_layers": [250, 250],
+			"hidden_layers": [2],
 			"output_layer": 1
 		},
 		"temporal_delay": 3,

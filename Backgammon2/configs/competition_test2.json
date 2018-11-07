@@ -1,0 +1,59 @@
+{
+    "competitors": [
+        {
+            "cfg": "random"
+        },
+        {
+            "cfg": "nn_default",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_shallow",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test1",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test2",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test3",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test4",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test5",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test6",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test7",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_test8",
+            "brain": "best"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+
+
+

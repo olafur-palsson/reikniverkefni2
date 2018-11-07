@@ -143,11 +143,6 @@ def test_play():
 
 
 
-def test_glarb():
-    do_glarb()
-
-
-
 
 def main():
     """
@@ -169,7 +164,7 @@ def main():
         print("    self-play")
         print("    random-play")
         print("    challenge-best-network")
-        print("    glarb")
+        print("    glarb [path to competition]")
         print("    jsonhash <path to json>")
         # Stop execution if no argument
         return
@@ -185,7 +180,11 @@ def main():
     elif args[0] == "test-play":
         test_play()
     elif args[0] == "glarb":
-        test_glarb()
+        if len(args) > 1:
+            path = " ".join(args[1:])
+            do_glarb(path)
+        else:
+            do_glarb()
     elif args[0] == "jsonhash":
         try:
             path = " ".join(args[1:])

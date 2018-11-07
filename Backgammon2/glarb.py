@@ -168,10 +168,12 @@ def save_competitors(competition, competitors):
     manifest.save()
 
 
-def do_glarb():
+def do_glarb(path_to_competition_json = "configs/competition_test.json"):
+
+    print("Loading competition: " + str(path_to_competition_json))
     
     # Load in competition.
-    competition = load_file_as_json("configs/competition_test.json")
+    competition = load_file_as_json(path_to_competition_json)
 
     # Get competitors information.
     competitors_info = competition["competitors"]

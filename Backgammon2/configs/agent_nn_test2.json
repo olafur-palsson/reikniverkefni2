@@ -1,0 +1,19 @@
+{
+	"name": "nn_test2",
+	"type": "nn1",
+	"cfg": {
+		"feature_vector": "raw1",
+		"epsilon": 0.15,
+		"net": "basic",
+		"neural_network": {
+			"input_layer": 464,
+			"hidden_layers": [232, 116, 58, 29, 14, 8, 4, 2],
+			"output_layer": 1
+		},
+		"temporal_delay": 3,
+		"sgd": {
+			"momentum": 0.9,
+			"learning_rate": 0.00005
+		}
+	}
+}
