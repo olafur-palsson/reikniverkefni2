@@ -31,7 +31,7 @@ def load_agent_configs(dirname = "configs"):
     """
 
     agent_config_filenames = list(filter(lambda name: name[0:5] == 'agent' and name[-4:] == 'json', os.listdir(dirname)))
-    
+
     for agent_config_filename in agent_config_filenames:
         filepath = str(Path(dirname, agent_config_filename))
         agent_config = load_file_as_json(filepath)
@@ -46,33 +46,9 @@ def load_agent_configs(dirname = "configs"):
 
 # TODO: implement reload
 
+# Yolo
 def get_agent_config_by_config_name(config_name):
-
-    parts = config_name.split(':')
-
-    agent_config = None
-
-    if len(parts) == 1:
-        config_name = parts[0]
-        agent_config = agent_configs[config_name]
-        pass
-    elif len(parts) == 2:
-        config_name = parts[0]
-        config_hash = parts[1]
-
-        actual_config_hash = hash_json(agent_configs[config_name])
-
-        if config_hash == actual_config_hash:
-            agent_config = agent_configs[config_name]
-        else:
-            print("Expected hash: " + config_hash)
-            print("Actual hash: " + actual_config_hash)
-            raise Exception("Agent doesn't exist!")
-    else:
-        raise Exception("This shouldn't have happened!")
-
-    return agent_config
-
+    return agent_configs[config_name]
 
 def get_agent_by_config_name(config_name, brain_name = "new"):
 
@@ -95,7 +71,7 @@ def get_agent_by_config_name(config_name, brain_name = "new"):
         if brain_name == "new":
             agent = NNAgent1(agent_cfg = agent_config)
         elif brain_name == "best":
-            
+
             print("Fetching best brain")
             if does_file_exist('./repository/manifest.json'):
                 agent = NNAgent1(agent_cfg = agent_config)
