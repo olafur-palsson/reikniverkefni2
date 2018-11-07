@@ -10,7 +10,7 @@ from policy import Policy
 
 # example of an extended policy
 class PolicyRandom(Policy):
-    def get_file_name(self):
+    def get_filename(self):
         return "lol"
 
     def evaluate(self, possible_boards):

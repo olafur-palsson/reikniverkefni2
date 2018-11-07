@@ -74,7 +74,7 @@ def nn_vs_nn_export_better_player():
     player1 = NNAgent1(verbose = True)
     player2 = NNAgent1(load_best=True)
 
-    
+
 
     stats = Statistic(player1, verbose=True)
 
@@ -98,7 +98,7 @@ def nn_vs_nn_export_better_player():
     # thus, we export the current as best
     print("Congratulations, you brought the network one step closer")
     print("to taking over the world (of backgammon)!!!")
-    player1.export_model(file_name="nn_best_model")
+    player1.export_model(filename="nn_best_model")
 
 
 def self_play():
@@ -171,7 +171,7 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
-        print("    challenge-best-network")
+        print("    challange-best-network")
         print("    glarb")
         print("    jsonhash <path to json>")
         # Stop execution if no argument
@@ -183,7 +183,7 @@ def main():
         self_play()
     elif args[0] == "random-play":
         random_play()
-    elif args[0] == "challenge-best-network":
+    elif args[0] == "challange-best-network":
         nn_vs_nn_export_better_player()
     elif args[0] == "test-play":
         test_play()

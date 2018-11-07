@@ -229,9 +229,9 @@ def play_a_game(commentary = True):
 
 # Print results out to a file (every 100 games)
 def output_result(highest_win_rate, win_rate, p1wins, p2wins, games_played):
-    file_name = "results/" + agent.get_file_name() + "_result.pt"
-    Path(file_name).touch()
-    file = open(file_name, "w")
+    filename = "results/" + agent.get_filename() + "_result.pt"
+    Path(filename).touch()
+    file = open(filename, "w")
     file.write("Highest win rate last 500: " + str(highest_win_rate) + "\n")
     file.write("End win rate: " +  str(win_rate) + "\n")
     file.write("Wins: " + str(p1wins) + "\n")
@@ -247,7 +247,7 @@ def main():
     # statistics
     last_100_wins = np.zeros(500)
     highest_win_rate = 0
-    output_file_name = agent.get_file_name()
+    output_filename = agent.get_filename()
 
     # play games forever
     while True:

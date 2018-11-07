@@ -33,10 +33,8 @@ class PolicyNeuralNetwork(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, load_best = False, verbose = False, export = False, agent_cfg = None, archive_name = None):
+    def __init__(self, verbose = False, agent_cfg = None):
         """
-
-
         Args:
             load_best (bool): default `False`
             verbose (bool): default `False`
@@ -49,13 +47,14 @@ class PolicyNeuralNetwork(Policy):
 
         self.verbose = verbose
 
-        self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg, archive_name=archive_name)
+        self.net = BasicNetworkForTesting(verbose = verbose, agent_cfg = agent_cfg)
 
-        if False:
-            if load_best:
-                self.net = BasicNetworkForTesting(file_name_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
-            else:
-                self.net = BasicNetworkForTesting(verbose = verbose, export = export, agent_cfg = agent_cfg)
+        """
+        if load_best:
+            # override if we are loading best
+            # self.net = BasicNetworkForTesting(filename_of_network_to_bo_loaded = "nn_best", verbose = verbose, export = True, agent_cfg = agent_cfg)
+            self.net = BasicNetworkForTesting(archive_name = "nn_best", verbose = verbose, export = True, agent_cfg = None)
+        """
 
 
     def evaluate(self, possible_boards):
@@ -98,18 +97,18 @@ class PolicyNeuralNetwork(Policy):
 
     def save(self):
         return self.net.save()
-    
+
     def load(self, filename):
         self.net.load(filename)
 
-    def get_file_name(self):
+    def get_filename(self):
         """
         Returns the file name for this neural network attached to this instance.
 
         Returns:
             The file name of the neural network.
         """
-        return self.net.file_name
+        return self.net.filename
 
 
     def log_and_reset_number_of_decisions_0(self):
@@ -121,8 +120,8 @@ class PolicyNeuralNetwork(Policy):
         self.decision_counter = 0
 
 
-    def export_network(self, file_name=False):
-        self.net.export(file_name=file_name)
+    def export_network(self, filename=False):
+        self.net.export(filename=filename)
 
 
     def add_reward(self, reward):

@@ -32,8 +32,8 @@ def reward_player(reward):
     pub_stomper.get_reward(reward)
 
 
-def get_file_name():
-    return pub_stomper.get_file_name()
+def get_filename():
+    return pub_stomper.get_filename()
 
 
 def policy(possible_moves, possible_boards, dice, i):
