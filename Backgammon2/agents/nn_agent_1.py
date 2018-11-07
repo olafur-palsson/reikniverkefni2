@@ -83,7 +83,6 @@ class NNAgent1(AgentInterface):
         # obsolete
         return self.pub_stomper.get_filename()
 
-
     def policy(self, possible_moves, possible_boards, dice):
 
         best_move = self.pub_stomper.evaluate(possible_boards)

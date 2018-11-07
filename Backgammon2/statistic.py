@@ -69,9 +69,7 @@ class Statistic():
         """
         Save something from `do_default()`.
         """
-        print("Sandwich")
         filename = "results/" + self.agent.get_filename() + "_result.pt"
-        print("Sandwich")
         Path(filename).touch()
         file = open(filename, "w")
         file.write("Highest win rate last 500: " + str(self.highest_win_rate) + "\n")

@@ -26,24 +26,10 @@ default_filename = "_".join(str(datetime.datetime.now()).split(" "))
 
 default_agent_cfg = copy.deepcopy(load_file_as_json('configs/agent_nn_default.json'))
 
-
-
-def weights_init(m):
-    classname = m.__class__.__name__
-    # print(classname)
-    if classname.find('Linear') != -1:
-        # print(m.weight)
-        pass
-
-
-
-
 class BasicNetworkForTesting():
     """
     Creates a basic neural network for testing.
     """
-
-
 
     # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
     def make_layers(self, agent_cfg):
@@ -99,7 +85,7 @@ class BasicNetworkForTesting():
         self.parse_json(agent_cfg)
 
         # set up filenames for exporting
-        self.make_filename_from_string(agent_cfg['name'])
+        self.make_filename_from_string(self.filename)
 
         # If import if the config tells us to import it
         if self.cfg_neural_network['imported']:
@@ -137,22 +123,6 @@ class BasicNetworkForTesting():
         torch.save(self.optimizer.state_dict(), filename_optimizer)
         # filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
 
-        """
-        # Filenames
-        filenames = [
-            filename_settings,
-            filename_model,
-            filename_optimizer
-        ]
-
-        # Archive
-        archive_name = directory + get_random_string(64)
-
-        archive_files(archive_name, filenames, cleanup = True)
-        archive_name = rename_file_to_content_addressable(archive_name, ignore_extension=True, extension="_bnft.zip")
-
-        return archive_name
-        """
 
     def load(self, archive_name):
 
@@ -175,9 +145,6 @@ class BasicNetworkForTesting():
     # run a feature vector through the model without accumulating gradient
     def predict(self, board_features):
         """
-        Returns the value of the board represented by the feature vector
-        `board_features`.
-
         This method behaves like the value function.
 
         Note:
@@ -189,7 +156,7 @@ class BasicNetworkForTesting():
             board_features (ndarray or list): the feature vector for the board under consideration.
 
         Returns:
-            The value of the board
+            The value of the board represented by the feature vector
         """
         with torch.no_grad():
             # This inputs the feature vector (features) into the neural
@@ -244,8 +211,8 @@ class BasicNetworkForTesting():
         # Export model each 100 episodes
         self.counter += 1
 
-        if self.counter % 100 == 0 and self.export:
-            self.export_model()
+        if self.counter % 15 == 0 and self.export:
+            self.save()
 
         if self.verbose:
             # Log out statistics of current game

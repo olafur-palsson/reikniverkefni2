@@ -21,20 +21,11 @@ from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
 
 from lib.utils import hash_json, load_file_as_json
-
 from statistic import Statistic
-
 from glarb import do_glarb
-
-
-
-
-
 
 # Set logs
 verbose = True
-
-
 
 def do_default():
     """
@@ -73,8 +64,6 @@ def do_default():
 def nn_vs_nn_export_better_player():
     player1 = NNAgent1(verbose = True)
     player2 = NNAgent1(load_best=True)
-
-
 
     stats = Statistic(player1, verbose=True)
 
@@ -143,13 +132,8 @@ def test_play():
     bg.play()
 
 
-
-
-
 def test_glarb():
     do_glarb()
-
-
 
 
 def main():
@@ -197,9 +181,6 @@ def main():
             print("File is not JSON.")
     else:
         print("Say what?")
-
-
-
 
 
 if __name__ == "__main__":
