@@ -22,7 +22,7 @@ from agents.nn_agent_1 import NNAgent1
 
 from lib.utils import hash_json, load_file_as_json
 from statistic import Statistic
-from glarb import do_glarb
+from all_vs_all import play_all_vs_all
 
 # Set logs
 verbose = True
@@ -132,15 +132,10 @@ def test_play():
     bg.play()
 
 
-def test_glarb():
-    do_glarb()
-
-
 def main():
     """
     The main function, obviously.
     """
-
     commands = get_commands_object()
 
     # Arguments
@@ -156,11 +151,13 @@ def main():
         print("    self-play")
         print("    random-play")
         print("    challange-best-network")
-        print("    glarb")
+        print("    all_vs_all [competition_test.json or other]")
         print("    jsonhash <path to json>")
         # Stop execution if no argument
         return
 
+    # svo glarb glitchar ekki
+    args.append(False)
     if args[0] == "default":
         do_default()
     elif args[0] == "self-play":
@@ -171,8 +168,8 @@ def main():
         nn_vs_nn_export_better_player()
     elif args[0] == "test-play":
         test_play()
-    elif args[0] == "glarb":
-        test_glarb()
+    elif args[0] == "all_vs_all":
+        play_all_vs_all(args[1])
     elif args[0] == "jsonhash":
         try:
             path = " ".join(args[1:])

@@ -13,6 +13,8 @@ from policy_neural_network import PolicyNeuralNetwork
 
 class NNAgent1(AgentInterface):
 
+    training = True
+
     def __init__(self, verbose=False, agent_cfg=None, imported=False):
         """
         Creates a neural network agent.
@@ -24,6 +26,7 @@ class NNAgent1(AgentInterface):
             verbose: default `False`
         """
         AgentInterface.__init__(self)
+        print('imported  = ', imported)
         self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
 
 
@@ -52,7 +55,6 @@ class NNAgent1(AgentInterface):
     def export_model(self, filename=False):
         self.net.export_model(filename=filename)
 
-
     def add_reward(self, reward):
         """
         Adds reward `reward` to this neural network agent.
@@ -71,11 +73,8 @@ class NNAgent1(AgentInterface):
     def load(self, filename):
         self.pub_stomper.load(filename)
 
-    def save(self, filename = None):
-        return self.pub_stomper.save()
-
-
-
+    def save(self, save_as_best=False):
+        return self.pub_stomper.save(save_as_best)
 
     def get_filename(self):
         # obsolete

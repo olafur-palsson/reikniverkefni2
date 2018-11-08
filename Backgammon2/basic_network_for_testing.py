@@ -92,7 +92,7 @@ class BasicNetworkForTesting():
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
         # optimizer
 
-    def save(self, directory="./repository/"):
+    def save(self, save_as_best=False):
         """
         Exports everything related to the instantiation of this class to a
         ZIP file.
@@ -102,18 +102,22 @@ class BasicNetworkForTesting():
         Returns:
             The path to the ZIP file.
         """
+        if save_as_best:
+            self.make_filename_from_string('nn_best')
+
         print("Saving: " + self.filename_model + ' and ' + self.filename_optimizer)
 
         # Save model
-        filename_model = directory + self.filename_model
-        torch.save(self.model.state_dict(), filename_model)
+        torch.save(self.model, self.filename_model)
         # filename_model = rename_file_to_content_addressable(filename_model, ignore_extension=True, extension="_model.pt")
 
         # Save optimizer
-        filename_optimizer = directory + self.filename_optimizer
-        torch.save(self.optimizer.state_dict(), filename_optimizer)
+        torch.save(self.optimizer.state_dict(), self.filename_optimizer)
         # filename_optimizer = rename_file_to_content_addressable(filename_optimizer, ignore_extension=True, extension="_optim.pt")
-        return filename_model, filename_optimizer
+
+        self.make_filename_from_string(self.filename)
+
+        return self.filename_model, self.filename_optimizer
 
 
     def load(self):
@@ -124,7 +128,7 @@ class BasicNetworkForTesting():
                             '   Model name: ' + self.filename_model,
                             '   Edit ./configs/agent_' + self.name + '.json so you have "imported: false" and "exported: true"')
 
-        self.model.load_state_dict(torch.load(self.filename_model))
+        self.model = torch.load(self.filename_model)
         self.optimizer.load_state_dict(torch.load(self.filename_optimizer))
 
     # initialize prediction storage

@@ -1,0 +1,20 @@
+{
+    "competitors": [
+        {
+            "cfg": "random",
+            "brain": "None"
+        },
+        {
+            "cfg": "nn_oli",
+            "brain": "new"
+        },
+        {
+            "cfg": "nn_oli",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_default",
+            "brain": "new"
+        }
+    ]
+}

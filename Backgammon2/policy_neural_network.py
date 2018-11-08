@@ -57,7 +57,6 @@ class PolicyNeuralNetwork(Policy):
         Returns:
             A move.
         """
-
         # variable to hold ratings
         move_ratings = []
 
@@ -74,7 +73,6 @@ class PolicyNeuralNetwork(Policy):
                 max = move
                 max_i = i
 
-
         best_move = max_i
         move = best_move
         self.number_of_decisions_0 += int(move == 0)
@@ -84,8 +82,8 @@ class PolicyNeuralNetwork(Policy):
 
         return move
 
-    def save(self):
-        return self.net.save()
+    def save(self, save_as_best=False):
+        return self.net.save(save_as_best=save_as_best)
 
     def load(self, filename):
         self.net.load(filename)
@@ -99,25 +97,8 @@ class PolicyNeuralNetwork(Policy):
         """
         return self.net.filename
 
-
-    def log_and_reset_number_of_decisions_0(self):
-        if self.verbose:
-            print("")
-            print("% of decisions '0' (first of array), lower is better ")
-            print(str(float(self.number_of_decisions_0) / self.decision_counter))
-        self.number_of_decisions_0 = 0
-        self.decision_counter = 0
-
-
-    def export_network(self, filename=False):
-        self.net.export(filename=filename)
-
-
     def add_reward(self, reward):
         # only necessary line in this function
         self.net.give_reward_to_nn(reward)
-
         # statistics
         self.counter += 1
-
-        self.log_and_reset_number_of_decisions_0()

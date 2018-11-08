@@ -35,7 +35,7 @@ def load_agent_cfgs(dirname = "configs"):
 def get_agent_config_by_config_name(config_name):
     return agent_cfgs[config_name]
 
-def get_agent_by_config_name(config_name, brain_name = "new"):
+def get_agent_by_config_name(config_name, brain_type):
     """
     Loads in agent by agent configuartion name.
     """
@@ -52,14 +52,17 @@ def get_agent_by_config_name(config_name, brain_name = "new"):
     elif agent_cfg_type == "human":
         agent = HumanAgent()
     elif agent_cfg_type == "nn1":
-        if brain_name == "new":
+        if brain_type == "new":
+            print('executing that')
             agent = NNAgent1(agent_cfg=agent_cfg)
-        elif brain_name == "best":
+        elif brain_type == "best":
+            print("executing this")
             agent = NNAgent1(agent_cfg=agent_cfg, imported=True)
         else:
             raise Exception("Something is not right")
     elif agent_cfg_type == 'best_nn1':
-        agent = NNAgent1(agent_cfg = agent_cfg, load_best=True)
+        print('executing whut')
+        agent = NNAgent1(agent_cfg = agent_cfg, imported=True)
     else:
         raise Exception('Unknown type of agent: ' + str(agent_cfg_type))
 
