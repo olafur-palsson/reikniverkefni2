@@ -75,7 +75,6 @@ def random_pair_not_self(arr):
 def print_competitors(competitors):
     print("Rating of each player")
     print("")
-    print(competitors)
     competitors.sort(key=lambda competitor: competitor['rating'].mu - competitor['rating'].sigma)
 
     for i, competitor in enumerate(competitors):
