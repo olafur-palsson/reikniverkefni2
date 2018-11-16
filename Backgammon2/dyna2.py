@@ -26,37 +26,19 @@ default_filename = "_".join(str(datetime.datetime.now()).split(" "))
 
 default_agent_cfg = copy.deepcopy(load_file_as_json('configs/agent_nn_default.json'))
 
-class BasicNetworkForTesting():
+class Dyna2():
     """
     Creates a basic neural network for testing.
     """
 
     # make this one output [nn.Linear, nn.Linear...] or whatever layers you would like, then the rest is automatic
     def make_layers(self, agent_cfg):
-        layers_widths = []
-        layers_widths += [ agent_cfg['cfg']['neural_network']['input_layer']   ]
-        layers_widths +=   agent_cfg['cfg']['neural_network']['hidden_layers']
-        layers_widths += [ agent_cfg['cfg']['neural_network']['output_layer']  ]
-        # Total number of layers
-        n = len(layers_widths)
-        layers = []
-        for i in range(n - 1):
-            layer_width_left  = layers_widths[i]
-            layer_width_right = layers_widths[i + 1]
-            linear_module = nn.Linear(layer_width_left, layer_width_right)
-            # layers.append(nn.ReLU()) # uncomment for ReLU
-            # layers.append(nn.Dropout(p=0.025)) # uncomment for drop-out
-            layers += [linear_module]
-            # layers.append(nn.ReLU()) # uncomment for ReLU
-        try:
-            if self.cfg_neural_network['sigmoid']:
-                layers += [torch.nn.Sigmoid()]
-        except KeyError:
-            do_nothing = 0
-        return layers
+        linear_module = nn.Linear(layer_width_left, layer_width_right)
+        return [linear_module]
 
     def make_filename_from_string(self, filename_root_string):
         # sets class-wide filename for exporting to files
+        filename_root_string = 'dyna_2'
         self.filename_model = './repository/' + filename_root_string + "_model.pt"
         self.filename_optimizer = './repository/' + filename_root_string + "_optim.pt"
 
@@ -66,8 +48,7 @@ class BasicNetworkForTesting():
         self.name = agent_cfg['name']
         self.filename = agent_cfg['cfg']['filename']
 
-    def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None, imported=False, use_sigmoid=False):
-
+    def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None, imported=False):
         """
         Args:
             filename_of_network_to_bo_loaded: default `False`
@@ -77,7 +58,7 @@ class BasicNetworkForTesting():
             archive_name: default `None`
         """
         self.verbose = verbose
-        self.use_sigmoid = use_sigmoid
+
         agent_cfg = agent_cfg if agent_cfg else default_agent_cfg
         self.parse_json(agent_cfg)
 

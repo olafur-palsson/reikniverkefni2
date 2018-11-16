@@ -1,20 +1,20 @@
 {
-	"name": "nn_shallow",
+	"name": "nn_oli3",
 	"type": "nn1",
 	"cfg": {
-    "filename": "nn_shallow",
+    "filename": "nn_oli3",
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
 		"neural_network": {
 		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [],
+			"hidden_layers": [150, 150, 150, 150],
 			"output_layer": 1
 		},
 		"sgd": {
 			"momentum": 0.9,
-			"learning_rate": 0.00005
+			"learning_rate": 0.00001
 		}
 	}
 }

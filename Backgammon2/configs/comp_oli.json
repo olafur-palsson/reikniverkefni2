@@ -5,15 +5,15 @@
             "brain": "None"
         },
         {
-            "cfg": "nn_oli",
-            "brain": "new"
-        },
-        {
-            "cfg": "nn_oli",
+            "cfg": "nn_best",
             "brain": "best"
         },
         {
-            "cfg": "nn_default",
+            "cfg": "nn_oli2",
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_oli3",
             "brain": "new"
         }
     ]

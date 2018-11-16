@@ -248,6 +248,17 @@ class Backgammon:
 
         self.board = self.get_flipped_board()
 
+    def get_serial_code_for_board(self, board):
+        """
+        Hashes board and return a unique serial
+        """
+        string = ''
+        for i in board:
+            if i == 16:
+                string += 'e'
+            hex_num = str(hex(i))
+            string += hex_num[-1]
+        return string
 
     def clone(self):
         """

@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -5,7 +6,6 @@ This *IS* the neural network under consideration.
 """
 import torch
 import torch.nn as nn
-import torch.nn.functional as Function
 import torch.optim as Optimizer
 from torch.autograd import Variable
 import numpy as np
