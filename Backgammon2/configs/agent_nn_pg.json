@@ -1,21 +1,21 @@
 {
-	"name": "nn_oli3",
+	"name": "nn_pg",
 	"type": "nn1",
 	"cfg": {
-    "filename": "nn_oli3",
-    "use_policy_gradient": false,
+    "filename": "nn_pg",
+    "use_policy_gradient": true,
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
 		"neural_network": {
 		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [150, 150, 150, 150],
-			"output_layer": 1
+			"hidden_layers": [250, 250],
+			"output_layer": 100
 		},
 		"sgd": {
 			"momentum": 0.9,
-			"learning_rate": 0.00001
+			"learning_rate": 0.0005
 		}
 	}
 }

@@ -5,16 +5,8 @@
             "brain": "None"
         },
         {
-            "cfg": "nn_best",
+            "cfg": "nn_pg",
             "brain": "best"
-        },
-        {
-            "cfg": "nn_oli2",
-            "brain": "best"
-        },
-        {
-            "cfg": "nn_oli3",
-            "brain": "new"
         }
     ]
 }

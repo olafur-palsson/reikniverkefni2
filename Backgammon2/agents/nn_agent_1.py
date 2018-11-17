@@ -9,6 +9,7 @@ from agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
 from policy_neural_network import PolicyNeuralNetwork
+from policy_pg_network import PolicyPGNetwork
 
 
 class NNAgent1(AgentInterface):
@@ -26,8 +27,11 @@ class NNAgent1(AgentInterface):
             verbose: default `False`
         """
         AgentInterface.__init__(self)
-        print('imported  = ', imported)
-        self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
+        if agent_cfg['cfg']['use_policy_gradient']:
+            self.pub_stomper = PolicyPGNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
+        else:
+            self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
+
 
 
     def action(self, board, dice, player):

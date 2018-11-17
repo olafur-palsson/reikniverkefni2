@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-TODO: epsilon should be a parameter for this class, and also whether
-one wants to use Parallel Network.
-"""
 import numpy as np
 import random
 
@@ -13,22 +7,7 @@ from parallel_network import ParallelNetwork
 
 class PolicyNeuralNetwork(Policy):
 
-    # Epsilon for e-greedy
-    # use agent_cfg['cfg']['epsilon'] instead
-    # epsilon = 0.15
-
-    # Data for statistics
-    number_of_decisions_0 = 0
-    decision_counter = 0
-    counter = 0
-    net = 0
-    policy = 'argmax'
-
-    # Decide what neural network to use
-    # self.net = BasicNetworkForTesting()
-    # or
-    # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, verbose = False, agent_cfg = None, imported=False, policy_decision_function='argmax'):
+    def __init__(self, verbose=False, agent_cfg=None, imported=False, policy_decision_function='argmax'):
         """
         Args:
             load_best (bool): default `False`
@@ -41,7 +20,7 @@ class PolicyNeuralNetwork(Policy):
 
         Policy.__init__(self)
         self.verbose = verbose
-        self.net = BasicNetworkForTesting(verbose = verbose, agent_cfg = agent_cfg, imported=imported)
+        self.net = BasicNetworkForTesting(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
 
     def argmax(self, move_ratings):
         # get max value
@@ -84,8 +63,6 @@ class PolicyNeuralNetwork(Policy):
             move_ratings.append(value_of_board)
 
         move = 0
-        self.number_of_decisions_0 += int(move == 0)
-        self.decision_counter += 1
         # move = best_move if random.random() > self.epsilon else random.rand_int(len(possible_boards - 1)) # uncomment for e_greedy
         self.net.run_decision(self.get_feature_vector(possible_boards[move]))
 
@@ -109,5 +86,3 @@ class PolicyNeuralNetwork(Policy):
     def add_reward(self, reward):
         # only necessary line in this function
         self.net.give_reward_to_nn(reward)
-        # statistics
-        self.counter += 1

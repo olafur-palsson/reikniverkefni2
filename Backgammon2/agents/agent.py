@@ -53,10 +53,8 @@ def get_agent_by_config_name(config_name, brain_type):
         agent = HumanAgent()
     elif agent_cfg_type == "nn1":
         if brain_type == "new":
-            print('executing that')
             agent = NNAgent1(agent_cfg=agent_cfg)
         elif brain_type == "best":
-            print("executing this")
             agent = NNAgent1(agent_cfg=agent_cfg, imported=True)
         else:
             raise Exception("Something is not right")

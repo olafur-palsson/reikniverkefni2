@@ -138,12 +138,16 @@ class BasicNetworkForTesting():
         self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
         self.optimizer.load_state_dict(torch.load(self.filename_optimizer))
 
+
     # initialize prediction storage
     predictions = torch.empty((1), dtype = dtype, requires_grad=True)
+
     # run a feature vector through the model accumulating greadient
-    def run_decision(self, board_features):
+    def run_decision(self, board_features, save_predictions=True):
         prediction = self.model(board_features)
-        self.predictions = torch.cat((self.predictions, prediction.double()))
+        if save_predictions:
+            self.predictions = torch.cat((self.predictions, prediction.double()))
+        return prediction
 
     # run a feature vector through the model without accumulating gradient
     def predict(self, board_features):
@@ -166,6 +170,14 @@ class BasicNetworkForTesting():
             # network, denoted `self.model` and outputs a number (the value of
             # the board).
             return self.model(board_features)
+
+
+    def manually_reset_grad(self):
+        self.optimizer.zero_grad()
+    # for use in policy gradient
+    def manually_update_weights_of_network(self):
+        self.optimizer.step()
+        self.optimizer.zero_grad()
 
     # Initialize reward storage and statistical variables
     rewards = []
