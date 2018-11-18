@@ -28,9 +28,7 @@ def load_agent_cfgs(dirname = "configs"):
         else:
             raise Exception("At least two agent configs. share the same name: " + str(name))
 
-
 # TODO: implement reload
-
 # Yolo
 def get_agent_config_by_config_name(config_name):
     return agent_cfgs[config_name]

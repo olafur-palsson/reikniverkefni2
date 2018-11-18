@@ -65,17 +65,13 @@ class PolicyPGNetwork(Policy):
 
         # Decide move and save log_prob for backward
         # We make sure not to affect the value fn with .detach()
+
         probs = self.pg_plugin.softmax(last_layer_outputs)
-        check = (float(probs[0] - probs[-1:]))
-        """
-        if check > 0.001:
-            print(check)
-        else: print('Lol')
-        """
-        distribution = Categorical(probs)
+        distribution = Multinomial(1, probs)
         move = distribution.sample()
         self.saved_log_probabilities.append(distribution.log_prob(move))
 
+        _, move = move.max(0)
         # calculate the value estimation and save for backward
         value_estimate = self.pg_plugin.value_function(last_layer_outputs[move])
         self.saved_value_estimations.append(value_estimate)
@@ -98,6 +94,8 @@ class PolicyPGNetwork(Policy):
         """
         return self.net.filename
 
+    eps = np.finfo(np.float32).eps.item()
+
     def add_reward(self, reward):
         td_n = 1
         episode_length = len(self.saved_value_estimations)
@@ -116,7 +114,6 @@ class PolicyPGNetwork(Policy):
         self.net.manually_update_weights_of_network()
         self.pg_plugin.manually_update_value_function()
 
-
         # til ad optimize-a thetta tha tharf eg ad setja thetta i module
         # like this guy
         # https://github.com/pytorch/examples/blob/master/reinforcement_learning/reinforce.py#L90
@@ -126,8 +123,7 @@ class PolicyPGNetwork(Policy):
         # Note that we put the (-) in front of rewards to do
         # gradient ascent instead of descent
         log_probs = torch.stack(self.saved_log_probabilities)
-
-        loss2 = torch.dot(-rewards, log_probs).sum()
+        loss2 = torch.dot(-rewards, log_probs)
         loss2.backward()
         self.pg_plugin.manually_update_pg_model()
 

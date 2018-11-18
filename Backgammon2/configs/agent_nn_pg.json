@@ -10,12 +10,12 @@
 		"neural_network": {
 		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [250, 250],
+			"hidden_layers": [100],
 			"output_layer": 100
 		},
 		"sgd": {
 			"momentum": 0.9,
-			"learning_rate": 0.0005
+			"learning_rate": 0.001
 		}
 	}
 }

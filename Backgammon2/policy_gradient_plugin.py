@@ -70,7 +70,7 @@ class PolicyGradientPlugin():
 
         # a.k.a. theta
         self.pg_model = nn.Sequential(nn.Linear(output_layer, 1))
-        self.pg_optim = torch.optim.SGD(self.pg_model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
+        self.pg_optim = torch.optim.SGD(self.pg_model.parameters(), momentum = self.cfg_sgd['momentum'], lr = 50 * self.cfg_sgd['learning_rate'])
 
         # If import if the config tells us to import it
         if imported:
@@ -116,10 +116,8 @@ class PolicyGradientPlugin():
         self.value_optim.load_state_dict(torch.load(self.filename_value_optim))
 
     def softmax(self, input_vectors, requires_grad=True):
-        scores = []
-        for input in input_vectors:
-            scores.append(self.pg_model(input.detach()))
-        return Function.softmax(torch.cat(scores), dim=0)
+        scores = list(map(lambda input: self.pg_model(input.detach()), input_vectors))
+        return Function.softmax(torch.cat(scores))
 
     def value_function(self, input, requires_grad=True):
         return self.value_function.apply(input)
