@@ -64,20 +64,17 @@ class Statistic():
         print("")
 
     # Print results out to a file (every 100 games)
-    # agent object needs to have a get_file_name() method!
+    # agent object needs to have a get_filename() method!
     def output_result(self):
         """
         Save something from `do_default()`.
         """
-        file_name = "results/" + self.agent.get_file_name() + "_result.pt"
-        Path(file_name).touch()
-        file = open(file_name, "w")
+        filename = "results/" + self.agent.get_filename() + "_result.pt"
+        Path(filename).touch()
+        file = open(filename, "w")
         file.write("Highest win rate last 500: " + str(self.highest_win_rate) + "\n")
         file.write("End win rate: " +  str(self.win_rate) + "\n")
         file.write("Wins: " + str(self.winners[0]) + "\n")
         file.write("Loses: " + str(self.winners[1]) + "\n")
         file.write("Games played: " + str(self.games_played) + "\n")
         file.close()
-
-
-

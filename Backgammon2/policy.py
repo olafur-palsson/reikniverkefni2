@@ -99,5 +99,5 @@ class Policy():
     def evaluate(self, board):
         raise Exception("Evaluation function not set")
 
-    def get_file_name(self):
+    def get_filename(self):
         raise Exception("File name not set")

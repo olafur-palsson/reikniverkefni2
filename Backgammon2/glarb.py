@@ -1,12 +1,16 @@
-from trueskill import Rating, quality_1vs1, rate_1vs1
+
+# Experimental
+# $ pip install trueskill
+import os
+import numpy as np
 from pathlib import Path
 from lib.utils import load_file_as_json, does_file_exist, save_json_to_file, hash_json, timestamp
-from backgammon_game import Backgammon
-import numpy as np
-import os
-from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
 from lib.manifest import Manifest
 
+from backgammon_game import Backgammon
+from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
+
+from trueskill import Rating, quality_1vs1, rate_1vs1
 
 def update_rating(rating1, rating2, result):
     """
@@ -20,7 +24,6 @@ def update_rating(rating1, rating2, result):
     Returns:
         Updated (rating1', rating2')
     """
-
     new_rating1 = None
     new_rating2 = None
 
@@ -40,15 +43,9 @@ def update_rating(rating1, rating2, result):
 
 
 def rating_to_string(rating):
-    """
-    Helper function
-    """
-
     fmt_s = '{0:.6f}'
-
     mu = rating.mu
     sigma = rating.sigma
-
     return "µ = " + str.format(fmt_s, mu) + ", σ = " + str.format(fmt_s, sigma)
 
 
@@ -70,9 +67,34 @@ def random_pair_not_self(arr):
     raise Exception("Shouldn't happen!")
 
 
+def make_competitor(agent_config, agent, agent_config_name, brain):
+    return {
+        "cfg": agent_config,
+        "agent": agent,
+        "rating": Rating(25, 25/3),
+        "played_games": 0,
+        "losses": 0,
+        "wins": 0,
+        "agent_config_name": agent_config_name,
+        "brain": brain
+    }
 
+    
+def update_wins_and_losses(result, competitor1, competitor2):
+    competitor1['played_games'] += 1
+    competitor2['played_games'] += 1
+    if result > 0:
+        competitor1['wins'] += 1
+        competitor2['losses'] += 1
+    else:
+        competitor1['losses'] += 1
+        competitor2['wins'] += 1
 
-def print_competitors(competitors):
+def print_competitors(competitors, iteration):
+    print("")
+    print("")
+    print("State at game number: " + str(iteration))
+    print("")
     print("Rating of each player")
     print("")
     competitors.sort(key=lambda competitor: competitor['rating'].mu - competitor['rating'].sigma)
@@ -89,28 +111,23 @@ def print_competitors(competitors):
         print("    Win/Loss Ratio: " + str(_wlr))
 
 
-
 def save_competitors(competition, competitors):
     print("Saving...")
 
     manifest = Manifest("./repository/manifest.json")
     manifest.load()
-    
 
     competition_config_hash = hash_json(competition)
 
     competition_result = {
         "competitor_result_hashes": []
     }
-    
+
     for competitor in competitors:
-        
+
         agent_config_name = competitor['agent_config_name']
         agent_config = competitor['cfg']
         agent = competitor['agent']
-
-
-        agent_config_hash = hash_json(competitor["cfg"])
 
         print(competitor['agent'])
 
@@ -124,13 +141,11 @@ def save_competitors(competition, competitors):
             },
             "wins": competitor['wins'],
             "losses": competitor['losses'],
-            "competition_config_hash": competition_config_hash,
             "timestamp": timestamp(),
-            "agent_config_hash": agent_config_hash,
             "played_games": competitor["played_games"]
         }
 
-        
+
 
         if brain_location:
             competitor_result["brain_location"] = brain_location
@@ -139,24 +154,25 @@ def save_competitors(competition, competitors):
 
         competition_result["competitor_result_hashes"] += [competitor_result_hash]
 
+        manifest.set("competition_config_hash{}" + competition_config_hash)
         manifest.set("competitor_result{}" + competitor_result_hash, competitor_result)
-        manifest.set("agent{}" + agent_config_hash + "{}competitions[]+", competitor_result_hash)
+        manifest.set("agent{}" + "competitions[]+", competitor_result_hash)
 
-        manifest.set("agent_config{}" + agent_config_hash + "{}name", agent_config_name)
+        manifest.set("agent_config{}" + "name", agent_config_name)
 
 
         try:
-            best_trueskill = manifest.get("agent_config{}" + agent_config_hash + "{}best{}trueskill")
+            best_trueskill = manifest.get("agent_config{}" + "{}best{}trueskill")
 
             a = competitor_result["trueskill_rating"]["mu"] - competitor_result["trueskill_rating"]["sigma"]
             b = best_trueskill["mu"] - best_trueskill["sigma"]
 
             if a > b:
-                manifest.set("agent_config{}" + agent_config_hash + "{}best{}trueskill", competitor_result["trueskill_rating"])
-                manifest.set("agent_config{}" + agent_config_hash + "{}best{}competitor_result_hash", competitor_result_hash)
+                manifest.set("agent_config{}" + "{}best{}trueskill", competitor_result["trueskill_rating"])
+                manifest.set("agent_config{}" + "{}best{}competitor_result_hash", competitor_result_hash)
         except:
-            manifest.set("agent_config{}" + agent_config_hash + "{}best{}trueskill", competitor_result["trueskill_rating"])
-            manifest.set("agent_config{}" + agent_config_hash + "{}best{}competitor_result_hash", competitor_result_hash)
+            manifest.set("agent_config{}" + "best{}trueskill", competitor_result["trueskill_rating"])
+            manifest.set("agent_config{}" + "best{}competitor_result_hash", competitor_result_hash)
 
 
     competition_result_hash = hash_json(competition_result)
@@ -164,21 +180,19 @@ def save_competitors(competition, competitors):
     competition_hash = hash_json(competition)
 
     manifest.set("competition{}" + competition_hash + "{}results{}" + competition_result_hash, competition_result)
-    
+
     manifest.save()
 
 
-def do_glarb(path_to_competition_json = "configs/competition_test.json"):
+def do_glarb():
 
-    print("Loading competition: " + str(path_to_competition_json))
-    
     # Load in competition.
     competition = load_file_as_json(path_to_competition_json)
 
     # Get competitors information.
     competitors_info = competition["competitors"]
 
-    
+
     # Load in competitors.
     competitors = []
     for competitor_info in competitors_info:
@@ -211,12 +225,10 @@ def do_glarb(path_to_competition_json = "configs/competition_test.json"):
 
     # Train
     print("Training...")
-    
     iteration = 0
     try:
         while True:
             iteration += 1
-            print(str(iteration))
 
             competitor1, competitor2 = random_pair_not_self(competitors)
 
@@ -236,34 +248,19 @@ def do_glarb(path_to_competition_json = "configs/competition_test.json"):
             player1.add_reward(result)
             player2.add_reward(-result)
 
-            competitor1['played_games'] += 1
-            competitor2['played_games'] += 1
-
-            if result == 1:
-                # Player 1 won
-                # Player 2 lost
-                competitor1['wins'] += 1
-                competitor2['losses'] += 1
-            elif result == -1:
-                # Player 1 lost
-                # Player 2 won
-                competitor1['losses'] += 1
-                competitor2['wins'] += 1
-            else:
-                raise Exception("Unexpected result: " + str(result))
+            update_wins_and_losses(result, competitor1, competitor2)
 
             # Rate performance
-            rating1, rating2 = competitor1['rating'], competitor2['rating']
-            competitor1['rating'], competitor2['rating'] = update_rating(rating1, rating2, result)
+            competitor1['rating'], competitor2['rating'] = update_rating(competitor1['rating'], competitor2['rating'], result)
 
             if iteration % 10 == 0:
-                print_competitors(competitors)
+                print_competitors(competitors, iteration)
 
             if iteration % 10000 == 0:
                 save_competitors(competition, competitors)
     except:
         print("Halted!")
-    
+
     print_competitors(competitors)
     save_competitors(competition, competitors)
 
