@@ -4,7 +4,7 @@
 """
 import numpy as np
 
-from agents.agent_interface import AgentInterface
+from pub_stomper_agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
 

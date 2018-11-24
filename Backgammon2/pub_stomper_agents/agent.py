@@ -3,19 +3,19 @@ Brain naming convention
 {agent config. type}-{agent config. name}-{timestamp}[-...]
 """
 
-from agents.random_agent import RandomAgent
-from agents.human_agent import HumanAgent
-from agents.nn_agent_1 import NNAgent1
+from pub_stomper_agents.random_agent import RandomAgent
+from pub_stomper_agents.human_agent import HumanAgent
+from pub_stomper_agents.nn_agent_1 import NNAgent1
 
 from pathlib import Path
-from lib.utils import hash_string, does_file_exist, hash_json, load_file_as_string, load_file_as_json, print_json
+from pub_stomper_lib.utils import hash_string, does_file_exist, hash_json, load_file_as_string, load_file_as_json, print_json
 import os
 
 agent_cfgs = {}
 
-def load_agent_cfgs(dirname = "configs"):
+def load_agent_cfgs(dirname = "pub_stomper_configs"):
     """
-    Load all agent configs
+    Load all agent pub_stomper_configs
     DONT IMPORT
     """
     agent_cfg_filenames = list(filter(lambda name: name[0:5] == 'agent' and name[-4:] == 'json', os.listdir(dirname)))
@@ -26,7 +26,7 @@ def load_agent_cfgs(dirname = "configs"):
         if name not in agent_cfgs:
             agent_cfgs[name] = agent_cfg
         else:
-            raise Exception("At least two agent configs. share the same name: " + str(name))
+            raise Exception("At least two agent pub_stomper_configs. share the same name: " + str(name))
 
 # TODO: implement reload
 # Yolo

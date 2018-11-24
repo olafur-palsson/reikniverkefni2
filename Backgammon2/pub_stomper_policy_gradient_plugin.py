@@ -16,7 +16,7 @@ from pathlib import Path
 import copy
 import os
 
-from lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
+from pub_stomper_lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
 
 
 dtype = torch.double
@@ -26,14 +26,14 @@ default_filename = "_".join(str(datetime.datetime.now()).split(" "))
 
 
 class PolicyGradientPlugin():
-    # An add on for basic_network_for_testing.py (why is this name still there)
+    # An add on for pub_stomper_basic_network_for_testing.py (why is this name still there)
 
     def make_filename_from_string(self, filename_root_string):
         # sets class-wide filename for exporting to files
-        self.filename_value_function = './repository/' + filename_root_string + "_valuefunction.pt"
-        self.filename_value_optim  = './repository/' + filename_root_string + "_valueoptim.pt"
-        self.filename_pg_model    = './repository/' + filename_root_string + "_pgmodel.pt"
-        self.filename_pg_optim     = './repository/' + filename_root_string + "_pgoptim.pt"
+        self.filename_value_function = './pub_stomper_repository/' + filename_root_string + "_valuefunction.pt"
+        self.filename_value_optim  = './pub_stomper_repository/' + filename_root_string + "_valueoptim.pt"
+        self.filename_pg_model    = './pub_stomper_repository/' + filename_root_string + "_pgmodel.pt"
+        self.filename_pg_optim     = './pub_stomper_repository/' + filename_root_string + "_pgoptim.pt"
 
     def parse_json(self, agent_cfg):
         self.cfg_sgd = agent_cfg['cfg']['sgd']
@@ -86,7 +86,7 @@ class PolicyGradientPlugin():
         torch.save(self.value_function, self.filename_value_function)
         torch.save(self.value_optim.state_dict(), self.filename_value_optim)
 
-        # Save policy gradient weights
+        # Save pub_stomper_policy gradient weights
         torch.save(self.pg_model, self.filename_pg_model)
         torch.save(self.pg_optim.state_dict(), self.filename_pg_optim)
 
@@ -102,7 +102,7 @@ class PolicyGradientPlugin():
         ]
         if not all(filename for filename in filenames):
             raise Exception('Did not find all models or optimizers, export at least once first: \n',
-                            '   Edit ./configs/agent_***.json so you have these: \n',
+                            '   Edit ./pub_stomper_configs/agent_***.json so you have these: \n',
                             filenames)
 
         self.pg_model = torch.load(self.filename_pg_model)

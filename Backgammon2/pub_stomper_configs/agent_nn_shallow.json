@@ -1,16 +1,16 @@
 {
-	"name": "nn_best",
+	"name": "nn_shallow",
 	"type": "nn1",
 	"cfg": {
-    "filename": "nn_best",
-    "use_policy_gradient": false,
+    "filename": "nn_shallow",
+    "use_pub_stomper_policy_gradient": false,
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
 		"neural_network": {
-		  "temporal_delay": 2,
+		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [100, 100, 100],
+			"hidden_layers": [],
 			"output_layer": 1
 		},
 		"sgd": {

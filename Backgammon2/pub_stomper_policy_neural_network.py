@@ -1,13 +1,13 @@
 import numpy as np
 import random
 
-from policy import Policy
-from basic_network_for_testing import BasicNetworkForTesting
+from pub_stomper_policy import pub_stomper_policy
+from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
 
-class PolicyNeuralNetwork(Policy):
+class PolicyNeuralNetwork(pub_stomper_policy):
 
-    def __init__(self, verbose=False, agent_cfg=None, imported=False, policy_decision_function='argmax'):
+    def __init__(self, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
         """
         Args:
             load_best (bool): default `False`
@@ -16,9 +16,9 @@ class PolicyNeuralNetwork(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
-        self.policy_decision_function = policy_decision_function
+        self.pub_stomper_policy_decision_function = pub_stomper_policy_decision_function
 
-        Policy.__init__(self)
+        pub_stomper_policy.__init__(self)
         self.verbose = verbose
         self.net = BasicNetworkForTesting(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
 
@@ -32,7 +32,7 @@ class PolicyNeuralNetwork(Policy):
                 max_i = i
         return max_i
 
-    def policy_gradient(self, move_ratings):
+    def pub_stomper_policy_gradient(self, move_ratings):
         exponential_ratings = map(lambda move_rating: np.e ** move_rating)
         move = 0
         random_number = random.random()

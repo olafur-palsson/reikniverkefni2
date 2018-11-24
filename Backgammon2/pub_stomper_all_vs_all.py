@@ -5,9 +5,9 @@
 import os
 import numpy as np
 from pathlib import Path
-from lib.utils import load_file_as_json
+from pub_stomper_lib.utils import load_file_as_json
 from backgammon_game import Backgammon
-from agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
+from pub_stomper_agents.agent import get_agent_config_by_config_name, get_agent_by_config_name
 
 from trueskill import Rating, quality_1vs1, rate_1vs1
 
@@ -92,7 +92,7 @@ def save_competitors(competitors):
     print("Saving...")
     competitor_names_already_saved = ['nn_best']
     best_network_is_playing = False
-    # Save all to their corresponding place in './repository'
+    # Save all to their corresponding place in './pub_stomper_repository'
     for competitor in competitors:
         name_of_competitor = competitor['cfg']['name']
         # BETA: Veit ekki hvort thetta virkar enntha
@@ -146,7 +146,7 @@ def train(competitors):
         if iteration % 10 == 0:
             print_competitors(competitors, iteration)
 
-        if iteration % (100 * len(competitors)) == 0:
+        if iteration % (10 * len(competitors)) == 0:
             save_competitors(competitors)
 
 
@@ -170,7 +170,7 @@ def make_competitor(competitor_info):
 
 def play_all_vs_all(competition_cfg_file):
     if not competition_cfg_file: competition_cfg_file = 'competition_test'
-    path = "configs/" + competition_cfg_file + '.json'
+    path = "pub_stomper_configs/" + competition_cfg_file + '.json'
 
     #
     competition_setup = load_file_as_json(path)

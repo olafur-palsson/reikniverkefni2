@@ -15,7 +15,7 @@ from pathlib import Path
 import copy
 import os
 
-from lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
+from pub_stomper_lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
 
 
 dtype = torch.double
@@ -24,7 +24,7 @@ device = torch.device("cuda:0") # Uncomment this to run on GPU
 
 default_filename = "_".join(str(datetime.datetime.now()).split(" "))
 
-default_agent_cfg = copy.deepcopy(load_file_as_json('configs/agent_nn_default.json'))
+default_agent_cfg = copy.deepcopy(load_file_as_json('pub_stomper_configs/agent_nn_default.json'))
 
 class BasicNetworkForTesting():
     """
@@ -57,8 +57,8 @@ class BasicNetworkForTesting():
 
     def make_filename_from_string(self, filename_root_string):
         # sets class-wide filename for exporting to files
-        self.filename_model = './repository/' + filename_root_string + "_model.pt"
-        self.filename_optimizer = './repository/' + filename_root_string + "_optim.pt"
+        self.filename_model = './pub_stomper_repository/' + filename_root_string + "_model.pt"
+        self.filename_optimizer = './pub_stomper_repository/' + filename_root_string + "_optim.pt"
 
     def parse_json(self, agent_cfg):
         self.cfg_sgd = agent_cfg['cfg']['sgd']
@@ -132,7 +132,7 @@ class BasicNetworkForTesting():
         if not os.path.isfile(self.filename_model) and not os.path.isfile(self.filename_optimizer):
             raise Exception('Did not find model or optimizer, export the model at least once first: \n',
                             '   Model name: ' + self.filename_model,
-                            '   Edit ./configs/agent_' + self.name + '.json so you have "imported: false" and "exported: true"')
+                            '   Edit ./pub_stomper_configs/agent_' + self.name + '.json so you have "imported: false" and "exported: true"')
 
         self.model = torch.load(self.filename_model)
         self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
@@ -174,7 +174,7 @@ class BasicNetworkForTesting():
 
     def manually_reset_grad(self):
         self.optimizer.zero_grad()
-    # for use in policy gradient
+    # for use in pub_stomper_policy gradient
     def manually_update_weights_of_network(self):
         self.optimizer.step()
         self.optimizer.zero_grad()

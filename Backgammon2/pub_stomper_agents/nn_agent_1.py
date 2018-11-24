@@ -5,11 +5,11 @@ A neural network agent.
 """
 import numpy as np
 
-from agents.agent_interface import AgentInterface
+from pub_stomper_agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
-from policy_neural_network import PolicyNeuralNetwork
-from policy_pg_network import PolicyPGNetwork
+from pub_stomper_policy_neural_network import PolicyNeuralNetwork
+from pub_stomper_policy_pg_network import PolicyPGNetwork
 
 
 class NNAgent1(AgentInterface):
@@ -27,7 +27,7 @@ class NNAgent1(AgentInterface):
             verbose: default `False`
         """
         AgentInterface.__init__(self)
-        if agent_cfg['cfg']['use_policy_gradient']:
+        if agent_cfg['cfg']['use_pub_stomper_policy_gradient']:
             self.pub_stomper = PolicyPGNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
         else:
             self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
@@ -49,7 +49,7 @@ class NNAgent1(AgentInterface):
         possible_moves, possible_boards = Backgammon.get_all_legal_moves_for_two_dice(board, dice)
 
         if len(possible_moves) != 0:
-            move = self.policy(possible_moves, possible_boards, dice)
+            move = self.pub_stomper_policy(possible_moves, possible_boards, dice)
 
         return move
 
@@ -84,7 +84,7 @@ class NNAgent1(AgentInterface):
         # obsolete
         return self.pub_stomper.get_filename()
 
-    def policy(self, possible_moves, possible_boards, dice):
+    def pub_stomper_policy(self, possible_moves, possible_boards, dice):
 
         best_move = self.pub_stomper.evaluate(possible_boards)
         move = possible_moves[best_move]

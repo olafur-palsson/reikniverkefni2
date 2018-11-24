@@ -12,13 +12,13 @@ import torch
 from torch.distributions.categorical import Categorical
 from torch.distributions.multinomial import Multinomial
 
-from policy import Policy
-from basic_network_for_testing import BasicNetworkForTesting
-from policy_gradient_plugin import PolicyGradientPlugin
+from pub_stomper_policy import pub_stomper_policy
+from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
+from pub_stomper_policy_gradient_plugin import PolicyGradientPlugin
 
-class PolicyPGNetwork(Policy):
+class PolicyPGNetwork(pub_stomper_policy):
 
-    def __init__(self, verbose=False, agent_cfg=None, imported=False, policy_decision_function='argmax'):
+    def __init__(self, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
         """
         Args:
             load_best (bool): default `False`
@@ -27,7 +27,7 @@ class PolicyPGNetwork(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
-        self.policy_decision_function = policy_decision_function
+        self.pub_stomper_policy_decision_function = pub_stomper_policy_decision_function
         self.saved_log_probabilities = []
         self.saved_value_estimations = []
 
@@ -116,7 +116,7 @@ class PolicyPGNetwork(Policy):
         # til ad optimize-a thetta tha tharf eg ad setja thetta i module
         # like this guy
         # https://github.com/pytorch/examples/blob/master/reinforcement_learning/reinforce.py#L90
-        # Update the policy gradient by maximizing this:
+        # Update the pub_stomper_policy gradient by maximizing this:
         rewards = torch.ones(episode_length) * reward
         # get the sum of the rewards * log_prob a.k.a. loss
         # Note that we put the (-) in front of rewards to do
@@ -128,4 +128,3 @@ class PolicyPGNetwork(Policy):
 
         self.saved_log_probabilities = []
         self.saved_value_estimations = []
-        

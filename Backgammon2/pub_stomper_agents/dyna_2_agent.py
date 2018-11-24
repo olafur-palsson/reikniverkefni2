@@ -6,10 +6,10 @@ A neural network agent.
 """
 import numpy as np
 
-from agents.agent_interface import AgentInterface
+from pub_stomper_agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
-from policy_dyna_2 import Dyna2
+from pub_stomper_policy_dyna_2 import Dyna2
 
 
 class Dyna2Agent(AgentInterface):
@@ -17,7 +17,7 @@ class Dyna2Agent(AgentInterface):
     training = True
 
     def __init__(self, verbose=False):
-        self.dyna2_policy = PolicyDyna()
+        self.dyna2_pub_stomper_policy = pub_stomper_policyDyna()
         """
         Creates a neural network agent.
 
@@ -45,7 +45,7 @@ class Dyna2Agent(AgentInterface):
         possible_moves, possible_boards = Backgammon.get_all_legal_moves_for_two_dice(board, dice)
 
         if len(possible_moves) != 0:
-            move = self.policy(possible_moves, possible_boards, dice)
+            move = self.pub_stomper_policy(possible_moves, possible_boards, dice)
 
         return move
 
@@ -76,7 +76,7 @@ class Dyna2Agent(AgentInterface):
         # obsolete
         return self.pub_stomper.get_filename()
 
-    def policy(self, possible_moves, possible_boards, dice, board_copy):
+    def pub_stomper_policy(self, possible_moves, possible_boards, dice, board_copy):
         best_move = self.dyna2.evaluate(possible_boards, board_copy)
         move = possible_moves[best_move]
 

@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-I think this class, `Policy`, should be extended.
+I think this class, `pub_stomper_policy`, should be extended.
 """
 
 import numpy as np
 import torch
 
-# Extend this class to make a policy to have all the feature_vector functions
-class Policy():
+# Extend this class to make a pub_stomper_policy to have all the feature_vector functions
+class pub_stomper_policy():
     """
-    A policy.
+    A pub_stomper_policy.
     """
 
     def __init__(self):

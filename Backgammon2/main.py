@@ -16,13 +16,13 @@ import numpy as np
 from cli_commands import get_commands_object
 
 from backgammon_game import Backgammon
-from agents.human_agent import HumanAgent
-from agents.random_agent import RandomAgent
-from agents.nn_agent_1 import NNAgent1
+from pub_stomper_agents.human_agent import HumanAgent
+from pub_stomper_agents.random_agent import RandomAgent
+from pub_stomper_agents.nn_agent_1 import NNAgent1
 
-from lib.utils import hash_json, load_file_as_json
+from pub_stomper_lib.utils import hash_json, load_file_as_json
 from statistic import Statistic
-from all_vs_all import play_all_vs_all
+from pub_stomper_all_vs_all import play_all_vs_all
 
 # Set logs
 verbose = True

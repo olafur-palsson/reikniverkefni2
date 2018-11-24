@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-A class, or interface, for agents. 
+A class, or interface, for pub_stomper_agents. 
 """
 
 class AgentInterface():
     """
-    A standardized interface for agents.
+    A standardized interface for pub_stomper_agents.
     """
 
     def __init__(self, training = False):
