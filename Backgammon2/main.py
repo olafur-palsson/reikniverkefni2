@@ -20,6 +20,7 @@ from pub_stomper_agents.human_agent import HumanAgent
 from pub_stomper_agents.random_agent import RandomAgent
 from pub_stomper_agents.nn_agent_1 import NNAgent1
 
+from pub_stomper_agents.agent import get_agent_by_config_name
 from pub_stomper_lib.utils import hash_json, load_file_as_json
 from statistic import Statistic
 from pub_stomper_all_vs_all import play_all_vs_all
@@ -124,7 +125,7 @@ def test_play():
     """
 
     player1 = HumanAgent()
-    player2 = NNAgent1(load_best=True)
+    player2 = get_agent_by_config_name('nn_pg', 'best')
 
     bg = Backgammon()
     bg.set_player_1(player1)

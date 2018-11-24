@@ -146,7 +146,7 @@ def train(competitors):
         if iteration % 10 == 0:
             print_competitors(competitors, iteration)
 
-        if iteration % (10 * len(competitors)) == 0:
+        if iteration % (100 * len(competitors)) == 0:
             save_competitors(competitors)
 
 

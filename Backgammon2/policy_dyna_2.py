@@ -9,6 +9,10 @@ import random
 
 from policy import Policy
 from dyna2 import Dyna2
+from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
+import torch
+
+amount_of_planning_games = 10
 
 class PolicyDyna2(Policy):
 
@@ -20,7 +24,7 @@ class PolicyDyna2(Policy):
     # self.net = BasicNetworkForTesting()
     # or
     # self.net = ParallelNetwork() <-- little crazy
-    def __init__(self, verbose = False, agent_cfg = None, imported=False):
+    def __init__(self, verbose=False, agent_cfg=None, imported=False):
         """
         Args:
             load_best (bool): default `False`
@@ -29,11 +33,37 @@ class PolicyDyna2(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
+        if not agent_cfg:
+            raise Error('yololo')
+
         Policy.__init__(self)
         self.verbose = verbose
-        self.dyna2 = Dyna2()
         self.after_state = 'null'
+
+        self.permanent_memory = torch.autograd.Variable(torch.ones((100, 1)))
+
         self.model = dict()
+        self.plan = False
+
+    # TODO
+    # Make variables for the network
+    # Make a second copy for the transient memory
+
+    # At the start of each game do some planning
+    #     This can be done by taking the permament memory,
+    #     copy it
+    #     then do the planning and update the shit based on the
+    #     rewards and all that stuff
+
+    # Next, take action with based on the transient memory
+    # predict also with the permanent memory and update that based on
+    # regular td-error
+
+    # REMEMBER
+    # Make it small
+    # Use basic tools
+    # Don't write super-dry code
+    # Just get it done.
 
     def get_board_id(self, board):
         hex_numbers = []
@@ -48,6 +78,14 @@ class PolicyDyna2(Policy):
             model[self.after_state] = []
             model[self.after_state].append(next_state)
 
+    def plan():
+        print('do some planning here before we play the next game')
+
+        transient_memory = BasicNetworkForTesting(agent_cfg=agent_cfg)
+
+
+        self.should_plan = False
+
     def evaluate(self, possible_boards, board_copy):
         """
         Evaluates the possible boards given to this method as an argument and
@@ -59,10 +97,11 @@ class PolicyDyna2(Policy):
         Returns:
             A move.
         """
+
+        if self.should_plan:
+            plan()
         # save the current state to the model only if not the starting state
         add_to_model(board_copy)
-
-        
 
         # variable to hold ratings
         move_ratings = []
@@ -108,3 +147,4 @@ class PolicyDyna2(Policy):
         self.after_state = 'null'
         # only necessary line in this function
         self.net.give_reward_to_nn(reward)
+        self.should_plan = True
