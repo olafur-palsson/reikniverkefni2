@@ -78,6 +78,7 @@ def print_competitors(competitors, iteration):
         rating = competitor['rating']
         name = competitor['cfg']['name']
         print("Player " + str(i + 1) + " ("  + name + "): ")
+        print("    Brain type: ", competitor['brain'])
         print("    TrueSkill: " + rating_to_string(rating))
         print("    Played games: " + str(competitor['played_games']))
         print("    Wins/losses: " + str(competitor['wins']) + " / " + str(competitor['losses']))
@@ -145,7 +146,7 @@ def train(competitors):
         if iteration % 10 == 0:
             print_competitors(competitors, iteration)
 
-        if iteration % (50 * len(competitors)) == 0:
+        if iteration % (100 * len(competitors)) == 0:
             save_competitors(competitors)
 
 
@@ -156,6 +157,7 @@ def make_competitor(competitor_info):
     agent_cfg = get_agent_config_by_config_name(agent_config_name)
     agent = get_agent_by_config_name(agent_config_name, brain_type)
     return {
+        "brain": brain_type,
         "cfg": agent_cfg,
         "agent": agent,
         "rating": Rating(25, 25/3),

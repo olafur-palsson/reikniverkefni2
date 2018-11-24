@@ -67,8 +67,18 @@ class Policy():
         Returns:
             A feature vector.
         """
-        return self.get_raw_data(board)
+        return self.hot_one(board)
         # return self.get_tesauro_feature_vector(self, board)
+
+    def hot_one(self, board):
+        features = np.array([])
+        for position in board:
+            vector = np.zeros(16)
+            vector[int(position) - 1] = 1
+            features = np.append(features, vector)
+        features = torch.from_numpy(features).float()
+        features.requires_grad = True
+        return features
 
 
     # expand board -> 464 vector

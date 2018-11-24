@@ -8,16 +8,13 @@ import numpy as np
 import random
 
 from policy import Policy
+from dyna2 import Dyna2
 
 class PolicyDyna2(Policy):
 
     # Epsilon for e-greedy
     # use agent_cfg['cfg']['epsilon'] instead
     # epsilon = 0.15
-
-    # Data for statistics
-    counter = 0
-    net = 0
 
     # Decide what neural network to use
     # self.net = BasicNetworkForTesting()
@@ -35,8 +32,23 @@ class PolicyDyna2(Policy):
         Policy.__init__(self)
         self.verbose = verbose
         self.dyna2 = Dyna2()
+        self.after_state = 'null'
+        self.model = dict()
 
-    def evaluate(self, possible_boards):
+    def get_board_id(self, board):
+        hex_numbers = []
+        for feature in board:
+            hex_numbers.append(hex(feature))
+        return '-'.join(hex_numbers)
+
+    def add_to_model(next_state):
+        if current_state in model:
+            model[self.after_state].append(next_state)
+        else:
+            model[self.after_state] = []
+            model[self.after_state].append(next_state)
+
+    def evaluate(self, possible_boards, board_copy):
         """
         Evaluates the possible boards given to this method as an argument and
         returns a move.
@@ -47,6 +59,11 @@ class PolicyDyna2(Policy):
         Returns:
             A move.
         """
+        # save the current state to the model only if not the starting state
+        add_to_model(board_copy)
+
+        
+
         # variable to hold ratings
         move_ratings = []
 
@@ -65,6 +82,8 @@ class PolicyDyna2(Policy):
 
         best_move = max_i
         move = best_move
+
+        self.after_state = get_board_id(possible_boards[move])
 
         # self.net.run_decision(self.get_feature_vector(possible_boards[move]))
 
@@ -86,7 +105,6 @@ class PolicyDyna2(Policy):
         return self.net.filename
 
     def add_reward(self, reward):
+        self.after_state = 'null'
         # only necessary line in this function
         self.net.give_reward_to_nn(reward)
-        # statistics
-        self.counter += 1

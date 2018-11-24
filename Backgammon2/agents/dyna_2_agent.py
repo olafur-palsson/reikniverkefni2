@@ -76,8 +76,8 @@ class Dyna2Agent(AgentInterface):
         # obsolete
         return self.pub_stomper.get_filename()
 
-    def policy(self, possible_moves, possible_boards, dice):
-        best_move = self.dyna2.evaluate()
+    def policy(self, possible_moves, possible_boards, dice, board_copy):
+        best_move = self.dyna2.evaluate(possible_boards, board_copy)
         move = possible_moves[best_move]
 
         # gamli kodinn fyrir random

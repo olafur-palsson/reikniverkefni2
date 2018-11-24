@@ -1,0 +1,21 @@
+{
+	"name": "nn_pg_best",
+	"type": "nn1",
+	"cfg": {
+    "filename": "nn_pg_best",
+    "use_policy_gradient": false,
+		"feature_vector": "raw1",
+		"epsilon": 0.15,
+		"net": "basic",
+		"neural_network": {
+		  "temporal_delay": 2,
+			"input_layer": 464,
+			"hidden_layers": [100, 100, 100],
+			"output_layer": 1
+		},
+		"sgd": {
+			"momentum": 0.9,
+			"learning_rate": 0.00005
+		}
+	}
+}

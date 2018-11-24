@@ -28,8 +28,9 @@ class PolicyPGNetwork(Policy):
             archive_name: default `None`.
         """
         self.policy_decision_function = policy_decision_function
+        self.saved_log_probabilities = []
+        self.saved_value_estimations = []
 
-        Policy.__init__(self)
         self.verbose = verbose
         self.net = BasicNetworkForTesting(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
         self.pg_plugin = PolicyGradientPlugin(agent_cfg=agent_cfg, imported=imported)
@@ -54,8 +55,6 @@ class PolicyPGNetwork(Policy):
             layst_layer_outputs = last_layer_outputs.append(value_of_board)
         return last_layer_outputs
 
-    saved_log_probabilities = []
-    saved_value_estimations = []
 
     def evaluate(self, possible_boards):
 
@@ -129,3 +128,4 @@ class PolicyPGNetwork(Policy):
 
         self.saved_log_probabilities = []
         self.saved_value_estimations = []
+        
