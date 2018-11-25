@@ -13,6 +13,10 @@
             "brain": "best"
         },
         {
+            "cfg": "nn_pg_4",
+            "brain": "new"
+        },
+        {
             "cfg": "nn_pg_3",
             "brain": "best"
         }
