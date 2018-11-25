@@ -6,11 +6,15 @@
         },
         {
             "cfg": "nn_pg_2",
-            "brain": "new"
+            "brain": "best"
+        },
+        {
+            "cfg": "nn_pg",
+            "brain": "best"
         },
         {
             "cfg": "nn_pg_3",
-            "brain": "new"
+            "brain": "best"
         }
     ]
 }
