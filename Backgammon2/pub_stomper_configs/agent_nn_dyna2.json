@@ -1,0 +1,21 @@
+{
+	"name": "nn_dyna2",
+	"type": "dyna2",
+	"cfg": {
+    "filename": "nn_dyna2",
+    "use_policy_gradient": false,
+		"feature_vector": "raw1",
+		"epsilon": 0.15,
+		"net": "basic",
+		"neural_network": {
+		  "temporal_delay": 1,
+			"input_layer": 464,
+			"hidden_layers": [100],
+			"output_layer": 1
+		},
+		"sgd": {
+			"momentum": 0.9,
+			"learning_rate": 0.0005
+		}
+	}
+}

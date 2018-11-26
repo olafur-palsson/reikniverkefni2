@@ -16,8 +16,8 @@ class Dyna2Agent(AgentInterface):
 
     training = True
 
-    def __init__(self, verbose=False):
-        self.dyna2 = PolicyDyna2()
+    def __init__(self, verbose=False, agent_cfg=None, imported=False):
+        self.dyna2 = PolicyDyna2(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
         """
         Creates a neural network agent.
 
@@ -28,7 +28,6 @@ class Dyna2Agent(AgentInterface):
             verbose: default `False`
         """
         AgentInterface.__init__(self)
-
 
     def action(self, board, dice, player):
         """
@@ -45,9 +44,10 @@ class Dyna2Agent(AgentInterface):
         possible_moves, possible_boards = Backgammon.get_all_legal_moves_for_two_dice(board, dice)
 
         if len(possible_moves) != 0:
-            move = self.pub_stomper_policy(possible_moves, possible_boards, dice, board.copy())
+            move = self.pub_stomper_policy(possible_moves, possible_boards, dice, board)
 
         return move
+
 
     def add_action(self, action):
         pass

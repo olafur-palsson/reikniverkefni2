@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+
 import numpy as np
 import random
 
@@ -7,10 +6,9 @@ from pub_stomper_policy import Policy
 from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
 
+class PolicyPsuedo(Policy):
 
-class PolicyNeuralNetwork(Policy):
-
-    def __init__(self, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
+    def __init__(self, neural_net, should_update=False, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
         """
         Args:
             load_best (bool): default `False`
@@ -19,10 +17,11 @@ class PolicyNeuralNetwork(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
-        self.pub_stomper_policy_decision_function = pub_stomper_policy_decision_function
 
         self.verbose = verbose
-        self.net = BasicNetworkForTesting(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
+        self.net = neural_net
+
+        self.should_update = should_update
 
     def argmax(self, move_ratings):
         # get max value
@@ -33,17 +32,6 @@ class PolicyNeuralNetwork(Policy):
                 max = move
                 max_i = i
         return max_i
-
-    def pub_stomper_policy_gradient(self, move_ratings):
-        exponential_ratings = map(lambda move_rating: np.e ** move_rating)
-        move = 0
-        random_number = random.random()
-        accumulator = 0
-        for rating in exponential_ratings:
-            accumulator += rating
-            if accumulator > random_number:
-                break
-            move += 1
 
     def evaluate(self, possible_boards):
         """
@@ -86,5 +74,5 @@ class PolicyNeuralNetwork(Policy):
         return self.net.filename
 
     def add_reward(self, reward):
-        # only necessary line in this function
-        self.net.give_reward_to_nn(reward)
+        if self.should_update:
+            self.net.give_reward_to_nn(reward)

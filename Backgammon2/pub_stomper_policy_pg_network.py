@@ -5,10 +5,11 @@
 TODO: epsilon should be a parameter for this class, and also whether
 one wants to use Parallel Network.
 """
+# Basic libraries
 import numpy as np
 import random
-
 import torch
+
 from torch.distributions.categorical import Categorical
 from torch.distributions.multinomial import Multinomial
 
@@ -27,6 +28,9 @@ class PolicyPGNetwork(Policy):
             agent_cfg: default `None`
             archive_name: default `None`.
         """
+        if not agent_cfg:
+            print('No cfg file bruh')
+        Policy.__init__(self)
         self.pub_stomper_policy_decision_function = pub_stomper_policy_decision_function
         self.saved_log_probabilities = []
         self.saved_value_estimations = []
@@ -92,8 +96,6 @@ class PolicyPGNetwork(Policy):
             The file name of the neural network.
         """
         return self.net.filename
-
-    eps = np.finfo(np.float32).eps.item()
 
     def add_reward(self, reward):
         td_n = 1

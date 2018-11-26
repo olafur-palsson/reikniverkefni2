@@ -34,7 +34,7 @@ def do_default():
     Play with a neural network against random
     """
 
-    player1 = Dyna2Agent(verbose = True)
+    player1 = get_agent_by_config_name('nn_dyna2', 'new')
     player2 = RandomAgent()
 
     player1.training = True

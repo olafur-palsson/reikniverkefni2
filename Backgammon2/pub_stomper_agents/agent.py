@@ -6,6 +6,7 @@ Brain naming convention
 from pub_stomper_agents.random_agent import RandomAgent
 from pub_stomper_agents.human_agent import HumanAgent
 from pub_stomper_agents.nn_agent_1 import NNAgent1
+from pub_stomper_agents.dyna_2_agent import Dyna2Agent
 
 from pathlib import Path
 from pub_stomper_lib.utils import hash_string, does_file_exist, hash_json, load_file_as_string, load_file_as_json, print_json
@@ -57,8 +58,14 @@ def get_agent_by_config_name(config_name, brain_type):
         else:
             raise Exception("Something is not right")
     elif agent_cfg_type == 'best_nn1':
-        print('executing whut')
         agent = NNAgent1(agent_cfg = agent_cfg, imported=True)
+    elif agent_cfg_type == 'dyna2':
+        print('welcome to bug territory, enjoy your stay', brain_type)
+        if brain_type == "new":
+            agent = Dyna2Agent(agent_cfg = agent_cfg)
+        else:
+            agent = Dyna2Agent(agent_cfg = agent_cfg, imported=True)
+
     else:
         raise Exception('Unknown type of agent: ' + str(agent_cfg_type))
 

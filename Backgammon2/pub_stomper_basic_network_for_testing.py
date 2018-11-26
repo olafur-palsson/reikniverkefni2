@@ -98,6 +98,15 @@ class BasicNetworkForTesting():
         self.loss_fn = loss_fn = torch.nn.MSELoss(size_average=False)
         # optimizer
 
+    def save_clone(self, name):
+        torch.save(self.model, 'clone_model_' + name)
+        torch.save(self.optimizer.state_dict(), 'clone_optim_' + name)
+
+    def load_clone(self, name):
+        self.model = torch.load('clone_model_' + name)
+        self.optimizer = torch.optim.SGD(self.model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
+        self.optimizer.load_state_dict(torch.load('clone_optim_' + name))
+
     def save(self, save_as_best=False):
         """
         Exports everything related to the instantiation of this class to a

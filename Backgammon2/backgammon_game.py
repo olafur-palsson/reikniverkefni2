@@ -182,6 +182,7 @@ class Backgammon:
         return self.board[27] == 15 or self.board[28] == -15
 
 
+    # don't use
     def get_winner(self):
         """
         Returns the number of the player that won.
@@ -277,7 +278,7 @@ class Backgammon:
         return np.copy(self.board)
 
 
-    def play(self, commentary = False, verbose = False):
+    def play(self, commentary = False, verbose = False, start_with_this_board=False):
         """
         Make player 1 and player 2 play a game of backgammon.
 
@@ -290,8 +291,12 @@ class Backgammon:
             `1` if player 1 won or `-1` if player 2 won.
         """
 
-        # Initialize game
-        self.reset()
+        if not type(start_with_this_board) is bool:
+            self.board = start_with_this_board
+            self.active_player = 1
+        else:
+            self.reset()
+            self.active_player = 1 if random.random() > 0.5 else -1
 
         # player 1 starts
         #
@@ -300,7 +305,6 @@ class Backgammon:
         # first turn.
 
         # Select starting player by random
-        self.active_player = 1 if random.random() > 0.5 else -1
 
         #  1 -> player 1
         # -1 -> player 2
