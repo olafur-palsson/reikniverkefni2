@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
-
-
 TODO: epsilon should be a parameter for this class, and also whether
 one wants to use Parallel Network.
 """

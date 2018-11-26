@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+backgammon_game.py
+
 A class implementation of backgammon.
 
 NOTE:
@@ -294,6 +296,9 @@ class Backgammon:
         #  1 -> player 1
         # -1 -> player 2
 
+        self.player_1.pre_game()
+        self.player_2.pre_game()
+
         # Keep making turns until one or the other player wins.
         while not self.is_game_over():
 
@@ -359,6 +364,9 @@ class Backgammon:
             # players take turns
             self.active_player = -self.active_player
             self.flip_board()
+
+        self.player_1.post_game()
+        self.player_2.post_game()
 
         return -self.active_player
 

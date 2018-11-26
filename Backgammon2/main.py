@@ -19,6 +19,7 @@ from backgammon_game import Backgammon
 from agents.human_agent import HumanAgent
 from agents.random_agent import RandomAgent
 from agents.nn_agent_1 import NNAgent1
+from agents.dh_pg_agent import DHPGAgent
 
 from lib.utils import hash_json, load_file_as_json
 from statistic import Statistic
@@ -183,6 +184,17 @@ def main():
             print(hash_json(load_file_as_json(path)))
         except:
             print("File is not JSON.")
+    elif args[0] == "dhpg":
+        player1 = DHPGAgent()
+        
+        player2 = RandomAgent()
+
+        bg = Backgammon()
+        bg.set_player_1(player1)
+        bg.set_player_2(player2)
+        bg.play(commentary=False, verbose=False)
+    elif args[0] == "dhdyna2":
+        pass
     else:
         print("Say what?")
 
