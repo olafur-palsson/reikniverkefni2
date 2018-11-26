@@ -58,10 +58,6 @@ def do_default():
 
         stats.add_win(winner)
 
-        # Print out a log of game-stats
-        if stats.games_played % 10 == 0:
-            stats.output_result()
-
 
 def nn_vs_nn_export_better_player():
     player1 = NNAgent1(verbose = True)

@@ -1,0 +1,2439 @@
+welcome to bug territory, enjoy your stay new
+/home/bitchhunter3000/.local/lib/python3.6/site-packages/torch/nn/functional.py:52: UserWarning: size_average and reduce args will be deprecated, please use reduction='sum' instead.
+  warnings.warn(warning.format(ret))
+1
+
+Player 1 : Player 2 : Total     1 : 0 : 1        moving average 500:   0.2% (max - stddev = -1.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     2 : 0 : 2        moving average 500:   0.4% (max - stddev = -1.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     3 : 0 : 3        moving average 500:   0.6% (max - stddev = -1.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     3 : 1 : 4        moving average 500:   0.6% (max - stddev = -1.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     4 : 1 : 5        moving average 500:   0.8% (max - stddev = -1.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     5 : 1 : 6        moving average 500:   1.0% (max - stddev = -1.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     6 : 1 : 7        moving average 500:   1.2% (max - stddev = -0.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     7 : 1 : 8        moving average 500:   1.4% (max - stddev = -0.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     7 : 2 : 9        moving average 500:   1.4% (max - stddev = -0.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     7 : 3 : 10        moving average 500:   1.4% (max - stddev = -0.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     8 : 3 : 11        moving average 500:   1.6% (max - stddev = -0.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     8 : 4 : 12        moving average 500:   1.6% (max - stddev = -0.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     9 : 4 : 13        moving average 500:   1.8% (max - stddev = -0.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     10 : 4 : 14        moving average 500:   2.0% (max - stddev = 0.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     10 : 5 : 15        moving average 500:   2.0% (max - stddev = 0.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     11 : 5 : 16        moving average 500:   2.2% (max - stddev = 0.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     12 : 5 : 17        moving average 500:   2.4% (max - stddev = 0.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     13 : 5 : 18        moving average 500:   2.6% (max - stddev = 0.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     14 : 5 : 19        moving average 500:   2.8% (max - stddev = 0.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     15 : 5 : 20        moving average 500:   3.0% (max - stddev = 1.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     16 : 5 : 21        moving average 500:   3.2% (max - stddev = 1.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     17 : 5 : 22        moving average 500:   3.4% (max - stddev = 1.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     18 : 5 : 23        moving average 500:   3.6% (max - stddev = 1.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     19 : 5 : 24        moving average 500:   3.8% (max - stddev = 1.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     20 : 5 : 25        moving average 500:   4.0% (max - stddev = 2.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     21 : 5 : 26        moving average 500:   4.2% (max - stddev = 2.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     22 : 5 : 27        moving average 500:   4.4% (max - stddev = 2.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     23 : 5 : 28        moving average 500:   4.6% (max - stddev = 2.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     23 : 6 : 29        moving average 500:   4.6% (max - stddev = 2.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     24 : 6 : 30        moving average 500:   4.8% (max - stddev = 2.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     25 : 6 : 31        moving average 500:   5.0% (max - stddev = 3.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     25 : 7 : 32        moving average 500:   5.0% (max - stddev = 3.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     26 : 7 : 33        moving average 500:   5.2% (max - stddev = 3.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     27 : 7 : 34        moving average 500:   5.4% (max - stddev = 3.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     28 : 7 : 35        moving average 500:   5.6% (max - stddev = 3.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     29 : 7 : 36        moving average 500:   5.8% (max - stddev = 3.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     29 : 8 : 37        moving average 500:   5.8% (max - stddev = 3.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     30 : 8 : 38        moving average 500:   6.0% (max - stddev = 4.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     31 : 8 : 39        moving average 500:   6.2% (max - stddev = 4.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     32 : 8 : 40        moving average 500:   6.4% (max - stddev = 4.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     32 : 9 : 41        moving average 500:   6.4% (max - stddev = 4.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     33 : 9 : 42        moving average 500:   6.6% (max - stddev = 4.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     34 : 9 : 43        moving average 500:   6.8% (max - stddev = 4.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     34 : 10 : 44        moving average 500:   6.8% (max - stddev = 4.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     35 : 10 : 45        moving average 500:   7.0% (max - stddev = 5.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     36 : 10 : 46        moving average 500:   7.2% (max - stddev = 5.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     37 : 10 : 47        moving average 500:   7.4% (max - stddev = 5.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     38 : 10 : 48        moving average 500:   7.6% (max - stddev = 5.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     38 : 11 : 49        moving average 500:   7.6% (max - stddev = 5.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     39 : 11 : 50        moving average 500:   7.8% (max - stddev = 5.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     39 : 12 : 51        moving average 500:   7.8% (max - stddev = 5.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     40 : 12 : 52        moving average 500:   8.0% (max - stddev = 6.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     41 : 12 : 53        moving average 500:   8.2% (max - stddev = 6.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     42 : 12 : 54        moving average 500:   8.4% (max - stddev = 6.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     43 : 12 : 55        moving average 500:   8.6% (max - stddev = 6.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     44 : 12 : 56        moving average 500:   8.8% (max - stddev = 6.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     45 : 12 : 57        moving average 500:   9.0% (max - stddev = 7.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     46 : 12 : 58        moving average 500:   9.2% (max - stddev = 7.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     47 : 12 : 59        moving average 500:   9.4% (max - stddev = 7.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     47 : 13 : 60        moving average 500:   9.4% (max - stddev = 7.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     47 : 14 : 61        moving average 500:   9.4% (max - stddev = 7.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     48 : 14 : 62        moving average 500:   9.6% (max - stddev = 7.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     49 : 14 : 63        moving average 500:   9.8% (max - stddev = 7.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     50 : 14 : 64        moving average 500:   10.0% (max - stddev = 8.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     50 : 15 : 65        moving average 500:   10.0% (max - stddev = 8.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     51 : 15 : 66        moving average 500:   10.2% (max - stddev = 8.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     52 : 15 : 67        moving average 500:   10.4% (max - stddev = 8.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     53 : 15 : 68        moving average 500:   10.6% (max - stddev = 8.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     54 : 15 : 69        moving average 500:   10.8% (max - stddev = 8.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     54 : 16 : 70        moving average 500:   10.8% (max - stddev = 8.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     54 : 17 : 71        moving average 500:   10.8% (max - stddev = 8.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     55 : 17 : 72        moving average 500:   11.0% (max - stddev = 9.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     56 : 17 : 73        moving average 500:   11.2% (max - stddev = 9.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     56 : 18 : 74        moving average 500:   11.2% (max - stddev = 9.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     56 : 19 : 75        moving average 500:   11.2% (max - stddev = 9.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     57 : 19 : 76        moving average 500:   11.4% (max - stddev = 9.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     57 : 20 : 77        moving average 500:   11.4% (max - stddev = 9.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     58 : 20 : 78        moving average 500:   11.6% (max - stddev = 9.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     59 : 20 : 79        moving average 500:   11.8% (max - stddev = 9.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     59 : 21 : 80        moving average 500:   11.8% (max - stddev = 9.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     60 : 21 : 81        moving average 500:   12.0% (max - stddev = 10.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     61 : 21 : 82        moving average 500:   12.2% (max - stddev = 10.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     62 : 21 : 83        moving average 500:   12.4% (max - stddev = 10.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     63 : 21 : 84        moving average 500:   12.6% (max - stddev = 10.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     63 : 22 : 85        moving average 500:   12.6% (max - stddev = 10.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     64 : 22 : 86        moving average 500:   12.8% (max - stddev = 10.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     64 : 23 : 87        moving average 500:   12.8% (max - stddev = 10.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     65 : 23 : 88        moving average 500:   13.0% (max - stddev = 11.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     65 : 24 : 89        moving average 500:   13.0% (max - stddev = 11.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     66 : 24 : 90        moving average 500:   13.2% (max - stddev = 11.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     67 : 24 : 91        moving average 500:   13.4% (max - stddev = 11.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     68 : 24 : 92        moving average 500:   13.6% (max - stddev = 11.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     69 : 24 : 93        moving average 500:   13.8% (max - stddev = 11.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     70 : 24 : 94        moving average 500:   14.0% (max - stddev = 12.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     70 : 25 : 95        moving average 500:   14.0% (max - stddev = 12.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     71 : 25 : 96        moving average 500:   14.2% (max - stddev = 12.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     72 : 25 : 97        moving average 500:   14.4% (max - stddev = 12.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     73 : 25 : 98        moving average 500:   14.6% (max - stddev = 12.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     74 : 25 : 99        moving average 500:   14.8% (max - stddev = 12.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     75 : 25 : 100        moving average 500:   15.0% (max - stddev = 13.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     75 : 26 : 101        moving average 500:   15.0% (max - stddev = 13.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     76 : 26 : 102        moving average 500:   15.2% (max - stddev = 13.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     77 : 26 : 103        moving average 500:   15.4% (max - stddev = 13.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     78 : 26 : 104        moving average 500:   15.6% (max - stddev = 13.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     79 : 26 : 105        moving average 500:   15.8% (max - stddev = 13.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     80 : 26 : 106        moving average 500:   16.0% (max - stddev = 14.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     81 : 26 : 107        moving average 500:   16.2% (max - stddev = 14.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     82 : 26 : 108        moving average 500:   16.4% (max - stddev = 14.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     83 : 26 : 109        moving average 500:   16.6% (max - stddev = 14.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     83 : 27 : 110        moving average 500:   16.6% (max - stddev = 14.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     83 : 28 : 111        moving average 500:   16.6% (max - stddev = 14.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     84 : 28 : 112        moving average 500:   16.8% (max - stddev = 14.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     85 : 28 : 113        moving average 500:   17.0% (max - stddev = 15.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     86 : 28 : 114        moving average 500:   17.2% (max - stddev = 15.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     87 : 28 : 115        moving average 500:   17.4% (max - stddev = 15.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     88 : 28 : 116        moving average 500:   17.6% (max - stddev = 15.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     89 : 28 : 117        moving average 500:   17.8% (max - stddev = 15.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     90 : 28 : 118        moving average 500:   18.0% (max - stddev = 16.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     91 : 28 : 119        moving average 500:   18.2% (max - stddev = 16.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     92 : 28 : 120        moving average 500:   18.4% (max - stddev = 16.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     92 : 29 : 121        moving average 500:   18.4% (max - stddev = 16.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     93 : 29 : 122        moving average 500:   18.6% (max - stddev = 16.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     94 : 29 : 123        moving average 500:   18.8% (max - stddev = 16.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     95 : 29 : 124        moving average 500:   19.0% (max - stddev = 17.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     96 : 29 : 125        moving average 500:   19.2% (max - stddev = 17.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     96 : 30 : 126        moving average 500:   19.2% (max - stddev = 17.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     97 : 30 : 127        moving average 500:   19.4% (max - stddev = 17.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     98 : 30 : 128        moving average 500:   19.6% (max - stddev = 17.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     99 : 30 : 129        moving average 500:   19.8% (max - stddev = 17.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     100 : 30 : 130        moving average 500:   20.0% (max - stddev = 18.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     101 : 30 : 131        moving average 500:   20.2% (max - stddev = 18.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     102 : 30 : 132        moving average 500:   20.4% (max - stddev = 18.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     103 : 30 : 133        moving average 500:   20.6% (max - stddev = 18.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     104 : 30 : 134        moving average 500:   20.8% (max - stddev = 18.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     105 : 30 : 135        moving average 500:   21.0% (max - stddev = 19.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     106 : 30 : 136        moving average 500:   21.2% (max - stddev = 19.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     107 : 30 : 137        moving average 500:   21.4% (max - stddev = 19.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     108 : 30 : 138        moving average 500:   21.6% (max - stddev = 19.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     109 : 30 : 139        moving average 500:   21.8% (max - stddev = 19.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     110 : 30 : 140        moving average 500:   22.0% (max - stddev = 20.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     111 : 30 : 141        moving average 500:   22.2% (max - stddev = 20.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     112 : 30 : 142        moving average 500:   22.4% (max - stddev = 20.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     112 : 31 : 143        moving average 500:   22.4% (max - stddev = 20.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     113 : 31 : 144        moving average 500:   22.6% (max - stddev = 20.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     113 : 32 : 145        moving average 500:   22.6% (max - stddev = 20.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     114 : 32 : 146        moving average 500:   22.8% (max - stddev = 20.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     115 : 32 : 147        moving average 500:   23.0% (max - stddev = 21.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     116 : 32 : 148        moving average 500:   23.2% (max - stddev = 21.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     117 : 32 : 149        moving average 500:   23.4% (max - stddev = 21.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     118 : 32 : 150        moving average 500:   23.6% (max - stddev = 21.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     118 : 33 : 151        moving average 500:   23.6% (max - stddev = 21.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     119 : 33 : 152        moving average 500:   23.8% (max - stddev = 21.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     120 : 33 : 153        moving average 500:   24.0% (max - stddev = 22.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     121 : 33 : 154        moving average 500:   24.2% (max - stddev = 22.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     121 : 34 : 155        moving average 500:   24.2% (max - stddev = 22.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     121 : 35 : 156        moving average 500:   24.2% (max - stddev = 22.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     121 : 36 : 157        moving average 500:   24.2% (max - stddev = 22.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     122 : 36 : 158        moving average 500:   24.4% (max - stddev = 22.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     122 : 37 : 159        moving average 500:   24.4% (max - stddev = 22.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     123 : 37 : 160        moving average 500:   24.6% (max - stddev = 22.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     124 : 37 : 161        moving average 500:   24.8% (max - stddev = 22.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     125 : 37 : 162        moving average 500:   25.0% (max - stddev = 23.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     126 : 37 : 163        moving average 500:   25.2% (max - stddev = 23.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     126 : 38 : 164        moving average 500:   25.2% (max - stddev = 23.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     127 : 38 : 165        moving average 500:   25.4% (max - stddev = 23.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     128 : 38 : 166        moving average 500:   25.6% (max - stddev = 23.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     129 : 38 : 167        moving average 500:   25.8% (max - stddev = 23.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     130 : 38 : 168        moving average 500:   26.0% (max - stddev = 24.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     131 : 38 : 169        moving average 500:   26.2% (max - stddev = 24.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     132 : 38 : 170        moving average 500:   26.4% (max - stddev = 24.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     132 : 39 : 171        moving average 500:   26.4% (max - stddev = 24.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     133 : 39 : 172        moving average 500:   26.6% (max - stddev = 24.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     134 : 39 : 173        moving average 500:   26.8% (max - stddev = 24.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     135 : 39 : 174        moving average 500:   27.0% (max - stddev = 25.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     136 : 39 : 175        moving average 500:   27.2% (max - stddev = 25.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     136 : 40 : 176        moving average 500:   27.2% (max - stddev = 25.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     137 : 40 : 177        moving average 500:   27.4% (max - stddev = 25.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     137 : 41 : 178        moving average 500:   27.4% (max - stddev = 25.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     138 : 41 : 179        moving average 500:   27.6% (max - stddev = 25.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     139 : 41 : 180        moving average 500:   27.8% (max - stddev = 25.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     140 : 41 : 181        moving average 500:   28.0% (max - stddev = 26.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     141 : 41 : 182        moving average 500:   28.2% (max - stddev = 26.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     141 : 42 : 183        moving average 500:   28.2% (max - stddev = 26.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     141 : 43 : 184        moving average 500:   28.2% (max - stddev = 26.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     142 : 43 : 185        moving average 500:   28.4% (max - stddev = 26.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     143 : 43 : 186        moving average 500:   28.6% (max - stddev = 26.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     144 : 43 : 187        moving average 500:   28.8% (max - stddev = 26.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     145 : 43 : 188        moving average 500:   29.0% (max - stddev = 27.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     146 : 43 : 189        moving average 500:   29.2% (max - stddev = 27.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     147 : 43 : 190        moving average 500:   29.4% (max - stddev = 27.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     147 : 44 : 191        moving average 500:   29.4% (max - stddev = 27.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     148 : 44 : 192        moving average 500:   29.6% (max - stddev = 27.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     148 : 45 : 193        moving average 500:   29.6% (max - stddev = 27.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     148 : 46 : 194        moving average 500:   29.6% (max - stddev = 27.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     149 : 46 : 195        moving average 500:   29.8% (max - stddev = 27.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     150 : 46 : 196        moving average 500:   30.0% (max - stddev = 28.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     151 : 46 : 197        moving average 500:   30.2% (max - stddev = 28.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     152 : 46 : 198        moving average 500:   30.4% (max - stddev = 28.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     152 : 47 : 199        moving average 500:   30.4% (max - stddev = 28.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     153 : 47 : 200        moving average 500:   30.6% (max - stddev = 28.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     154 : 47 : 201        moving average 500:   30.8% (max - stddev = 28.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     155 : 47 : 202        moving average 500:   31.0% (max - stddev = 29.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     156 : 47 : 203        moving average 500:   31.2% (max - stddev = 29.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     156 : 48 : 204        moving average 500:   31.2% (max - stddev = 29.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     157 : 48 : 205        moving average 500:   31.4% (max - stddev = 29.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     158 : 48 : 206        moving average 500:   31.6% (max - stddev = 29.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     158 : 49 : 207        moving average 500:   31.6% (max - stddev = 29.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     159 : 49 : 208        moving average 500:   31.8% (max - stddev = 29.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     159 : 50 : 209        moving average 500:   31.8% (max - stddev = 29.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     160 : 50 : 210        moving average 500:   32.0% (max - stddev = 30.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     160 : 51 : 211        moving average 500:   32.0% (max - stddev = 30.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     160 : 52 : 212        moving average 500:   32.0% (max - stddev = 30.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     161 : 52 : 213        moving average 500:   32.2% (max - stddev = 30.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     162 : 52 : 214        moving average 500:   32.4% (max - stddev = 30.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     162 : 53 : 215        moving average 500:   32.4% (max - stddev = 30.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     163 : 53 : 216        moving average 500:   32.6% (max - stddev = 30.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     163 : 54 : 217        moving average 500:   32.6% (max - stddev = 30.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     163 : 55 : 218        moving average 500:   32.6% (max - stddev = 30.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     164 : 55 : 219        moving average 500:   32.8% (max - stddev = 30.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     164 : 56 : 220        moving average 500:   32.8% (max - stddev = 30.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     165 : 56 : 221        moving average 500:   33.0% (max - stddev = 31.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     166 : 56 : 222        moving average 500:   33.2% (max - stddev = 31.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     167 : 56 : 223        moving average 500:   33.4% (max - stddev = 31.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     168 : 56 : 224        moving average 500:   33.6% (max - stddev = 31.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     168 : 57 : 225        moving average 500:   33.6% (max - stddev = 31.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     168 : 58 : 226        moving average 500:   33.6% (max - stddev = 31.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     169 : 58 : 227        moving average 500:   33.8% (max - stddev = 31.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     170 : 58 : 228        moving average 500:   34.0% (max - stddev = 32.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     171 : 58 : 229        moving average 500:   34.2% (max - stddev = 32.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     172 : 58 : 230        moving average 500:   34.4% (max - stddev = 32.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     173 : 58 : 231        moving average 500:   34.6% (max - stddev = 32.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     174 : 58 : 232        moving average 500:   34.8% (max - stddev = 32.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     174 : 59 : 233        moving average 500:   34.8% (max - stddev = 32.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     174 : 60 : 234        moving average 500:   34.8% (max - stddev = 32.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     174 : 61 : 235        moving average 500:   34.8% (max - stddev = 32.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     175 : 61 : 236        moving average 500:   35.0% (max - stddev = 33.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     176 : 61 : 237        moving average 500:   35.2% (max - stddev = 33.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     177 : 61 : 238        moving average 500:   35.4% (max - stddev = 33.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     178 : 61 : 239        moving average 500:   35.6% (max - stddev = 33.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     179 : 61 : 240        moving average 500:   35.8% (max - stddev = 33.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     180 : 61 : 241        moving average 500:   36.0% (max - stddev = 34.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     181 : 61 : 242        moving average 500:   36.2% (max - stddev = 34.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     182 : 61 : 243        moving average 500:   36.4% (max - stddev = 34.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     183 : 61 : 244        moving average 500:   36.6% (max - stddev = 34.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     183 : 62 : 245        moving average 500:   36.6% (max - stddev = 34.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     184 : 62 : 246        moving average 500:   36.8% (max - stddev = 34.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     184 : 63 : 247        moving average 500:   36.8% (max - stddev = 34.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     185 : 63 : 248        moving average 500:   37.0% (max - stddev = 35.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     186 : 63 : 249        moving average 500:   37.2% (max - stddev = 35.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     186 : 64 : 250        moving average 500:   37.2% (max - stddev = 35.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     187 : 64 : 251        moving average 500:   37.4% (max - stddev = 35.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     188 : 64 : 252        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 65 : 253        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 66 : 254        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 67 : 255        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 68 : 256        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 69 : 257        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     188 : 70 : 258        moving average 500:   37.6% (max - stddev = 35.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     189 : 70 : 259        moving average 500:   37.8% (max - stddev = 35.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     190 : 70 : 260        moving average 500:   38.0% (max - stddev = 36.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     191 : 70 : 261        moving average 500:   38.2% (max - stddev = 36.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     192 : 70 : 262        moving average 500:   38.4% (max - stddev = 36.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     192 : 71 : 263        moving average 500:   38.4% (max - stddev = 36.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     192 : 72 : 264        moving average 500:   38.4% (max - stddev = 36.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     193 : 72 : 265        moving average 500:   38.6% (max - stddev = 36.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     194 : 72 : 266        moving average 500:   38.8% (max - stddev = 36.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     195 : 72 : 267        moving average 500:   39.0% (max - stddev = 37.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     196 : 72 : 268        moving average 500:   39.2% (max - stddev = 37.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     196 : 73 : 269        moving average 500:   39.2% (max - stddev = 37.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     196 : 74 : 270        moving average 500:   39.2% (max - stddev = 37.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     196 : 75 : 271        moving average 500:   39.2% (max - stddev = 37.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     197 : 75 : 272        moving average 500:   39.4% (max - stddev = 37.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     198 : 75 : 273        moving average 500:   39.6% (max - stddev = 37.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     199 : 75 : 274        moving average 500:   39.8% (max - stddev = 37.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     199 : 76 : 275        moving average 500:   39.8% (max - stddev = 37.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     199 : 77 : 276        moving average 500:   39.8% (max - stddev = 37.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     200 : 77 : 277        moving average 500:   40.0% (max - stddev = 38.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     200 : 78 : 278        moving average 500:   40.0% (max - stddev = 38.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     200 : 79 : 279        moving average 500:   40.0% (max - stddev = 38.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     201 : 79 : 280        moving average 500:   40.2% (max - stddev = 38.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     202 : 79 : 281        moving average 500:   40.4% (max - stddev = 38.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     203 : 79 : 282        moving average 500:   40.6% (max - stddev = 38.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     204 : 79 : 283        moving average 500:   40.8% (max - stddev = 38.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     205 : 79 : 284        moving average 500:   41.0% (max - stddev = 39.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     205 : 80 : 285        moving average 500:   41.0% (max - stddev = 39.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     206 : 80 : 286        moving average 500:   41.2% (max - stddev = 39.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     207 : 80 : 287        moving average 500:   41.4% (max - stddev = 39.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     208 : 80 : 288        moving average 500:   41.6% (max - stddev = 39.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     208 : 81 : 289        moving average 500:   41.6% (max - stddev = 39.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     209 : 81 : 290        moving average 500:   41.8% (max - stddev = 39.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     209 : 82 : 291        moving average 500:   41.8% (max - stddev = 39.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     210 : 82 : 292        moving average 500:   42.0% (max - stddev = 40.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     211 : 82 : 293        moving average 500:   42.2% (max - stddev = 40.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     212 : 82 : 294        moving average 500:   42.4% (max - stddev = 40.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     212 : 83 : 295        moving average 500:   42.4% (max - stddev = 40.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     213 : 83 : 296        moving average 500:   42.6% (max - stddev = 40.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     214 : 83 : 297        moving average 500:   42.8% (max - stddev = 40.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     214 : 84 : 298        moving average 500:   42.8% (max - stddev = 40.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     215 : 84 : 299        moving average 500:   43.0% (max - stddev = 41.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     215 : 85 : 300        moving average 500:   43.0% (max - stddev = 41.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     216 : 85 : 301        moving average 500:   43.2% (max - stddev = 41.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     217 : 85 : 302        moving average 500:   43.4% (max - stddev = 41.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     218 : 85 : 303        moving average 500:   43.6% (max - stddev = 41.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     219 : 85 : 304        moving average 500:   43.8% (max - stddev = 41.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     220 : 85 : 305        moving average 500:   44.0% (max - stddev = 42.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     221 : 85 : 306        moving average 500:   44.2% (max - stddev = 42.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     222 : 85 : 307        moving average 500:   44.4% (max - stddev = 42.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     223 : 85 : 308        moving average 500:   44.6% (max - stddev = 42.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     223 : 86 : 309        moving average 500:   44.6% (max - stddev = 42.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     224 : 86 : 310        moving average 500:   44.8% (max - stddev = 42.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     225 : 86 : 311        moving average 500:   45.0% (max - stddev = 43.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     226 : 86 : 312        moving average 500:   45.2% (max - stddev = 43.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     226 : 87 : 313        moving average 500:   45.2% (max - stddev = 43.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     227 : 87 : 314        moving average 500:   45.4% (max - stddev = 43.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     228 : 87 : 315        moving average 500:   45.6% (max - stddev = 43.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     228 : 88 : 316        moving average 500:   45.6% (max - stddev = 43.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     229 : 88 : 317        moving average 500:   45.8% (max - stddev = 43.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     230 : 88 : 318        moving average 500:   46.0% (max - stddev = 44.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     230 : 89 : 319        moving average 500:   46.0% (max - stddev = 44.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     230 : 90 : 320        moving average 500:   46.0% (max - stddev = 44.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     231 : 90 : 321        moving average 500:   46.2% (max - stddev = 44.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     232 : 90 : 322        moving average 500:   46.4% (max - stddev = 44.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     232 : 91 : 323        moving average 500:   46.4% (max - stddev = 44.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     232 : 92 : 324        moving average 500:   46.4% (max - stddev = 44.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     233 : 92 : 325        moving average 500:   46.6% (max - stddev = 44.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     234 : 92 : 326        moving average 500:   46.8% (max - stddev = 44.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     235 : 92 : 327        moving average 500:   47.0% (max - stddev = 45.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     235 : 93 : 328        moving average 500:   47.0% (max - stddev = 45.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     236 : 93 : 329        moving average 500:   47.2% (max - stddev = 45.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     237 : 93 : 330        moving average 500:   47.4% (max - stddev = 45.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     237 : 94 : 331        moving average 500:   47.4% (max - stddev = 45.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     237 : 95 : 332        moving average 500:   47.4% (max - stddev = 45.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     238 : 95 : 333        moving average 500:   47.6% (max - stddev = 45.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     239 : 95 : 334        moving average 500:   47.8% (max - stddev = 45.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     240 : 95 : 335        moving average 500:   48.0% (max - stddev = 46.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     240 : 96 : 336        moving average 500:   48.0% (max - stddev = 46.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     240 : 97 : 337        moving average 500:   48.0% (max - stddev = 46.00%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     240 : 98 : 338        moving average 500:   48.0% (max - stddev = 46.00%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     241 : 98 : 339        moving average 500:   48.2% (max - stddev = 46.20%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     241 : 99 : 340        moving average 500:   48.2% (max - stddev = 46.20%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     242 : 99 : 341        moving average 500:   48.4% (max - stddev = 46.40%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     242 : 100 : 342        moving average 500:   48.4% (max - stddev = 46.40%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     243 : 100 : 343        moving average 500:   48.6% (max - stddev = 46.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     243 : 101 : 344        moving average 500:   48.6% (max - stddev = 46.60%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     243 : 102 : 345        moving average 500:   48.6% (max - stddev = 46.60%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     244 : 102 : 346        moving average 500:   48.8% (max - stddev = 46.80%), std-dev of this is ~2%
+
+
+
+
+-1
+
+Player 1 : Player 2 : Total     244 : 103 : 347        moving average 500:   48.8% (max - stddev = 46.80%), std-dev of this is ~2%
+
+
+
+
+1
+
+Player 1 : Player 2 : Total     245 : 103 : 348        moving average 500:   49.0% (max - stddev = 47.00%), std-dev of this is ~2%
+
+
+
+
