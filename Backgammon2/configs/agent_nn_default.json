@@ -3,7 +3,7 @@
 	"type": "nn1",
 	"cfg": {
     "filename": "nn_default",
-    "use_policy_gradient": false,
+    "use_pub_stomper_policy_gradient": false,
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",

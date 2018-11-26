@@ -1,8 +1,8 @@
 {
-	"name": "nn_pg",
+	"name": "nn_pg_4",
 	"type": "nn1",
 	"cfg": {
-    "filename": "nn_pg",
+    "filename": "nn_pg_4",
     "use_pub_stomper_policy_gradient": true,
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
@@ -10,7 +10,7 @@
 		"neural_network": {
 		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [150, 150],
+			"hidden_layers": [150, 150, 150, 150, 150],
 			"output_layer": 150
 		},
 		"sgd": {

@@ -62,8 +62,6 @@ class PolicyDyna2(Policy):
         # save the current state to the model only if not the starting state
         add_to_model(board_copy)
 
-        
-
         # variable to hold ratings
         move_ratings = []
 

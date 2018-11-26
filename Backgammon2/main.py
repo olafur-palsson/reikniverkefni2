@@ -24,6 +24,8 @@ from lib.utils import hash_json, load_file_as_json
 from statistic import Statistic
 from all_vs_all import play_all_vs_all
 
+from agents.agent import get_agent_by_config_name
+
 # Set logs
 verbose = True
 
@@ -96,7 +98,7 @@ def self_play():
     """
 
     player1 = HumanAgent()
-    player2 = HumanAgent()
+    player2 = get_agent_by_config_name('nn_pg_2', 'best')
 
     bg = Backgammon()
     bg.set_player_1(player1)
