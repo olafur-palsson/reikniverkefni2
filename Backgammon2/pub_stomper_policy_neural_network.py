@@ -1,11 +1,11 @@
 import numpy as np
 import random
 
-from pub_stomper_policy import pub_stomper_policy
+from pub_stomper_policy import Policy
 from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
 from parallel_network import ParallelNetwork
 
-class PolicyNeuralNetwork(pub_stomper_policy):
+class PolicyNeuralNetwork(Policy):
 
     def __init__(self, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
         """

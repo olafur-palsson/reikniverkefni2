@@ -15,7 +15,7 @@ from pathlib import Path
 import copy
 import os
 
-from lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
+from pub_stomper_lib.utils import load_file_as_json, get_random_string, rename_file_to_content_addressable, unarchive_archive, archive_files
 
 
 dtype = torch.double

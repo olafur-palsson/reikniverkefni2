@@ -27,7 +27,7 @@ class NNAgent1(AgentInterface):
             verbose: default `False`
         """
         AgentInterface.__init__(self)
-        if agent_cfg['cfg']['use_pub_stomper_policy_gradient']:
+        if agent_cfg['cfg']['use_policy_gradient']:
             self.pub_stomper = PolicyPGNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)
         else:
             self.pub_stomper = PolicyNeuralNetwork(verbose=verbose, agent_cfg=agent_cfg, imported=imported)

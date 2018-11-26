@@ -9,7 +9,7 @@ import numpy as np
 from pub_stomper_agents.agent_interface import AgentInterface
 from backgammon_game import Backgammon
 
-from pub_stomper_policy_dyna_2 import Dyna2
+from pub_stomper_policy_dyna_2 import PolicyDyna2
 
 
 class Dyna2Agent(AgentInterface):
@@ -17,7 +17,7 @@ class Dyna2Agent(AgentInterface):
     training = True
 
     def __init__(self, verbose=False):
-        self.dyna2_pub_stomper_policy = pub_stomper_policyDyna()
+        self.dyna2 = PolicyDyna2()
         """
         Creates a neural network agent.
 
@@ -45,7 +45,7 @@ class Dyna2Agent(AgentInterface):
         possible_moves, possible_boards = Backgammon.get_all_legal_moves_for_two_dice(board, dice)
 
         if len(possible_moves) != 0:
-            move = self.pub_stomper_policy(possible_moves, possible_boards, dice)
+            move = self.pub_stomper_policy(possible_moves, possible_boards, dice, board.copy())
 
         return move
 
@@ -60,7 +60,7 @@ class Dyna2Agent(AgentInterface):
         train.
         """
         # Hence, we only add rewards when we're training..
-        raise Exception('Add reward not implemented')
+        self.dyna2.add_reward(reward)
 
     def add_state(self, state):
         raise Exception('Add')

@@ -8,7 +8,7 @@ import numpy as np
 import torch
 
 # Extend this class to make a pub_stomper_policy to have all the feature_vector functions
-class pub_stomper_policy():
+class Policy():
     """
     A pub_stomper_policy.
     """

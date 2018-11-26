@@ -12,11 +12,11 @@ import torch
 from torch.distributions.categorical import Categorical
 from torch.distributions.multinomial import Multinomial
 
-from pub_stomper_policy import pub_stomper_policy
+from pub_stomper_policy import Policy
 from pub_stomper_basic_network_for_testing import BasicNetworkForTesting
 from pub_stomper_policy_gradient_plugin import PolicyGradientPlugin
 
-class PolicyPGNetwork(pub_stomper_policy):
+class PolicyPGNetwork(Policy):
 
     def __init__(self, verbose=False, agent_cfg=None, imported=False, pub_stomper_policy_decision_function='argmax'):
         """

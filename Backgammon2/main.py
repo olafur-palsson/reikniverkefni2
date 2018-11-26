@@ -17,6 +17,7 @@ from cli_commands import get_commands_object
 
 from backgammon_game import Backgammon
 from pub_stomper_agents.human_agent import HumanAgent
+from pub_stomper_agents.dyna_2_agent import Dyna2Agent
 from pub_stomper_agents.random_agent import RandomAgent
 from pub_stomper_agents.nn_agent_1 import NNAgent1
 
@@ -33,7 +34,7 @@ def do_default():
     Play with a neural network against random
     """
 
-    player1 = NNAgent1(verbose = True)
+    player1 = Dyna2Agent(verbose = True)
     player2 = RandomAgent()
 
     player1.training = True
@@ -151,6 +152,7 @@ def main():
         print("    default")
         print("    self-play")
         print("    random-play")
+        print("    test-play")
         print("    challange-best-network")
         print("    all_vs_all [competition_test.json or other]")
         print("    jsonhash <path to json>")
