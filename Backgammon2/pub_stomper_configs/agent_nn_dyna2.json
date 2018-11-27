@@ -10,7 +10,7 @@
 		"neural_network": {
 		  "temporal_delay": 1,
 			"input_layer": 464,
-			"hidden_layers": [100],
+			"hidden_layers": [50],
 			"output_layer": 1
 		},
 		"sgd": {
