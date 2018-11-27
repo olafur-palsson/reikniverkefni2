@@ -56,12 +56,7 @@ class Statistic():
         string +=     str(self.win_rate) + "%"
         string +=     " (max - stddev = "
         string +=     str(self.two_digits(self.highest_win_rate - 2)) + "%), std-dev of this is ~2%"
-        print("")
         print(string)
-        print("")
-        print("")
-        print("")
-        print("")
 
     # Print results out to a file (every 100 games)
     # agent object needs to have a get_filename() method!

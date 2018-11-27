@@ -120,5 +120,4 @@ class PolicyDyna2(Policy):
         return self.net.filename
 
     def add_reward(self, reward):
-        print(reward)
         self.permanent_net.give_reward_to_nn(reward)
