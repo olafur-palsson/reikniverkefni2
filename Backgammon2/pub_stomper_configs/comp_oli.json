@@ -1,7 +1,11 @@
 {
     "competitors": [
         {
-            "cfg": "nn_pg",
+            "cfg": "random",
+            "brain": "None"
+        },
+        {
+            "cfg": "nn_pg_2",
             "brain": "best"
         },
         {
@@ -9,8 +13,12 @@
             "brain": "best"
         },
         {
-            "cfg": "nn_pg",
+            "cfg": "nn_pg_4",
             "brain": "new"
+        },
+        {
+            "cfg": "nn_pg_3",
+            "brain": "best"
         }
     ]
 }

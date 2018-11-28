@@ -1,22 +1,22 @@
 {
-	"name": "nn_pg_2",
+	"name": "nn_pg_4",
 	"type": "nn1",
 	"cfg": {
-    "filename": "nn_pg_2",
-    "use_policy_gradient": true,
+    "filename": "nn_pg_4",
+    "use_pub_stomper_policy_gradient": true,
 		"feature_vector": "raw1",
 		"epsilon": 0.15,
 		"net": "basic",
 		"neural_network": {
 		  "temporal_delay": 3,
 			"input_layer": 464,
-			"hidden_layers": [150, 150],
+			"hidden_layers": [150, 150, 150, 150, 150],
 			"output_layer": 150
 		},
 		"sgd": {
 			"momentum": 0.9,
 			"learning_rate": 0.0001,
-      "learning_rate_pg": 0.0005
+      "learning_rate_pg": 0.002
 		}
 	}
 }
