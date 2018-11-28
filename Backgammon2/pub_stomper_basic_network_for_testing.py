@@ -67,7 +67,6 @@ class BasicNetworkForTesting():
         self.filename = agent_cfg['cfg']['filename']
 
     def __init__(self, verbose=False, filename_of_network_to_bo_loaded = False, agent_cfg = None, imported=False, use_sigmoid=False):
-
         """
         Args:
             filename_of_network_to_bo_loaded: default `False`

@@ -109,9 +109,13 @@ class PolicyGradientPlugin():
         self.pg_optim = torch.optim.SGD(self.pg_model.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
         self.pg_optim.load_state_dict(torch.load(self.filename_pg_optim))
 
+
         self.value_function = torch.load(self.filename_value_function)
         self.value_optim = torch.optim.SGD(self.value_function.parameters(), momentum = self.cfg_sgd['momentum'], lr = self.cfg_sgd['learning_rate'])
         self.value_optim.load_state_dict(torch.load(self.filename_value_optim))
+
+        for parameter in self.value_function.parameters():
+            print(parameter.size())
 
     def softmax(self, input_vectors, requires_grad=True):
         scores = list(map(lambda input: self.pg_model(input.detach()), input_vectors))
