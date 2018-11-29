@@ -23,11 +23,11 @@ def calculate_moving_average(arg_number):
     moving_average = np.array([])
     for i ,n in enumerate(get_wins(arg_number)):
         if last == n:
-            last_100_wins[i % 100] = 0
+            last_100_wins[i % 100] = -1
         else:
             last_100_wins[i % 100] = 1
         last = n
-        moving_average = np.append(moving_average, last_100_wins.sum())
+        moving_average = np.append(moving_average, last_100_wins.sum() / 100)
     return moving_average
 
 filenames = sys.argv[1:]
