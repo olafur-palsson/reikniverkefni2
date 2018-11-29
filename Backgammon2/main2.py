@@ -33,8 +33,8 @@ def do_default():
     """
     Play with a neural network against random
     """
-    player1 = get_agent_by_config_name('nn_pg_2', 'new')
-    player2 = get_agent_by_config_name('nn_dyna2', 'new')
+    player1 = get_agent_by_config_name('nn_pg_2', 'best')
+    player2 = get_agent_by_config_name('random', 'None')
 
     player1.training = True
     player2.training = True
